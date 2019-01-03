@@ -1,0 +1,29 @@
+{
+  "data": [
+    {
+      "text": "接单",
+      "icon": "&#xe620",
+      "subset": ""
+    },
+    {
+      "text": "模块菜单管理",
+      "icon": "&#xe620",
+      "subset": ""
+    },
+    {
+      "text": "用户评价",
+      "icon": "&#xe620",
+      "subset": ""
+    },
+    {
+      "text": "用户角色管理",
+      "icon": "&#xe620",
+      "subset": ""
+    },
+    {
+      "text": "退单",
+      "icon": "&#xe620",
+      "subset": ""
+    }
+  ]
+}

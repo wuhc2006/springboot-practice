@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<HTML>
+<HEAD>
+	<TITLE> ZTREE DEMO - Checkbox chkDisabled</TITLE>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" href="../../frame/static/zTree_v3/css/demo.css" type="text/css">
+	<link rel="stylesheet" href="../../frame/static/zTree_v3//css/zTreeStyle/zTreeStyle.css" type="text/css">
+	<script type="text/javascript" src="../../frame/static/zTree_v3/js/jquery-1.4.4.min.js"></script>
+	<script type="text/javascript" src="../../frame/static/zTree_v3/js/jquery.ztree.core.js"></script>
+	<script type="text/javascript" src="../../frame/static/zTree_v3/js/jquery.ztree.excheck.js"></script>
+	<!--
+	<script type="text/javascript" src="../../../js/jquery.ztree.exedit.js"></script>
+	-->
+	<script type="text/javascript" src="js/index.js"></script>
+	<SCRIPT type="text/javascript">
+		<!--
+		var basePath = 'http://127.0.0.1:8002/sk/admin/um';
+		var setting = {
+			check: {
+				enable: true,
+				chkDisabledInherit: true
+			},
+			data: {
+				simpleData: {
+					enable:true,//表示使用简单数据模式
+					idKey:"id",//设置之后id为在简单数据模式中的父子节点关联的桥梁
+					pidKey:"pId",//设置之后pid为在简单数据模式中的父子节点关联的桥梁和id互相对应
+				}
+			}
+		};
+
+		function disabledNode(e) {
+			var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
+			disabled = e.data.disabled,
+			nodes = zTree.getSelectedNodes(),
+			inheritParent = false, inheritChildren = false;
+			if (nodes.length == 0) {
+				alert("请先选择一个节点");
+			}
+			if (disabled) {
+				inheritParent = $("#py").attr("checked");
+				inheritChildren = $("#sy").attr("checked");
+			} else {
+				inheritParent = $("#pn").attr("checked");
+				inheritChildren = $("#sn").attr("checked");
+			}
+
+			for (var i=0, l=nodes.length; i<l; i++) {
+				zTree.setChkDisabled(nodes[i], disabled, inheritParent, inheritChildren);
+			}
+		}
+
+		$(document).ready(function(){
+			//从后台加载数据
+			$.ajax({
+					type:"get",
+					dataType: 'json',
+					url:basePath+'/menu/listMenuTree',
+					data:{
+						page: 1,
+						pageSize:100,
+						name:""
+					},
+					success: function(result) {
+						var zNodes = result.data;
+						$.fn.zTree.init($("#treeDemo"), setting, zNodes);
+					},
+					error: function (result) {
+						alert("error");
+					}	
+				});
+		});
+		//-->
+	</SCRIPT>
+</HEAD>
+
+<BODY>
+<div class="zTreeDemoBackground center" style="width: 700px;height: 450px;font-size: 14px;">
+	<ul id="treeDemo" class="ztree" style="width: 750px;height: 450px;font-size: 14px;align: center;"></ul>
+</div>
+</BODY>
+</HTML>

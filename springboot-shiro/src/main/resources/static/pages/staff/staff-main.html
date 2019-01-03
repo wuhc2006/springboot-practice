@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title></title>
+    <link rel="stylesheet" href="../../frame/layui/css/layui.css">
+    <link rel="stylesheet" href="../../frame/static/css/style.css">
+    <link rel="icon" href="../../frame/static/image/code.png">
+    <!--引入ztree-->
+    <!-- <link rel="stylesheet" href="../frame/static/zTree_v3/css/demo.css" type="text/css"> -->
+	<link rel="stylesheet" href="../../frame/static/zTree_v3//css/zTreeStyle/zTreeStyle.css" type="text/css">
+	<script type="text/javascript" src="../../frame/static/zTree_v3/js/jquery-1.4.4.min.js"></script>
+	<script type="text/javascript" src="../../frame/static/zTree_v3/js/jquery.ztree.core.js"></script>
+	<script type="text/javascript" src="../../frame/static/zTree_v3/js/jquery.ztree.excheck.js"></script>
+</head>
+<body class="body">
+
+<!--查询条件:工具条-->
+<form class="layui-form" action="" target="nm_iframe">
+	<blockquote class="layui-elem-quote">
+	   	<div class="layui-form-item">
+		    <span class="fl">
+                <a class="layui-btn" id="add">新增</a>
+            </span>
+		    <span class="layui-form-label">角色类型：</span>
+		    <div class="layui-input-inline">
+		       <select name="roleType" id="roleType" layfilter="roleType" lay-verify="required">
+		       		<option value="">请选择</option>
+			        <option value="0">平台</option>
+			        <option value="1">供应商</option>
+		       </select>
+    		</div>
+    		<span class="layui-form-label" style="width: auto;">角色代号：</span>
+		    <div class="layui-input-inline" style="width: 200px;">
+		   		<input type="text" id="roleName" autocomplete="off" placeholder=" 请输入角色代号" class="layui-input" />
+		    </div>
+		    <span class="layui-form-label" style="width: auto;">角色名称：</span>
+		    <div class="layui-input-inline" style="width: 200px;">
+		   		<input type="text" id="roleTitle" autocomplete="off" placeholder=" 请输入角色名称" class="layui-input" />
+		    </div>
+	   		<button type="button" data-method="queryHandler" class="layui-btn" id="query">查询</button>
+	   		<button type="reset" id="reset" class="layui-btn layui-btn-primary">重置</button>
+	    </div>
+    </blockquote>
+</form>
+
+<!--表格-->
+<div class="layui-row layui-col-space10">
+    <div class="layui-col-xs12 layui-col-sm10 layui-col-md12">
+        <div id="dateTable" lay-filter="dateTable"></div>
+    </div>
+</div>
+
+<!--新增角色-->
+<div style="display: none" id="addRolePage" lay-filter="test22">
+	<form class="layui-form" action="####" style="margin-right: 5%; margin-top: 10px;height: 500px"  id="itemAddForm">
+		<div class="layui-form-item">
+			<label class="layui-form-label">角色代号:</label>
+			<div class="layui-input-block">
+				<input type="text" id="roleNameAdd" autocomplete="off" placeholder=" 请输入角色代号" class="layui-input" />
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">角色名称:</label>
+			<div class="layui-input-block">
+				<input type="text" id="roleTitleAdd" autocomplete="off" placeholder=" 请输入角色名称" class="layui-input" />
+			</div>
+		</div>
+		 <div class="layui-form-item">
+    		<label class="layui-form-label">角色类型:</label>
+    		<div class="layui-input-block">
+			      <select name="roleTypeAdd" id="roleTypeAdd" lay-verify="required">
+			        <option value="">请选择</option>
+			        <option value="0">平台</option>
+			        <option value="1">供应商</option>
+			      </select>
+    		</div>
+  		</div>
+  		<div class="layui-form-item">
+    		<label class="layui-form-label">状态:</label>
+    		<div class="layui-input-block">
+			      <select name="roleStatus" id="roleStatusAdd" lay-verify="required">
+			      	<option value="">请选择</option>
+			        <option value="0">停用</option>
+			        <option value="1">启用</option>
+			      </select>
+    		</div>
+  		</div>
+	</form>
+</div>
+
+<!--菜单信息-->
+<!-- <div class="zTreeDemoBackground center">
+	<ul id="menuTree" class="ztree"></ul>
+</div> -->
+<!--<div style="display: none" id="selectMenuPage" lay-filter="test22">
+	<form class="layui-form" action="####" style="margin-right: 5%; margin-top: 10px;height: 500px"  id="itemAddForm">
+		<div class="layui-form-item" pane="" id="selectMenuPage">
+		    <div class="zTreeDemoBackground center">
+				<ul id="menuTree" class="ztree"></ul>
+			</div>
+		</div>
+	</form>
+</div>-->
+<!--菜单页面选择-->
+<div style="display: none" id="selectMenuPage" lay-filter="test22">
+	<form class="layui-form" action="####" style="margin-right: 5%; margin-top: 10px;height: 500px"  id="itemAddForm">
+		<div class="layui-form-item" id="selectMenuPage">
+		    <label class="layui-form-label">菜单列表</label>
+		    <div class="layui-input-block" id = "menuCheckList" lay-filter="menu">
+		    </div>
+		</div>
+	</form>
+</div>
+<!--加载脚本元素-->
+<script type="text/javascript" src="../../frame/layui/layui.js"></script>
+<script type="text/javascript" src="../../js/index.js"></script>
+<script type="text/javascript" src="../../js/role.js"></script>
+<!-- 表格操作按钮集 -->
+<script type="text/html" id="roleTypeTpl">
+  if({{data.roleType}}=='0'){平台}else if({{data.type}}=='1'){供应商}
+</script>
+<script type="text/html" id="roleStatusTpl">
+  if({{data.status}}=='0'){停用}else if({{data.status}}=='1'){启用}
+</script>
+<script type="text/html" id="barOption">
+    <a class="layui-btn layui-btn-mini layui-btn-normal" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-mini layui-btn-danger" lay-event="del">删除</a>
+    <a class="layui-btn layui-btn-mini layui-btn-danger" lay-event="setPermission">设置菜单权限</a>
+</script>
+</body>
+</html>

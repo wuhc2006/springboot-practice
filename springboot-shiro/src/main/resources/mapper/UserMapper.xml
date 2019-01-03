@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.whc.dao.UserMapper">
+    <resultMap id="BaseResulMap" type="com.whc.domain.entity.User">
+        <id column="id" property="id" jdbcType="BIGINT"></id>
+        <id column="username" property="username" jdbcType="VARCHAR"></id>
+        <id column="password" property="password" jdbcType="VARCHAR"></id>
+        <id column="add_time" property="addTime" jdbcType="TIMESTAMP"></id>
+        <id column="update_time" property="updateTime" jdbcType="TIMESTAMP"></id>
+    </resultMap>
+    <sql id="BaseColumnList">
+        id, username, password, add_time, update_time
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResulMap" parameterType="Long">
+        select
+        <include refid="BaseColumnList" />
+        from t_user
+        where id = #{id, jdbcType = INTEGER}
+    </select>
+    <insert id="insertOne" parameterType="com.whc.domain.entity.User">
+        insert into t_user(username, password, add_time, update_time)
+        values(
+        #{username, jdbcType=VARCHAR},
+        #{password, jdbcType=VARCHAR},
+        #{addTime, jdbcType=TIMESTAMP},
+        #{updateTime, jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <update id="update" parameterType="com.whc.domain.entity.User">
+        update t_user set
+        username = #{username,jdbcType=VARCHAR},
+        password = #{password,jdbcType=VARCHAR},
+        add_time = #{addTime,jdbcType=TIMESTAMP},
+        update_time = #{updateTime,jdbcType=TIMESTAMP} 
+        where id = #{id, jdbcType = INTEGER}
+    </update>
+    <delete id="deleteById" parameterType="Long">
+        delete from t_user where id = #{id, jdbcType = INTEGER}
+    </delete>
+    <select id="selectAll" resultMap="BaseResulMap">
+        select
+        <include refid="BaseColumnList" />
+        from t_user
+    </select>
+    <select id="findByName" parameterType="String" resultMap="BaseResulMap">
+        select
+        <include refid="BaseColumnList" />
+        from t_user
+        where
+        username=#{username,jdbcType=VARCHAR}
+        limit 1
+    </select>
+</mapper>

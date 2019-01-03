@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title></title>
+    <link rel="stylesheet" href="../../frame/layui/css/layui.css">
+    <link rel="stylesheet" href="../../frame/static/css/style.css">
+    <!-- <link rel="stylesheet" href="../frame/static/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css"> -->
+    <link rel="icon" href="../../frame/static/image/code.png">
+</head>
+
+<body class="body">
+
+    <!--查询条件:工具条-->
+    <form class="layui-form" action="" target="nm_iframe">
+        <blockquote class="layui-elem-quote">
+            <div class="layui-form-item">
+				<span class="layui-form-label">所属品类：</span>
+				<div class="layui-input-inline">
+					<select name="status" id="status" layfilter="status" lay-verify="required">
+						<option value="">全部</option>
+						<option value="0">套餐</option>
+						<option value="1">米饭</option>
+						<option value="2">炒菜</option>
+					</select>
+				</div>
+				<span class="layui-form-label" style="width: 100px;">所属供应商：</span>
+				<div class="layui-input-inline">
+					<select name="status" id="status" layfilter="status" lay-verify="required">
+						<option value="">全部</option>
+						<option value="1">中央厨房</option>
+						<option value="2">测试厨房</option>
+					</select>
+				</div>
+				<span class="layui-form-label">状态：</span>
+				<div class="layui-input-inline">
+					<select name="status" id="status" layfilter="status" lay-verify="required">
+						<option value="">全部</option>
+						<option value="1">上架</option>
+						<option value="0">下架</option>
+					</select>
+				</div>
+				<span class="layui-form-label" style="width: auto;">商品名称：</span>
+				<div class="layui-input-inline" style="width: 200px;">
+					<input type="text" id="productTitle" autocomplete="off" placeholder=" 请输入商品名称" class="layui-input" />
+				</div>
+                <button type="button" data-method="queryHandler" class="layui-btn" id="query">查询</button>
+                <button type="reset" id="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </blockquote>
+		<button type="button" id="batchReceipt" class="layui-btn" id="query">批量下架</button>
+		<button type="button" id="batchReceipt" class="layui-btn" id="query">批量上架</button>
+    </form>
+
+    <!--表格-->
+    <div class="layui-row layui-col-space10">
+        <div class="layui-col-xs12 layui-col-sm10 layui-col-md12">
+            <div id="dataTable" lay-filter="dataTable"></div>
+        </div>
+    </div>
+
+    <!--新增菜单-->
+    <div style="display: none" id="addMenuPage" lay-filter="addMenuPage">
+        <form class="layui-form" action="####" style="margin-right: 5%; margin-top: 10px;height: 500px" id="itemAddForm">
+            <div class="layui-form-item">
+                <label class="layui-form-label">名称:</label>
+                <div class="layui-input-block">
+                    <input type="text" id="menuNameAdd" name="menuNameAdd" autocomplete="off" class="layui-input" />
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">父级名称:</label>
+                <div class="layui-input-block">
+                    <select name="parentNameAdd" id="parentNameAdd" lay-verify="required">
+                        <option value="0"></option>
+                    </select>
+                </div>
+            </div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">地址:</label>
+				<div class="layui-input-block">
+					<input type="text" id="pathAdd" name="pathAdd" autocomplete="off" class="layui-input" value="pages/"/>
+				</div>
+			</div>
+        </form>
+    </div>
+    <div id="withdrawContainer" style="display:none">
+        <table id="withdrawTable" lay-filter="withdraw"></table>
+    </div>
+	<!--表格-->
+    <table class="layui-hide" id="orderList"></table>
+	
+	<script type="text/javascript" src="../../js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../../frame/layui/layui.js"></script>
+    <script type="text/javascript" src="../../js/index.js"></script>
+    <!--引入树插件-->
+    <!-- <script type="text/javascript" src="../frame/static/ztree/jquery.ztree.all.min.js"></script> -->
+    <!-- 表格操作按钮集 -->
+	<script type="text/javascript">
+			//表单的checkbox渲染等
+	layui.use('form', function () {
+					var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+					form.render();
+			});
+	//查询
+	queryDynamic();
+	//表格渲染
+	function queryDynamic(){
+		layui.use('table', function(){
+			var table = layui.table;
+				table.render({
+					elem: '#orderList',
+					url:supplierFrontPath+'/product/list',
+					response: {
+						statusName: 'code', //数据状态的字段名称，默认：code
+						statusCode: 200, //成功的状态码，默认：0
+						msgName: 'msg', //状态信息的字段名称，默认：msg
+						countName: 'total', //数据总数的字段名称，默认：count
+						dataName: 'data' //数据列表的字段名称，默认：data
+					},
+					where:{
+						title:$("#productTitle").val()//商品名称
+					},
+					cellMinWidth: 80, //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+					cols: [[
+						{type:'checkbox', fixed: 'left',title: '序号'},
+						{field:'iconUrl', width:120, title: '商品图片',align: 'center', sort: true},
+						{field:'title', width:120, title: '商品名称',align: 'center'},
+						{field:'originalPrice', width:120, title: '价格',align: 'center', sort: true},
+						{field:'currentInventory', width:120, title: '库存',align: 'center'},
+						{field:'sellPrice',width:120, title: '出售价格', align: 'center', minWidth: 100}, //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+						{field:'kindId',width:120, title: '所属品类',align: 'center', sort: true},
+						{field:'shopId', width:120,title: '所属供应商',align: 'center', sort: true},
+						{field:'ifOnline',width:80, title: '状态',align: 'center'},
+						{field:'createTime',width:250, title: '提交时间',align: 'center', sort: true},
+						{fixed: 'right',title: '操作',align: 'center',toolbar: '#barOption'}
+					]],
+					done: function (res, curr, count) {
+					//状态类型转换
+					$("[data-field='ifOnline']").children().each(function () {
+						if ($(this).text() == 'false') {
+							$(this).text("下架");
+						} else if ($(this).text() == 'true') {
+							$(this).text("上架");
+						}
+					});
+				},
+					page: true,
+					limits: [30, 60, 90, 150, 300],
+					loading: false
+				});
+		});
+	}
+	//查询按钮事件
+	$('#query').click(function (e) {
+		queryDynamic();
+	});
+	</script>
+    <script type="text/html" id="barOption">
+        <a class="layui-btn layui-btn-mini layui-btn-normal" lay-event="edit">上架</a>
+        <a class="layui-btn layui-btn-mini layui-btn-danger" lay-event="del">下架</a>
+		<a class="layui-btn layui-btn-mini layui-btn-normal" lay-event="del">详情</a>
+    </script>
+</body>
+
+</html>

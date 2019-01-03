@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title></title>
+    <link rel="stylesheet" href="../../frame/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../frame/static/css/style.css">
+    <link rel="icon" href="../../frame/static/image/code.png">
+</head>
+
+<body class="body">
+    <!--查询条件:工具条-->
+    <form class="layui-form" action="" target="nm_iframe">
+        <blockquote class="layui-elem-quote">
+            <div class="layui-form-item">
+                <span class="layui-form-label" style="width: auto;">用户：</span>
+                <div class="layui-input-inline" style="width: 200px;">
+                    <input type="text" id="orderNameQuery" autocomplete="off" placeholder=" 请输入评价订单号" class="layui-input" />
+                </div>
+                <span class="layui-form-label" style="width: auto;">提交时间：</span>
+                <div class="layui-input-inline" style="width: 200px;">
+                    <input type="text" name="startDateQuery" id="startDateQuery" lay-verify="date" autocomplete="off" placeholder="起始时间"
+                        class="layui-input" />
+                </div>
+                <span class="layui-form-label" style="width: auto;">至</span>
+                <div class="layui-input-inline" style="width: 200px;">
+                    <input type="text" name="endDateQuery" id="endDateQuery" lay-verify="date" autocomplete="off" placeholder="结束时间" class="layui-input"
+                    />
+                </div>
+                <button type="button" data-method="queryHandler" class="layui-btn" id="query">查询</button>
+                <button type="reset" id="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+            <div class="layui-form-item">
+                <span class="layui-form-label">处理状态：</span>
+                <div class="layui-input-block">
+                    <input type="checkbox" name="allPayType" lay-skin="primary" title="全部" checked="">
+                    <input type="checkbox" name="payOnLine" lay-skin="primary" title="未回复(3)">
+                    <input type="checkbox" name="cod" lay-skin="primary" title="已回复(2)">
+                </div>
+            </div>
+        </blockquote>
+    </form>
+    <!--表格-->
+    <table class="layui-hide" id="orderList"></table>
+
+    <div id="withdrawContainer" style="display:none">
+        <table id="withdrawTable" lay-filter="withdraw"></table>
+    </div>
+
+    <script type="text/javascript" src="../../frame/layui/layui.js"></script>
+    <script type="text/javascript" src="../../js/index.js"></script>
+    <!--引入树插件-->
+    <script type="text/javascript">
+        //表单的checkbox渲染等
+		layui.use('form', function () {
+            var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+            form.render();
+        });
+		//日期控件渲染
+        layui.use('laydate', function () {
+            var laydate = layui.laydate;
+            laydate.render({
+                elem: '#startDateQuery'
+            });
+            laydate.render({
+                elem: '#endDateQuery'
+            });
+        })
+		//表格渲染
+		layui.use('table', function(){
+			var table = layui.table;
+				table.render({
+					elem: '#orderList',
+					url:'',
+					response: {
+						statusName: 'code', //数据状态的字段名称，默认：code
+						statusCode: 200, //成功的状态码，默认：0
+						msgName: 'msg', //状态信息的字段名称，默认：msg
+						countName: 'total', //数据总数的字段名称，默认：count
+						dataName: 'data' //数据列表的字段名称，默认：data
+					},
+					cellMinWidth: 80, //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+					cols: [[
+					  {type:'checkbox', fixed: 'left',title: '序号'},
+					  {field:'id', width:150, title: '用户',align: 'center', sort: true},
+					  {field:'username', width:150, title: '工号',align: 'center'},
+					  {field:'sex', width:150, title: '联系方式',align: 'center', sort: true},
+					  {field:'city', width:150, title: '内容',align: 'center'},
+					  {field:'sign', title: '提交时间', width: 200,align: 'center', minWidth: 100}, //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+					  {fixed: 'right',title: '操作',align: 'center',toolbar: '#barOption'} 
+					]],
+					page: true,
+					limits: [30, 60, 90, 150, 300],
+					loading: false
+			  });
+		});
+    </script>
+	<script type="text/html" id="barOption">
+	    <a class="layui-btn layui-btn-mini layui-btn-normal" lay-event="printOrder">回复</a>
+	    <a class="layui-btn layui-btn-mini layui-btn-normal" lay-event="cancelOrder">屏蔽</a>
+	    <a class="layui-btn layui-btn-mini layui-btn-normal" lay-event="receiveOrder">详情</a>
+	</script>
+</body>
+
+</html>
