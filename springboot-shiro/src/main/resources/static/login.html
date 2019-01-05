@@ -43,7 +43,108 @@
     </div>
     <script src="./frame/layui/layui.js"></script>
     <script type="text/javascript" src="./js/index.js"></script>
-    <script type="text/javascript"></script>
+    <script type="text/javascript">
+        layui.use(['form'], function () {
+
+            // 操作对象
+            var form = layui.form,
+                $ = layui.jquery,
+                layer = layui.layer;
+
+            function loginSuccess() {
+                layer.msg("登录成功1", {
+                    icon: 6,
+                    time: 1000
+                }, function (index) {
+                    layer.close(index);
+                    window.location.href = 'index.html?' + 'username=' + $('#username').val();
+                });
+            }
+
+            function loginError(msg) {
+                layer.msg(msg, {
+                    icon: 5,
+                    time: 2000
+                }, function (index) {
+                    layer.close(index);
+                });
+            }
+
+            //页面初始化时，如果帐号密码cookie存在则填充
+            if (getCookie('username') && getCookie('password')) {
+                $("#username").val(getCookie('username'));
+                $("#password").val(getCookie('password'));
+                $('#remember').attr("checked");
+            } else {
+                //聚焦输入框
+                $("#username").focus();
+            }
+            //监听复选框状态变化
+            form.on('checkbox(remember)', function (data) {
+                if (!data.elem.checked) {
+                    delCookie('username');
+                    delCookie('password');
+                }
+            });
+            // you code ...
+            form.on('submit(login)', function (data) {
+                $.ajax({
+                    url: basePath + '/login',
+                    type: 'post',
+                    dataType: 'json',
+                    crossDomain: true,
+                    data: {
+                        "username": $('#username').val(),
+                        "password": $('#password').val(),
+                        "rememberMe": 1
+                    },
+                    /*beforeSend: function () {
+                        // 禁用按钮防止重复提交
+                        $("#submit").attr({
+                            disabled: "disabled"
+                        });
+                    },*/
+                    success: function (result) {
+                        if (result.code == 200) {
+                            loginSuccess();
+                        } else {
+                            loginError(result.msg);
+                        }
+                    }
+                })
+                //记住密码写cookie
+                if ($("input[type='checkbox']").is(':checked')) {
+                    setCookie("username", $("#username").val(), 7); //保存帐号到cookie，有效期7天
+                    setCookie("password", $("#password").val(), 7); //保存密码到cookie，有效期7天
+                } else {
+                    delCookie("username");
+                    delCookie("password");
+                }
+                return false;
+            });
+            //写cookies
+            function setCookie(name, value, day) {
+                var exdate = new Date()
+                exdate.setDate(exdate.getDate() + day)
+                document.cookie = name + "=" + escape(value) +
+                    ((day == null) ? "" : ";expires=" + exdate.toGMTString())
+            }
+            //读取cookies
+            function getCookie(name) {
+                var reg = RegExp(name + '=([^;]+)');
+                var arr = document.cookie.match(reg);
+                if (arr) {
+                    return arr[1];
+                } else {
+                    return '';
+                }
+            }
+            //删除cookies
+            function delCookie(name) {
+                setCookie(name, null, -1);
+            }
+        });
+    </script>
 </body>
 
 </html>

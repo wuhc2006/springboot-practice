@@ -29,13 +29,14 @@ public class ApiResponseVO<T> implements Serializable {
     public ApiResponseVO() {
     }
 
-    public ApiResponseVO(String msg, Integer code) {
+    public ApiResponseVO(Integer code, String msg, T data) {
         this.msg = msg;
         this.code = code;
+        this.data = data;
     }
 
     public ApiResponseVO(ExceptionCode exceptionCode){
-        this(exceptionCode.getMsg(), exceptionCode.getCode());
+        this(exceptionCode.getCode(), exceptionCode.getMsg(),null);
     }
 
     public ApiResponseVO(T data) {

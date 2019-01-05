@@ -5,6 +5,8 @@ import com.whc.domain.entity.Role;
 import com.whc.domain.entity.User;
 import com.whc.domain.entity.UserRole;
 import com.whc.service.*;
+import com.whc.util.JwtToken;
+import com.whc.util.JwtUtil;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -46,26 +48,33 @@ public class MyShiroRealm extends AuthorizingRealm {
 
 
     /**
+     * 大坑！，必须重写此方法，不然Shiro会报错
+     */
+    @Override
+    public boolean supports(AuthenticationToken token) {
+        return token instanceof JwtToken;
+    }
+
+    /**
      * 授权
-     * @param principalCollection
+     * @param principal
      * @return
      */
     @Override
-    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
+    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principal) {
 
-        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-
-        String username = principalCollection.getPrimaryPrincipal().toString();
+        String username = JwtUtil.getUsername(principal.toString());
         User user = userService.findByName(username);
 
         //查询用户具有的角色
         List<UserRole> userRoleList = userRoleService.selectByUserId(user.getId());
         List<Permission> permissionList = new ArrayList<>();
+
+        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         for (UserRole userRole : userRoleList){
             info.addRole(roleService.selectByPrimaryKey(userRole.getRoleId()).getRoleName());
             permissionList.addAll(permissionService.selectPermissionsByRole(userRole.getRoleId()));
         }
-
         //权限
         Set<String> permissions = new HashSet<>();
         for (Permission permission : permissionList){
@@ -77,23 +86,28 @@ public class MyShiroRealm extends AuthorizingRealm {
 
     /**
      * 用户认证
-     * @param authenticationToken
+     * @param auth
      * @return
      * @throws AuthenticationException
      */
     @Override
-    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-        if (authenticationToken.getPrincipal() == null){
-            return null;
+    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken auth) throws AuthenticationException {
+
+        String token = (String) auth.getCredentials();
+        //解密获取用户信息,用于和数据库进行比对
+        String username = JwtUtil.getUsername(token);
+        if (username == null){
+            throw new AuthenticationException("token invalid!");
         }
-        //获取用户信息
-        String username = authenticationToken.getPrincipal().toString();
         User user = userService.findByName(username);
         if (user == null){
-            return null;
-        }else{
-            SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(username, user.getPassword(), getName());
-            return simpleAuthenticationInfo;
+            throw new AuthenticationException("user is not existed");
         }
+        if (!JwtUtil.verify(token, username, user.getPassword())){
+            throw new AuthenticationException("username or password error");
+        }
+
+        SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(token, token, getName());
+        return simpleAuthenticationInfo;
     }
 }

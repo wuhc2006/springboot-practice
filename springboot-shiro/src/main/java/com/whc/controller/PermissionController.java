@@ -4,6 +4,7 @@ import com.whc.domain.entity.Permission;
 import com.whc.service.PermissionService;
 import com.whc.vo.ApiResponseVO;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
@@ -35,7 +36,6 @@ public class PermissionController {
         apiResponseVO.setCode(200);
         apiResponseVO.setMsg("获取菜单成功！");
 
-        Subject suject = SecurityUtils.getSubject();
         List<Permission> permissionList = permissionService.selectPermissionsByRole(1l);
         apiResponseVO.setData(permissionList);
         return apiResponseVO;
