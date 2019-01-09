@@ -52,12 +52,12 @@
                 layer = layui.layer;
 
             function loginSuccess() {
-                layer.msg("登录成功1", {
+                layer.msg("登录成功", {
                     icon: 6,
                     time: 1000
                 }, function (index) {
                     layer.close(index);
-                    window.location.href = 'index.html?' + 'username=' + $('#username').val();
+                    window.location.href = '/index';
                 });
             }
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" >
 
 <head>
     <meta charset="UTF-8">
@@ -19,7 +19,7 @@
         <!-- 添加skin-1类可手动修改主题为纯白，添加skin-2类可手动修改主题为蓝白 -->
         <!-- header -->
         <div class="layui-header my-header" id="my-header">
-            <a href="index.html">
+            <a href="/index">
                 <!--<img class="my-header-logo" src="" alt="logo">-->
                 <div class="my-header-logo">餐饮后台管理系统</div>
             </a>
@@ -36,7 +36,7 @@
             <ul class="layui-nav my-header-user-nav" lay-filter="side-top-right">
                 <li class="layui-nav-item">
                     <a class="name" href="javascript:;">
-                        <i class="layui-icon">&#xe629;</i>主题</a>
+                        <i class="layui-icon">&#xe66a;</i>主题</a>
                     <dl class="layui-nav-child">
                         <dd data-skin="0">
                             <a href="javascript:;">默认</a>
@@ -50,12 +50,12 @@
                     </dl>
                 </li>
                 <li class="layui-nav-item">
-                    <a class="name" href="javascript:;" id="user-logo">
-                        <img src="./frame/static/image/code.png" height="1" alt="logo">  </a>
+                    <a class="name" href="javascript:;" id="user-logo" th:text="${username}">
+                        </a>
                     <dl class="layui-nav-child">
                         <dd>
                             <a href="javascript:;" onclick="logout();return false;">
-                                <i class="layui-icon">&#xe621;</i>退出</a>
+                                <i class="layui-icon">&#x1007;</i>退出</a>
                         </dd>
                     </dl>
                 </li>
@@ -64,7 +64,18 @@
         <!-- side -->
         <div class="layui-side my-side">
             <div class="layui-side-scroll">
-                <ul class="layui-nav layui-nav-tree " lay-shrink="all" id="side-main" lay-filter="side-main">
+                <ul class="layui-nav layui-nav-tree " lay-shrink="all" id="side-main" lay-filter="side-main" >
+                    <!---th:each="menu:${menuList}"-->
+                    <!--<li class='layui-nav-item' th:each="entry:${menu}" th:text="${entry}"><i class='layui-icon'>&#xe653;</i></a></li>-->
+                    <li class='layui-nav-item' id="2">
+                        <a href='javascript:void(0);' href-url='./pages/menu/menu-main.html'><i class='layui-icon'>&#xe653;</i>菜单管理</a>
+                    </li>
+                    <li class='layui-nav-item' id="3">
+                        <a href='javascript:void(0);' href-url='./pages/role/role-main.html'><i class='layui-icon'>&#xe656;</i>角色管理</a>
+                    </li>
+                    <li class='layui-nav-item' id="4">
+                        <a href='javascript:void(0);' href-url='http://www.baidu.com'><i class='layui-icon'>&#xe60a;</i>商品管理</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -79,18 +90,10 @@
                 </ul>
                 <div class="layui-tab-content">
                     <div class="layui-tab-item layui-show">
-                        <!--首页默认为供应商首页？-->
                         <iframe id="iframe" src="pages/welcome.html" frameborder="0"></iframe>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- footer -->
-        <div class="layui-footer my-footer">
-            <p>
-                <a href="http://www.yihexinda.com/index/index.html" target="_blank">餐饮后台管理系统v1.0</a>
-            </p>
-            <p>2017 © copyright 粤ICP备17005881号</p>
         </div>
     </div>
 
@@ -124,11 +127,6 @@
                 element = layui.element,
                 $ = layui.jquery;
 
-            //获取当前登录的用户名,并显示出来
-            var Ohref = window.location.href;
-            var usernamehref = Ohref.split("?username=");
-            $("#user-logo").text(usernamehref[1]);
-
             //加载一级菜单并隐藏
             LoadFirstLevelMenu();
             //判断角色,动态加载菜单
@@ -155,7 +153,7 @@
                     dataType: 'json',
                     success: function (result) {
                         //先清空
-                        $(document).find(".layui-nav[lay-filter='side-main']").html("");
+                        /*$(document).find(".layui-nav[lay-filter='side-main']").html("");
                         var menuInfo = result.data;
                         var view = "";
                         for (var i = 0; i < menuInfo.length; i++) {
@@ -169,11 +167,8 @@
                             }
                         }
                         //根据结果展示出菜单
-                        $(document).find(".layui-nav[lay-filter='side-main']").html(view);
+                        $(document).find(".layui-nav[lay-filter='side-main']").html(view);*/
                     },
-                    error: function () {
-
-                    }
                 })
             }
             //判断角色,动态加载菜单
@@ -239,14 +234,6 @@
                         }
                     }
                 });
-
-                //默认展开第一个菜单
-                /* var $ul = $container.children('ul');
-                $ul.find('li.layui-nav-item').each(function () {
-                    $(this).on('click', function () {
-                        $(this).siblings().removeClass('layui-nav-itemed');
-                    });
-                }); */
             }
 
 

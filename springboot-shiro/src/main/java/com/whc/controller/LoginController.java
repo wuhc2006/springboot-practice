@@ -22,6 +22,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @ClassName UserController
@@ -38,7 +42,7 @@ public class LoginController {
     private UserService userService;
 
     @ApiOperation(value = "登录", tags = "登录")
-    @RequestMapping("/login")
+    @PostMapping("/login")
     @ResponseBody
     public ApiResponseVO<Object> loginSuccess(HttpServletRequest request, HttpServletResponse response,
                                @RequestParam("username") String username, @RequestParam("password") String password){
@@ -111,8 +115,19 @@ public class LoginController {
      */
     @ApiOperation(value = "主页", tags = "主页")
     @RequestMapping("/index")
-    @RequiresPermissions("add")
-    public String index(){
+    public String index(Model model){
+        model.addAttribute("username", JwtUtil.getUsername((String)SecurityUtils.getSubject().getPrincipal()));
+
+        //加载菜单
+        List<Map<String, Object>> menuList = new ArrayList();
+        for (int i = 0; i < 3; i++){
+            Map<String, Object> menu = new HashMap<>();
+            menu.put("id", i + 1);
+            menu.put("name", "菜单管理"+i);
+            menu.put("href", "http://www.baidu.com");
+            menuList.add(menu);
+        }
+        model.addAttribute("menuList", menuList);
         return "index";
     }
 
@@ -123,7 +138,7 @@ public class LoginController {
      * @return
      */
     @ApiOperation(value = "退出", tags = "主页")
-    @RequestMapping("/logout")
+    @PostMapping("/logout")
     @ResponseBody
     public ApiResponseVO<Object> logout(HttpServletRequest request, HttpServletResponse response){
 

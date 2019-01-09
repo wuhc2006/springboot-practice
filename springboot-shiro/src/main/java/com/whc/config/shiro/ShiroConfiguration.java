@@ -62,9 +62,12 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/404", "anon");
 
         //过滤链定义，从上向下顺序执行，一般将/**放在最为下边
-        filterChainDefinitionMap.put("/*.html","authc");
+        //filterChainDefinitionMap.put("/*.html","authc");//拦截所有html请求
         filterChainDefinitionMap.put("/**","jwt");
 
+        //配置登录和登录成功页面，如果不配置，退出时默认跳转到login.jsp
+        shiroFilterFactoryBean.setLoginUrl("/");
+        shiroFilterFactoryBean.setSuccessUrl("/index");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
     }
