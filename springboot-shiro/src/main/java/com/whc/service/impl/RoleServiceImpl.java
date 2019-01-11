@@ -2,12 +2,12 @@ package com.whc.service.impl;
 
 import com.whc.dao.RoleMapper;
 import com.whc.domain.entity.Role;
-import com.whc.domain.entity.User;
 import com.whc.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @ClassName RoleServiceImpl
@@ -28,8 +28,8 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public List<Role> selectAll() {
-        return roleMapper.selectAll();
+    public List<Role> selectAll(Map<String, Object> map) {
+        return roleMapper.selectAll(map);
     }
 
     @Override

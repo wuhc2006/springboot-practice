@@ -28,9 +28,9 @@
 		    <span class="layui-form-label">角色类型：</span>
 		    <div class="layui-input-inline">
 		       <select name="roleType" id="roleType" layfilter="roleType" lay-verify="required">
-		       		<option value="">请选择</option>
-			        <option value="0">平台</option>
-			        <option value="1">供应商</option>
+				    <option value="">请选择</option>
+			        <option value="0">普通用户</option>
+			        <option value="1">管理员</option>
 		       </select>
     		</div>
     		<span class="layui-form-label" style="width: auto;">角色代号：</span>
@@ -74,8 +74,8 @@
     		<div class="layui-input-block">
 			      <select name="roleTypeAdd" id="roleTypeAdd" lay-verify="required">
 			        <option value="">请选择</option>
-			        <option value="0">平台</option>
-			        <option value="1">供应商</option>
+			        <option value="0">普通用户</option>
+			        <option value="1">管理员</option>
 			      </select>
     		</div>
   		</div>
@@ -118,7 +118,7 @@
 <!--加载脚本元素-->
 <script type="text/javascript" src="../../frame/layui/layui.js"></script>
 <script type="text/javascript" src="../../js/index.js"></script>
-<script type="text/javascript" src="../../js/role.js"></script>
+<script type="text/javascript" src="role.js"></script>
 <!-- 表格操作按钮集 -->
 <script type="text/html" id="roleTypeTpl">
   if({{data.roleType}}=='0'){平台}else if({{data.type}}=='1'){供应商}

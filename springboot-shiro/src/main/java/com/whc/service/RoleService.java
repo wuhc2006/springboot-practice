@@ -4,11 +4,12 @@ import com.whc.domain.entity.Role;
 import com.whc.domain.entity.User;
 
 import java.util.List;
+import java.util.Map;
 
 public interface RoleService {
 
     Role selectByPrimaryKey(Long id);
-    List<Role> selectAll();
+    List<Role> selectAll(Map<String, Object> map);
     int insertOne(Role role);
     int deleteById(Long id);
     int update(Role role);

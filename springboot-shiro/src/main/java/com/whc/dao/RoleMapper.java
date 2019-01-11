@@ -3,6 +3,7 @@ package com.whc.dao;
 import com.whc.domain.entity.Role;
 
 import java.util.List;
+import java.util.Map;
 
 public interface RoleMapper {
     int deleteByPrimaryKey(Long id);
@@ -17,5 +18,5 @@ public interface RoleMapper {
 
     int updateByPrimaryKey(Role record);
 
-    List<Role> selectAll();
+    List<Role> selectAll(Map<String, Object> map);
 }

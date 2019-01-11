@@ -62,10 +62,9 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
                         width: 200,
                         align: 'center' /*,templet: '#roleStatusTpl'*/
                     }, {
-                        field: 'createTime',
+                        field: 'addTime',
                         title: '创建时间',
                         width: 300,
-                        sort: false,
                         align: 'center'
                     }, {
                         fixed: 'right',
@@ -77,8 +76,8 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
                 ]
             ],
             id: 'dataCheck',
-            url: accountBackPath + '/role/list',
-            method: 'post',
+            url: basePath + '/role/list',
+            method: 'get',
             page: true,
             limits: [30, 60, 90, 150, 300],
             limit: 30 //默认采用30
@@ -100,9 +99,9 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
                 //角色类型转换
                 $("[data-field='type']").children().each(function () {
                     if ($(this).text() == '0') {
-                        $(this).text("平台");
+                        $(this).text("普通用户");
                     } else if ($(this).text() == '1') {
-                        $(this).text("供应商");
+                        $(this).text("管理员");
                     }
                 });
 				//状态类型转换
@@ -123,9 +122,10 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
     //loadData();
     //从后台加载数据
     function loadData() {
+        debugger
         $.ajax({
-            type: 'post',
-            url: accountBackPath + '/role/list',
+            type: 'get',
+            url: basePath + '/role/list',
             data: {
                 page: 1,
                 pageSize: 100,
@@ -137,9 +137,9 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
                 for (var i = 0; i < role.length; i++) {
                     var roleTypeText;
                     if (role[i].type == 1) {
-                        roleTypeText = '供应商'
+                        roleTypeText = '管理员'
                     } else {
-                        roleTypeText = '平台'
+                        roleTypeText = '普通用户'
                     }
                     $("#roleType").append("<option value='" + role[i].id + "'>" + roleTypeText +
                         "</option>");
@@ -191,9 +191,9 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
                 var roleTypeAdd = parseInt($("#roleTypeAdd").val());
                 var roleStatusAdd = parseInt($("#roleStatusAdd").val());
                 $.ajax({
-                    type: "POST",
+                    type: "post",
                     dataType: 'json',
-                    url: accountBackPath + '/role/addRole',
+                    url: basePath + '/role/insertOne',
                     data: {
                         "name": roleNameAdd,
                         "title": roleTitleAdd,
@@ -201,7 +201,6 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
                         "status": roleStatusAdd
                     },
                     success: function (data) {
-                        debugger;
                         console.log(data);
                         if (data.code == 200) {
                             layer.msg('添加成功!', {
@@ -264,7 +263,7 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
                     $.ajax({
                         type: "POST",
                         dataType: 'json',
-                        url: accountBackPath + '/role/updateRole',
+                        url: basePath + '/role/update',
                         data: {
                             'roleId': data.id,
                             "name": name,
@@ -293,7 +292,7 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
                 $.ajax({
                     type: "POST",
                     dataType: 'json',
-                    url: accountBackPath + '/role/delRoleById',
+                    url: basePath + '/role/deleteById',
                     data: {
                         'roleId': data.id
                     },
@@ -329,7 +328,7 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
                     )
                     $.ajax({
                         type: 'get',
-                        url: accountBackPath + '/menu/list',
+                        url: basePath + '/menu/list',
                         data: {
                             page: 1,
                             pageSize: 100,
@@ -350,7 +349,7 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
                             $.ajax({
                                 type: "POST",
                                 dataType: 'json',
-                                url: accountBackPath +
+                                url: basePath +
                                     '/rolemenu/selectMenuByRoleId',
                                 data: {
                                     page: 1,
@@ -392,7 +391,7 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
                     $.ajax({
                         type: "POST",
                         dataType: 'json',
-                        url: accountBackPath + '/rolemenu/addMenu2Role',
+                        url: basePath + '/rolemenu/addMenu2Role',
                         data: {
                             'roleId': data.id,
                             "menuIdList": menuIdList

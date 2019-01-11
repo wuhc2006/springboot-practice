@@ -72,7 +72,7 @@ public class MyShiroRealm extends AuthorizingRealm {
 
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         for (UserRole userRole : userRoleList){
-            info.addRole(roleService.selectByPrimaryKey(userRole.getRoleId()).getRoleName());
+            info.addRole(roleService.selectByPrimaryKey(userRole.getRoleId()).getName());
             permissionList.addAll(permissionService.selectPermissionsByRole(userRole.getRoleId()));
         }
         //权限

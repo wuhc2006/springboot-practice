@@ -10,6 +10,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.session.Session;
@@ -42,7 +43,7 @@ public class LoginController {
     private UserService userService;
 
     @ApiOperation(value = "登录", tags = "登录")
-    @PostMapping("/login")
+    @RequestMapping("/login")
     @ResponseBody
     public ApiResponseVO<Object> loginSuccess(HttpServletRequest request, HttpServletResponse response,
                                @RequestParam("username") String username, @RequestParam("password") String password){
@@ -117,7 +118,6 @@ public class LoginController {
     @RequestMapping("/index")
     public String index(Model model){
         model.addAttribute("username", JwtUtil.getUsername((String)SecurityUtils.getSubject().getPrincipal()));
-
         //加载菜单
         List<Map<String, Object>> menuList = new ArrayList();
         for (int i = 0; i < 3; i++){

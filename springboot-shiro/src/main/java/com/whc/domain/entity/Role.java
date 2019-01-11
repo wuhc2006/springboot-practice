@@ -5,11 +5,17 @@ import java.util.Date;
 public class Role {
     private Long id;
 
-    private String roleName;
+    private String name;
+
+    private String title;
 
     private Date addTime;
 
     private Date updateTime;
+
+    private Integer type;
+
+    private Integer status;
 
     public Long getId() {
         return id;
@@ -19,12 +25,20 @@ public class Role {
         this.id = id;
     }
 
-    public String getRoleName() {
-        return roleName;
+    public String getName() {
+        return name;
     }
 
-    public void setRoleName(String roleName) {
-        this.roleName = roleName == null ? null : roleName.trim();
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title == null ? null : title.trim();
     }
 
     public Date getAddTime() {
@@ -41,5 +55,21 @@ public class Role {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }
