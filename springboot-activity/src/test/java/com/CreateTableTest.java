@@ -13,6 +13,9 @@ import org.junit.Test;
  */
 public class CreateTableTest {
 
+    /**
+     * 创建表，初始化数据库
+     */
     @Test
     public void createTable(){
         //引擎配置
