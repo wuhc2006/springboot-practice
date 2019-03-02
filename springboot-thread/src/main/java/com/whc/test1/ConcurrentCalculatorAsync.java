@@ -28,9 +28,9 @@ public class ConcurrentCalculatorAsync {
             this.end = end;
         }
 
-
+        @Override
         public Long call() throws Exception {
-            Long sum = 0l;
+            Long sum = 0L;
             for (int i = start; i < end; i++) {
                 sum += numbers[i];
             }
@@ -52,7 +52,7 @@ public class ConcurrentCalculatorAsync {
             int increment = numbers.length / cpuCoreNumber + 1;
             int start = increment * i;
             int end = increment * i + increment;
-            if (end > numbers.length){
+            if (end > numbers.length) {
                 end = numbers.length;
             }
             SumCalculator subCalc = new SumCalculator(numbers, start, end);
@@ -69,12 +69,12 @@ public class ConcurrentCalculatorAsync {
      * 迭代每个只任务，获得部分和，相加返回
      */
     public Long getResult() {
-        Long result = 0l;
+        Long result = 0L;
         for (int i = 0; i < cpuCoreNumber; i++) {
             try {
                 Long subSum = completionService.take().get();
                 result += subSum;
-                System.out.println("subSum="+subSum+",result="+result);
+                System.out.println("subSum=" + subSum + ",result=" + result);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {

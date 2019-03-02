@@ -34,7 +34,7 @@ public class MyCallableDemo {
 
         //close thread pool
         pool.shutdown();
-        Thread.currentThread().sleep(1000);
+        Thread.sleep(1000);
         System.out.println("--------------");
 
         //获取所有并发执行任务的运行结果

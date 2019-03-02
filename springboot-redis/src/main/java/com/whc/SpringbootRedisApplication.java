@@ -5,6 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * redis缓存的测试
+ * @author whc
+ * @date 2019/02/25
  */
 @SpringBootApplication
 public class SpringbootRedisApplication {

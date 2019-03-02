@@ -2,7 +2,6 @@ package com.config;
 
 import org.activiti.spring.SpringProcessEngineConfiguration;
 import org.activiti.spring.boot.ProcessEngineConfigurationConfigurer;
-import org.apache.tomcat.jni.Proc;
 import org.springframework.stereotype.Component;
 
 /**

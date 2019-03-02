@@ -37,7 +37,8 @@ public class ResumeController {
     @RequestMapping("/list")
     public List<ProcessDto> queryDefinitionList(){
         ProcessDefinitionQuery query = repositoryService.createProcessDefinitionQuery();
-        query.processDefinitionKey("myProcess_1");//从数据act_re_procdef获知
+        //从数据act_re_procdef获知
+        query.processDefinitionKey("myProcess_1");
         query.orderByDeploymentId().desc();
 
         // 分页查询
@@ -88,8 +89,6 @@ public class ResumeController {
 
         task = taskService.createTaskQuery().processInstanceId(instance.getId()).singleResult();
         System.out.println("任务执行完毕:" + task);
-
-
 
     }
 }
