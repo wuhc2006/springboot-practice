@@ -7,22 +7,25 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 /**
- * @ClassName UserService
  * @Description TODO
  * @Author Administrator
  * @Date 2019/2/27 22:31
  * @Version 1.0
  */
-@Service
-public class UserService {
-    @Autowired
-    private UserDao userDao;
+@Deprecated
+public interface UserService {
 
-    public User findUserById(Long id) {
-        return userDao.findUserById(id);
-    }
+    /**
+     * 根据id查找用户
+     * @param id
+     * @return
+     */
+    User findUserById(Long id);
 
-    public void deleteUserById(Long id) {
-        userDao.deleteById(id);
-    }
+    /**
+     * 根据id删除用户
+     * @param id
+     * @return
+     */
+    void deleteUserById(Long id);
 }

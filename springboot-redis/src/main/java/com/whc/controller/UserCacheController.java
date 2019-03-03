@@ -1,11 +1,12 @@
 package com.whc.controller;
 
-import com.whc.conf.ResponseInfo;
+import com.whc.conf.ResponseData;
 import com.whc.domain.User;
 import com.whc.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,17 +17,18 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @ClassName UserController
- * @Description TODO
+ * @Description TODO 这是第一种缓存方式，手动设置key值
  * @Author Administrator
  * @Date 2019/2/25 22:29
  * @Version 1.0
  */
 @RestController
-public class UserController {
+public class UserCacheController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserCacheController.class);
 
     @Autowired
+    @Qualifier("userCacheService")
     private UserService userService;
 
     @Autowired
@@ -62,7 +64,7 @@ public class UserController {
      * @return
      */
     @RequestMapping("/deleteUserById")
-    public ResponseInfo deleteUserById(Long id){
+    public ResponseData deleteUserById(Long id){
         userService.deleteUserById(id);
         // 删除缓存
         String key = "user_" + id;
@@ -70,6 +72,6 @@ public class UserController {
         if (hasKey){
             redisTemplate.delete(key);
         }
-        return new ResponseInfo(200, "删除成功！", null);
+        return new ResponseData(200, "删除成功！", null);
     }
 }
