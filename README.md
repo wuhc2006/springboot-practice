@@ -9,4 +9,6 @@ this is only for springboot test
 方法名配置@Cacheable(value = "", key = "", condition = "")的方式
 ### 缓存文件
 redis作为中间件，高速缓存临时文件，最终上传到文件服务器
+## springboot与shiro + jwt 的登录授权
+主要实现与shiro的集成，前端layui
 
