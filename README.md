@@ -1,5 +1,5 @@
 # springboot-practice
-this is only for springboot test
+this is only for springboot test.
 与第三方资源的集成实例。
 ## springboot与redis集成
 ### 简单缓存
