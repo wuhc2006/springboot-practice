@@ -34,35 +34,34 @@ import java.time.Duration;
 public class RedisConfig {
 
     @Bean
-    public KeyGenerator keyGenerator(){
-        return new KeyGenerator() {
-            @Override
-            public Object generate(Object o, Method method, Object... objects) {
-                StringBuilder sb = new StringBuilder();
-                sb.append(o.getClass().getName()).append(method.getName());
-                for (Object obj : objects){
-                    if (obj != null){
-                        sb.append(obj.toString());
-                    }
+    public KeyGenerator keyGenerator() {
+        return (o, method, objects) -> {
+            StringBuilder sb = new StringBuilder();
+            sb.append(o.getClass().getName()).append(method.getName());
+            for (Object obj : objects) {
+                if (obj != null) {
+                    sb.append(obj.toString());
                 }
-                return sb.toString();
             }
+            return sb.toString();
         };
     }
 
     /**
-     *  选择redis作为默认缓存工具
+     * 选择redis作为默认缓存工具
+     *
      * @param factory
      * @return
      */
     @Bean
-    public CacheManager cacheManager(RedisConnectionFactory factory){
+    public CacheManager cacheManager(RedisConnectionFactory factory) {
         // 设置缓存有效期30分钟
         RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration
                 .defaultCacheConfig()
                 .entryTtl(Duration.ofMinutes(30))
                 .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
-                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer((new GenericJackson2JsonRedisSerializer())));;
+                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer((new GenericJackson2JsonRedisSerializer())));
+        ;
         return RedisCacheManager
                 .builder(RedisCacheWriter.nonLockingRedisCacheWriter(factory))
                 .cacheDefaults(redisCacheConfiguration).build();
@@ -70,6 +69,7 @@ public class RedisConfig {
 
     /**
      * 在容器当前没有redisTemplate时运行
+     *
      * @param factory
      * @return
      */
@@ -101,7 +101,8 @@ public class RedisConfig {
     }
 
     /**
-     *在容器当前没有stringRedisTemplate时运行
+     * 在容器当前没有stringRedisTemplate时运行
+     *
      * @param redisConnectionFactory
      * @return
      * @throws UnknownHostException

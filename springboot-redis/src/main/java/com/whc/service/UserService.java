@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
  * @Date 2019/2/27 22:31
  * @Version 1.0
  */
-@Deprecated
 public interface UserService {
 
     /**

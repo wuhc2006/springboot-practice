@@ -11,6 +11,13 @@
     <modules>
         <module>springboot-api</module>
         <module>springboot-common</module>
+        <module>springboot-redis</module>
+        <module>springboot-dubbo</module>
+        <module>springboot-elasticsearch</module>
+        <module>springboot-shiro</module>
+        <module>springboot-thread</module>
+        <module>springboot-activity</module>
+        <module>springboot-rabbitmq</module>
     </modules>
 
     <parent>

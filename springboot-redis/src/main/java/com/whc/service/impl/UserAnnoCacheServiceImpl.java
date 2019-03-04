@@ -26,7 +26,7 @@ public class UserAnnoCacheServiceImpl implements UserService {
     private UserDao userDao;
 
     @Override
-    @Cacheable(value = "user", key = "'user'.concat(#id.toString())", condition = "#result != null")
+    @Cacheable(value = "user", key = "'user'.concat(#id.toString())")
     public User findUserById(Long id) {
         logger.info("find user from db........, id = " + id);
         return userDao.findUserById(id);

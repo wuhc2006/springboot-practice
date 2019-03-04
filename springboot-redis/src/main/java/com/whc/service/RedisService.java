@@ -5,6 +5,7 @@ package com.whc.service;
  * @Author whc
  * @Date 2019/3/3
  */
+@Deprecated
 public interface RedisService {
     /**
      * 设置key,value

@@ -1,15 +1,11 @@
 package com.whc;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.whc.service.RedisService;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
@@ -17,12 +13,6 @@ import java.math.BigDecimal;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class SpringbootRedisApplicationTests {
-
-    @Autowired
-    private RedisService redisService;
-
-    @Autowired
-    private StringRedisTemplate stringRedisTemplate;
 
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
