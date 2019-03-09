@@ -1,9 +1,6 @@
 package com.whc.util;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 
 /**
  * @ClassName SerializeUtil
@@ -17,41 +14,63 @@ public class SerializeUtil {
     /**
      * 序列化
      *
-     * @param object
+     * @param value
      * @return
      */
-    public static byte[] serialize(Object object) {
-        ObjectOutputStream oos = null;
-        ByteArrayOutputStream baos = null;
+    public static byte[] serialize(Object value) {
+        if (value == null) {
+            throw new NullPointerException("Can't serialize null");
+        }
+        byte[] rv = null;
+        ByteArrayOutputStream bos = null;
+        ObjectOutputStream os = null;
         try {
-            baos = new ByteArrayOutputStream();
-            oos = new ObjectOutputStream(baos);
-            oos.writeObject(object);
-            byte[] bytes = baos.toByteArray();
-            return bytes;
+            bos = new ByteArrayOutputStream();
+            os = new ObjectOutputStream(bos);
+            os.writeObject(value);
+            os.close();
+            bos.close();
+            rv = bos.toByteArray();
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            close(os);
+            close(bos);
         }
-
-        return null;
+        return rv;
 
     }
 
-    /**
-     * 反序列化
-     *
-     * @param bytes
-     * @return
-     */
-    public static Object unSerialize(byte[] bytes) {
-        ByteArrayInputStream bais = null;
+    private static void close(Closeable closeable) {
+        if (closeable != null){
+            try {
+                closeable.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static Object deserialize(byte[] in) {
+        return deserialize(in, Object.class);
+    }
+
+    public static <T> T deserialize(byte[] in, Class<T>...requiredType) {
+        Object rv = null;
+        ByteArrayInputStream bis = null;
+        ObjectInputStream is = null;
         try {
-            bais = new ByteArrayInputStream(bytes);
-            ObjectInputStream ois = new ObjectInputStream(bais);
-            return ois.readObject();
+            if (in != null) {
+                bis = new ByteArrayInputStream(in);
+                is = new ObjectInputStream(bis);
+                rv = is.readObject();
+            }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            close(is);
+            close(bis);
         }
-        return null;
+        return (T) rv;
     }
 }

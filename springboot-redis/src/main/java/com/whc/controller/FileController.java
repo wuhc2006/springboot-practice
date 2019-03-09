@@ -45,8 +45,8 @@ public class FileController {
         if (file.isEmpty()){
             return "上传文件，请选择文件！";
         }
-        fileService.saveFile(file);
-        return "上传失败！";
+        fileService.saveFile(file, 30);
+        return "上传成功！";
     }
 
 
