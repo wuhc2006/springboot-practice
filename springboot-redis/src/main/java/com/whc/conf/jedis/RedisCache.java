@@ -79,21 +79,7 @@ public class RedisCache {
     public static Jedis getJedis() {
         Jedis jedis = null;
         if (jedisPool == null) {
-            try {
-                pps.load(RedisCache.class.getClassLoader().getResourceAsStream("redis.properties"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            JedisPoolConfig poolConfig = new JedisPoolConfig();
-            JedisPool jp = new JedisPool(poolConfig,
-                    pps.getProperty("host"),
-                    Integer.valueOf(pps.getProperty("port")),
-                    Integer.valueOf(pps.getProperty("timeout")),
-                    pps.getProperty(pps.getProperty("password")),
-                    Integer.valueOf(pps.getProperty("database")));
-
-            jedis = jp.getResource();
-            jedisPool = jp;
+            jedis = initJedis();
         } else {
             jedis = jedisPool.getResource();
         }
@@ -101,8 +87,43 @@ public class RedisCache {
         return jedis;
     }
 
+    /**
+     * 初始化jedis
+     * @return
+     */
+    private static Jedis initJedis() {
+        Jedis jedis;
+        try {
+            pps.load(RedisCache.class.getClassLoader().getResourceAsStream("redis.properties"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        JedisPoolConfig poolConfig = new JedisPoolConfig();
+        JedisPool jp = new JedisPool(poolConfig,
+                pps.getProperty("host"),
+                Integer.valueOf(pps.getProperty("port")),
+                Integer.valueOf(pps.getProperty("timeout")),
+                pps.getProperty(pps.getProperty("password")),
+                Integer.valueOf(pps.getProperty("database")));
+
+        jedis = jp.getResource();
+        jedisPool = jp;
+        return jedis;
+    }
+
     static {
 
+    }
+
+    private static void close(Jedis jedis) {
+        try{
+            jedisPool.returnResource(jedis);
+        }catch (Exception e){
+            if(jedis.isConnected()){
+                jedis.quit();
+                jedis.disconnect();
+            }
+        }
     }
 
 }

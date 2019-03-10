@@ -29,7 +29,11 @@ public class FileService {
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
-    public void saveFile(MultipartFile file, int timeout){
+    /**
+     * @param file
+     * @param timeout
+     */
+    public void saveFile(MultipartFile file, int timeout) {
         //先上传缓存，再上传文件服务器
         String cacheKey = saveToCache(file, timeout);
         saveTempToServer(cacheKey);
@@ -37,14 +41,15 @@ public class FileService {
 
     /**
      * 将文件保存到redis缓存
+     *
      * @param file
      * @param timeout 过期时间s
      * @return
      */
-    public String saveToCache(MultipartFile file, int timeout){
+    public String saveToCache(MultipartFile file, int timeout) {
         String fileName = file.getOriginalFilename();
         FileInputStream in = null;
-        String cacheKey = UUID.randomUUID().toString() + "_" +fileName;
+        String cacheKey = UUID.randomUUID().toString() + "_" + fileName;
         try {
             in = (FileInputStream) file.getInputStream();
             byte[] bytes = toByteArray(in);
@@ -52,19 +57,25 @@ public class FileService {
             logger.info("上传文件" + fileName + "到redis缓存成功！");
         } catch (IOException e) {
             logger.error("上传文件到缓存失败！");
-        }finally {
-            if (in != null){
+        } finally {
+            if (in != null) {
                 try {
                     in.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    logger.error("关闭输入流发生错误.", e);
                 }
             }
         }
         return cacheKey;
     }
 
-
+    /**
+     * 将输入流转换为字节数组
+     *
+     * @param in
+     * @return
+     * @throws IOException
+     */
     private byte[] toByteArray(InputStream in) throws IOException {
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -78,9 +89,10 @@ public class FileService {
 
     /**
      * 根据缓存的key值，获取文件存到服务器
+     *
      * @param cacheKey
      */
-    private void saveTempToServer(String cacheKey){
+    private void saveTempToServer(String cacheKey) {
         String fileName = cacheKey.split("_")[1];
         File dest = new File(fileServerPath + new Random().nextInt(1000) + fileName);
         FileOutputStream fos = null;
@@ -90,13 +102,13 @@ public class FileService {
             fos.write(bytes);
             logger.info("上传文件" + fileName + "到" + fileServerPath + "成功！");
         } catch (IOException e) {
-            logger.error("上传文件失败！");
-        }finally {
-            if (fos != null){
+            logger.error("上传文件失败！文件缓存key值为：" + cacheKey, e);
+        } finally {
+            if (fos != null) {
                 try {
                     fos.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    logger.error("关闭输出流发生异常！", e);
                 }
             }
         }

@@ -15,6 +15,9 @@ import redis.clients.jedis.JedisPoolConfig;
 /**
  * @ClassName JedisConfig
  * @Description TODO 注册jedispool
+ * <p>
+ *     @PropertySource替换@ConfigurationProperties,以前的只针对Springboot 1.x
+ * </p>
  * @Author Administrator
  * @Date 2019/3/10 11:02
  * @Version 1.0
@@ -42,9 +45,9 @@ public class JedisConfig extends CachingConfigurerSupport {
     private int timeout;
 
     @Bean(name = "jedisPool")
-    public JedisPool jedisPool(){
+    public JedisPool jedisPool() {
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
-        JedisPool jedisPool = new JedisPool(jedisPoolConfig, host, port, timeout, StringUtils.isEmpty(password)?null:password, database);
+        JedisPool jedisPool = new JedisPool(jedisPoolConfig, host, port, timeout, StringUtils.isEmpty(password) ? null : password, database);
         logger.info("JedisPool注入成功！");
         logger.info("redis地址：" + host + ":" + port);
         return jedisPool;
