@@ -24,7 +24,7 @@ import java.time.Duration;
 
 /**
  * @ClassName RedisConfig
- * @Description TODO redis配置
+ * @Description TODO redis配置，采用jackson序列化和反序列化的方式实现
  * @Author Administrator
  * @Date 2019/3/3 10:19
  * @Version 1.0

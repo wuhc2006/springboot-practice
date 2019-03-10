@@ -1,12 +1,6 @@
-package com.whc.conf;
+package com.whc.conf.jedis;
 
 import com.whc.util.SerializeUtil;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -15,26 +9,12 @@ import java.io.IOException;
 import java.util.Properties;
 
 /**
- * 缓存
+ * redis缓存相关的配置和以及redis操作
  */
 public class RedisCache {
 
-    private static String hostname = "localhost";
-    private static int port = 6379;
-    private static String password = "";
-
     private static Properties pps = new Properties();
-
     private static JedisPool jedisPool;
-
-    public static JedisPool getJedisPool() {
-        return RedisCache.jedisPool;
-    }
-
-    public static void setJedisPool(JedisPool jedisPool) {
-        RedisCache.jedisPool = jedisPool;
-    }
-
     /**
      * 清空所有缓存
      */
@@ -100,17 +80,17 @@ public class RedisCache {
         Jedis jedis = null;
         if (jedisPool == null) {
             try {
-                pps.load(RedisCache.class.getClassLoader().getResourceAsStream("application.properties"));
+                pps.load(RedisCache.class.getClassLoader().getResourceAsStream("redis.properties"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
             JedisPoolConfig poolConfig = new JedisPoolConfig();
             JedisPool jp = new JedisPool(poolConfig,
-                    pps.getProperty("spring.redis.host"),
-                    Integer.valueOf(pps.getProperty("spring.redis.port")),
-                    5000,
-                    pps.getProperty(pps.getProperty("spring.redis.password")),
-                    Integer.valueOf(pps.getProperty("spring.redis.database")));
+                    pps.getProperty("host"),
+                    Integer.valueOf(pps.getProperty("port")),
+                    Integer.valueOf(pps.getProperty("timeout")),
+                    pps.getProperty(pps.getProperty("password")),
+                    Integer.valueOf(pps.getProperty("database")));
 
             jedis = jp.getResource();
             jedisPool = jp;

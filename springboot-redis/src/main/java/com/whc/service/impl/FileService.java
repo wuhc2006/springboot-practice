@@ -1,6 +1,6 @@
 package com.whc.service.impl;
 
-import com.whc.conf.RedisCache;
+import com.whc.conf.jedis.RedisCache;
 import com.whc.util.SerializeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
