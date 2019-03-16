@@ -1,6 +1,6 @@
 package com.whc.controller;
 
-import com.whc.conf.ResponseData;
+import com.whc.domain.ResponseData;
 import com.whc.domain.User;
 import com.whc.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

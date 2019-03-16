@@ -1,4 +1,4 @@
-package com.whc.conf;
+package com.whc.domain;
 
 import java.io.Serializable;
 
@@ -19,6 +19,11 @@ public class ResponseData implements Serializable {
         this.code = code;
         this.message = message;
         this.data = data;
+    }
+
+    public ResponseData(int code, String message) {
+        this.code = code;
+        this.message = message;
     }
 
     public int getCode() {
