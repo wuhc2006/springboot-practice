@@ -1,4 +1,4 @@
-package com.whc.controller;
+package com.whc.sender;
 
 import com.whc.domain.ResponseData;
 import com.whc.domain.User;

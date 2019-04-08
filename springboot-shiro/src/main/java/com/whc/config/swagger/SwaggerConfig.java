@@ -27,7 +27,7 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.whc.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.whc.sender"))
                 .paths(PathSelectors.any())
                 .build();
     }

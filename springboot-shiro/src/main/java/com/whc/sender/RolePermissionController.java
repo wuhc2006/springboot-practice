@@ -1,8 +1,7 @@
-package com.whc.controller;
+package com.whc.sender;
 
-import com.whc.domain.entity.Role;
-import com.whc.domain.entity.UserRole;
-import com.whc.service.UserRoleService;
+import com.whc.domain.entity.RolePermission;
+import com.whc.service.RolePermissionService;
 import com.whc.vo.ApiResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,33 +10,33 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- * @ClassName UserRoleController
- * @Description TODO
+ * @ClassName RolePermission
+ * @Description TODO 权限管理
  * @Author Administrator
- * @Date 2018/12/26 22:55
+ * @Date 2018/12/26 23:00
  * @Version 1.0
  */
 @RestController
-@RequestMapping("/userRole")
-public class UserRoleController {
+@RequestMapping("/permission")
+public class RolePermissionController {
 
     @Autowired
-    private UserRoleService userRoleService;
+    private RolePermissionService rolePermissionService;
 
     /**
      * 通过user获取角色
      * @return
      */
     @RequestMapping("/getRoleByUser")
-    public ApiResponseVO<Object> getRoleByUser(Long userId){
+    public ApiResponseVO<Object> getRoleByUser(Long roleId){
         ApiResponseVO<Object> apiResponseVO = new ApiResponseVO<>();
-        if (null == userId){
+        if (null == roleId){
             apiResponseVO.setCode(500);
             apiResponseVO.setMsg("输入的参数不合法");
             return apiResponseVO;
         }
 
-        List<UserRole> list = userRoleService.selectByUserId(userId);
+        List<RolePermission> list = rolePermissionService.selectRolePermissionByRole(roleId);
         apiResponseVO.setCode(200);
         apiResponseVO.setMsg("查询成功");
         apiResponseVO.setTotal(list.size());
@@ -45,4 +44,5 @@ public class UserRoleController {
 
         return apiResponseVO;
     }
+
 }

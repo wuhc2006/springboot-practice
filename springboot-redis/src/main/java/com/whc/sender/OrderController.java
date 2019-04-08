@@ -1,4 +1,4 @@
-package com.whc.controller;
+package com.whc.sender;
 
 import com.whc.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;

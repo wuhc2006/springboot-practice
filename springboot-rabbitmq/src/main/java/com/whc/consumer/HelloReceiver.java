@@ -17,11 +17,6 @@ public class HelloReceiver {
 
     @RabbitHandler
     public void process(String hello) {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         System.err.println("Receiver  : " + hello);
     }
 }

@@ -1,4 +1,4 @@
-package com.whc.controller;
+package com.whc.sender;
 
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetResponse;

@@ -16,7 +16,6 @@
         <module>springboot-elasticsearch</module>
         <module>springboot-shiro</module>
         <module>springboot-thread</module>
-        <module>springboot-activity</module>
         <module>springboot-rabbitmq</module>
     </modules>
 

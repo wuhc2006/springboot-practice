@@ -15,7 +15,7 @@ import java.util.UUID;
 
 /**
  * @ClassName FileService
- * @Description TODO 将文件缓存到redis或从redis下载文件
+ * @Description 将文件缓存到redis或从redis下载文件
  * @Author Administrator
  * @Date 2019/3/2 21:17
  * @Version 1.0
@@ -23,7 +23,7 @@ import java.util.UUID;
 @Service
 public class FileService {
 
-    public static final String fileServerPath = "D:\\Workspaces\\IdeaProjects\\springboot-practice\\fileserver\\";
+    public static final String fileServerPath = "D:\\workspaces\\idea\\springboot-practice\\springboot-redis\\fileserver\\";
     private Logger logger = LoggerFactory.getLogger(FileService.class);
 
     @Autowired
@@ -113,5 +113,7 @@ public class FileService {
             }
         }
     }
+
+
 
 }

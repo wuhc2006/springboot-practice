@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
  * @Version 1.0
  */
 @Configuration
-public class RabbitConfig {
+public class QueueConfig {
     @Bean
     public Queue queue(){
         return new Queue("whc");

@@ -1,10 +1,8 @@
-package com.whc.controller;
+package com.whc.sender;
 
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.text.SimpleDateFormat;
@@ -40,8 +38,8 @@ public class HelloSender {
     @GetMapping("/multiSend")
     public void multiSend() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        for (int i = 0; i < 1000; i++){
-            String context = "你好，这是我的第 "+i + "条消息，当前时间为：" +sdf.format(new Date());
+        for (int i = 0; i < 1000; i++) {
+            String context = "你好，这是我的第 " + i + "条消息，当前时间为：" + sdf.format(new Date());
             System.out.println("Sender : " + context);
             this.rabbitTemplate.convertAndSend("whc", context);
         }

@@ -1,4 +1,4 @@
-package com.whc.controller;
+package com.whc.sender;
 
 import com.whc.domain.entity.Role;
 import com.whc.service.RoleService;

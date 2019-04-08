@@ -1,13 +1,9 @@
-package com.whc.controller;
+package com.whc.sender;
 
 import com.whc.domain.entity.Permission;
 import com.whc.service.PermissionService;
 import com.whc.vo.ApiResponseVO;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authz.annotation.RequiresAuthentication;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

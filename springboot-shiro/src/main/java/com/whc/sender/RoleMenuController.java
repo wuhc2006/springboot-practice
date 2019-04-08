@@ -1,7 +1,6 @@
-package com.whc.controller;
+package com.whc.sender;
 
 import com.whc.domain.entity.Menu;
-import com.whc.domain.entity.RoleMenu;
 import com.whc.service.RoleMenuService;
 import com.whc.vo.ApiResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
