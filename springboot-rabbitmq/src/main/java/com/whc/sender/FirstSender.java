@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
  * @author Administrator
  * @date 2019/4/8
  */
-@Slf4j
 @Component
 public class FirstSender {
     @Autowired

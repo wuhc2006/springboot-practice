@@ -43,6 +43,6 @@ public class UserAnnoCacheController {
     @RequestMapping("/cache/deleteUserById")
     public ResponseData deleteUserById(Long id){
         userService.deleteUserById(id);
-        return new ResponseData(200, "删除成功！", null);
+        return new ResponseData(200, "删除成功！");
     }
 }

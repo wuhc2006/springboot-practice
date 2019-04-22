@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+
 /**
  * @ClassName UploadController
  * @Description TODO 文件上传
@@ -41,7 +43,12 @@ public class FileController {
         if (file.isEmpty()){
             return "上传文件，请选择文件！";
         }
-        fileService.saveFile(file, 30);
+        try {
+            fileService.saveFile(file, 30);
+        }catch (IOException e){
+            logger.error("上传发生异常！", e);
+            return "上传失败！";
+        }
         return "上传成功！";
     }
 

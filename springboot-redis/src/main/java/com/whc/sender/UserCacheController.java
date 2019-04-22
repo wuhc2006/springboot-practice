@@ -72,6 +72,6 @@ public class UserCacheController {
         if (hasKey){
             redisTemplate.delete(key);
         }
-        return new ResponseData(200, "删除成功！", null);
+        return new ResponseData(200, "删除成功！");
     }
 }

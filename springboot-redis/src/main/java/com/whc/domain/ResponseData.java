@@ -9,14 +9,17 @@ import java.io.Serializable;
  * @Date 2019/2/27 22:46
  * @Version 1.0
  */
-public class ResponseData implements Serializable {
+public class ResponseData<T> implements Serializable {
     private static final long serialVersionUID = 6757870792246920076L;
+    public static final int SUCCESS_CODE = 200;
+    public static final int FAIL_CODE = 500;
+
     private int code;
     private String message;
-    private Object data;
+    private T data;
 
-    public ResponseData(int code, String message, Object data) {
-        this.code = code;
+    public ResponseData(T data, String message) {
+        this.code = SUCCESS_CODE;
         this.message = message;
         this.data = data;
     }
@@ -34,7 +37,7 @@ public class ResponseData implements Serializable {
         return message;
     }
 
-    public Object getData() {
+    public T getData() {
         return data;
     }
 }

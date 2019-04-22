@@ -23,7 +23,7 @@ import java.util.UUID;
 @Service
 public class FileService {
 
-    public static final String fileServerPath = "D:\\workspaces\\idea\\springboot-practice\\springboot-redis\\fileserver\\";
+    public static final String fileServerPath = "D:\\workspaces\\IdeaProjects\\springboot-practice\\springboot-redis\\fileserver\\";
     private Logger logger = LoggerFactory.getLogger(FileService.class);
 
     @Autowired
@@ -33,7 +33,7 @@ public class FileService {
      * @param file
      * @param timeout
      */
-    public void saveFile(MultipartFile file, int timeout) {
+    public void saveFile(MultipartFile file, int timeout) throws IOException {
         //先上传缓存，再上传文件服务器
         String cacheKey = saveToCache(file, timeout);
         saveTempToServer(cacheKey);
@@ -92,28 +92,23 @@ public class FileService {
      *
      * @param cacheKey
      */
-    private void saveTempToServer(String cacheKey) {
+    private void saveTempToServer(String cacheKey) throws IOException {
         String fileName = cacheKey.split("_")[1];
-        File dest = new File(fileServerPath + new Random().nextInt(1000) + fileName);
+        File dest = new File(fileServerPath + File.separator + fileName);
+        if (!dest.getParentFile().exists()) {
+            dest.getParentFile().mkdirs();
+            dest.createNewFile();
+        }
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(dest);
             byte[] bytes = (byte[]) RedisCache.getObject(cacheKey);
             fos.write(bytes);
             logger.info("上传文件" + fileName + "到" + fileServerPath + "成功！");
-        } catch (IOException e) {
-            logger.error("上传文件失败！文件缓存key值为：" + cacheKey, e);
         } finally {
             if (fos != null) {
-                try {
-                    fos.close();
-                } catch (IOException e) {
-                    logger.error("关闭输出流发生异常！", e);
-                }
+                fos.close();
             }
         }
     }
-
-
-
 }
