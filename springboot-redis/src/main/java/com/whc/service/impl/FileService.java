@@ -48,23 +48,13 @@ public class FileService {
      */
     public String saveToCache(MultipartFile file, int timeout) {
         String fileName = file.getOriginalFilename();
-        FileInputStream in = null;
         String cacheKey = UUID.randomUUID().toString() + "_" + fileName;
-        try {
-            in = (FileInputStream) file.getInputStream();
+        try (FileInputStream in =(FileInputStream) file.getInputStream() ){
             byte[] bytes = toByteArray(in);
             RedisCache.putObject(cacheKey, bytes, timeout);
             logger.info("上传文件" + fileName + "到redis缓存成功！");
         } catch (IOException e) {
             logger.error("上传文件到缓存失败！");
-        } finally {
-            if (in != null) {
-                try {
-                    in.close();
-                } catch (IOException e) {
-                    logger.error("关闭输入流发生错误.", e);
-                }
-            }
         }
         return cacheKey;
     }
@@ -99,16 +89,10 @@ public class FileService {
             dest.getParentFile().mkdirs();
             dest.createNewFile();
         }
-        FileOutputStream fos = null;
-        try {
-            fos = new FileOutputStream(dest);
+        try(FileOutputStream fos = new FileOutputStream(dest)) {
             byte[] bytes = (byte[]) RedisCache.getObject(cacheKey);
             fos.write(bytes);
             logger.info("上传文件" + fileName + "到" + fileServerPath + "成功！");
-        } finally {
-            if (fos != null) {
-                fos.close();
-            }
         }
     }
 }
