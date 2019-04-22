@@ -19,4 +19,9 @@ public interface OrderService {
      *处理某种商品的订单
      */
     void pop();
+
+    /**
+     * 用户购买接口
+     */
+    void buy();
 }

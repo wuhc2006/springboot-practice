@@ -1,6 +1,9 @@
 package com.whc.domain;
 
+import lombok.Data;
+
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * @ClassName Goods
@@ -9,16 +12,17 @@ import java.math.BigDecimal;
  * @Date 2019/3/10 15:39
  * @Version 1.0
  */
+@Data
 public class Goods {
 
     /**
      * 商品id
      */
-    private String id;
+    private Long id;
     /**
      * 商品名称
      */
-    private String name;
+    private String goods_name;
     /**
      * 原价
      */
@@ -27,60 +31,27 @@ public class Goods {
      * 售价
      */
     private BigDecimal sellPrice;
-    /**
-     * 总数量
-     */
-    private Integer amount;
+
     /**
      * 库存
      */
     private Integer inventory;
 
-    public String getId() {
-        return id;
-    }
+    /**
+     * 总数量
+     */
+    private Integer amount;
 
-    public void setId(String id) {
-        this.id = id;
-    }
+    /**
+     * 创建时间
+     */
+    private Date createTime;
 
-    public String getName() {
-        return name;
-    }
+    /**
+     * 修改时间
+     */
+    private Date modifyTime;
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
-    public BigDecimal getOriginalPrice() {
-        return originalPrice;
-    }
 
-    public void setOriginalPrice(BigDecimal originalPrice) {
-        this.originalPrice = originalPrice;
-    }
-
-    public BigDecimal getSellPrice() {
-        return sellPrice;
-    }
-
-    public void setSellPrice(BigDecimal sellPrice) {
-        this.sellPrice = sellPrice;
-    }
-
-    public Integer getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Integer amount) {
-        this.amount = amount;
-    }
-
-    public Integer getInventory() {
-        return inventory;
-    }
-
-    public void setInventory(Integer inventory) {
-        this.inventory = inventory;
-    }
 }

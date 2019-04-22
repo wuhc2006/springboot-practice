@@ -23,6 +23,11 @@ public class OrderController {
         orderService.push();
     }
 
+    @RequestMapping("/buy")
+    public void buy(){
+        orderService.buy();
+    }
+
     @RequestMapping("/pop")
     public void pop(){
         orderService.pop();

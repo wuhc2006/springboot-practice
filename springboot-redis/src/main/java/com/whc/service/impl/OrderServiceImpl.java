@@ -45,7 +45,7 @@ public class OrderServiceImpl implements OrderService {
             int count = random.nextInt(10);
             BigDecimal totalPrice = price.multiply(new BigDecimal(count));
             userId.getAndIncrement();
-            Order order = new Order(userId.get() + "", goodsId, count, totalPrice, new Date());
+            Order order = new Order(userId + "", goodsId, count, totalPrice, new Date());
             list.add(order);
 
             jedis.lpush(order.getGoodsId() + "", order.toString());
@@ -73,6 +73,15 @@ public class OrderServiceImpl implements OrderService {
         /*long endTime = System.currentTimeMillis();
         long cost = endTime - startTime;
         System.out.println("订单处理完成，耗时：" + cost + "ms");*/
+    }
+
+    @Override
+    public void buy() {
+        // 1. 查库存
+        
+        // 2. 库存有扣减
+
+        // 3. 卖完
     }
 
     /**
