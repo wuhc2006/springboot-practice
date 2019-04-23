@@ -9,7 +9,8 @@ package com.whc.domain;
  */
 public enum SeckillStatus {
     SUCESS(1, "成功秒杀"),
-    SOLD_OUT(-1, "卖完");
+    SOLD_OUT(-1, "库存不足"),
+    REPEAT_SEC(-2, "重复秒杀");
 
     private int status;
     private String message;

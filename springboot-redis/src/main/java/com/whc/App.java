@@ -3,7 +3,6 @@ package com.whc;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.context.annotation.ComponentScan;
 
 /**
  * redis缓存的测试
@@ -12,10 +11,10 @@ import org.springframework.context.annotation.ComponentScan;
  */
 @EnableCaching
 @SpringBootApplication
-public class SpringbootRedisApplication {
+public class App {
 
     public static void main(String[] args) {
-        SpringApplication.run(SpringbootRedisApplication.class, args);
+        SpringApplication.run(App.class, args);
     }
 
 }

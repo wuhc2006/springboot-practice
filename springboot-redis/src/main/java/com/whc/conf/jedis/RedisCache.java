@@ -27,6 +27,7 @@ public class RedisCache {
      *
      * @param key
      * @param value
+     * @param timeout 过期时间，单位s
      */
     public static void putObject(Object key, Object value, int timeout) {
         Jedis jedis = getJedis();

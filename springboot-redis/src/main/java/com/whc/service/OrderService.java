@@ -1,6 +1,7 @@
 package com.whc.service;
 
 import com.whc.domain.Order;
+import com.whc.domain.SeckillStatus;
 
 /**
  * @ClassName OrderService
@@ -16,12 +17,20 @@ public interface OrderService {
     void push();
 
     /**
-     *处理某种商品的订单
+     * 处理某种商品的订单
      */
     void pop();
 
     /**
      * 用户购买接口
      */
-    void buy();
+    SeckillStatus buy(String goodsId, String userId);
+
+    /**
+     * 查询商品库存数量
+     *
+     * @param goodsId 商品ID
+     * @return 库存数量
+     */
+    int query(String goodsId);
 }
