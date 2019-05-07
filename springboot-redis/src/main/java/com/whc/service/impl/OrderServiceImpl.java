@@ -1,5 +1,6 @@
 package com.whc.service.impl;
 
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import com.whc.conf.jedis.RedisCache;
 import com.whc.dao.GoodsDao;
 import com.whc.dao.OrderDao;
@@ -159,8 +160,18 @@ public class OrderServiceImpl implements OrderService {
      * @return 是否购买过
      */
     public boolean hasOrder(String goodsId, String userId) {
-        List<Order> orders = orderDao.findOrderByGoodsIdAndUserId(goodsId, userId);
-        return !(orders == null || orders.isEmpty());
+        Object object = RedisCache.getObject(userId);
+        if (object != null){
+            Integer count = (Integer)object;
+            if (count >= 1){
+                return true;
+            }
+        }else{
+            List<Order> orders = orderDao.findOrderByGoodsIdAndUserId(goodsId, userId);
+            RedisCache.putObject(userId, orders.size(), 60);
+            return orders.size() > 0;
+        }
+        return false;
     }
 
 }

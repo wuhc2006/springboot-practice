@@ -27,9 +27,11 @@ public class OrderController {
     }
 
     @GetMapping("/buy")
-    public ResponseData buy(){
+    public ResponseData buy(String userId){
+        if (userId == null || userId.trim().length() == 0){
+            userId = "1";
+        }
         String goodsId = "1";
-        String userId = "1";
         SeckillStatus seckillStatus = orderService.buy(goodsId, userId);
         return new ResponseData(seckillStatus.getStatus(), seckillStatus.getMessage());
     }
