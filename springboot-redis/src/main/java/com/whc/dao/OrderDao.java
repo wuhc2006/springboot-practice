@@ -10,5 +10,5 @@ import java.util.List;
  * @date 2019/4/23
  */
 public interface OrderDao extends CrudRepository<Order, Long> {
-    List<Order> findOrderGoodsIdAndUserId(String goodsId, String orderId);
+    List<Order> findOrderByGoodsIdAndUserId(String goodsId, String orderId);
 }

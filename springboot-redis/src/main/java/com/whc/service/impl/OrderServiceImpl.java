@@ -10,7 +10,6 @@ import com.whc.service.OrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import redis.clients.jedis.Jedis;
@@ -18,7 +17,6 @@ import redis.clients.jedis.Jedis;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CountDownLatch;
@@ -161,7 +159,7 @@ public class OrderServiceImpl implements OrderService {
      * @return 是否购买过
      */
     public boolean hasOrder(String goodsId, String userId) {
-        List<Order> orders = orderDao.findOrderGoodsIdAndUserId(goodsId, userId);
+        List<Order> orders = orderDao.findOrderByGoodsIdAndUserId(goodsId, userId);
         return !(orders == null || orders.isEmpty());
     }
 

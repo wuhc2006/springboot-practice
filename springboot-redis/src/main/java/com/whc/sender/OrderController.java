@@ -1,7 +1,10 @@
 package com.whc.sender;
 
+import com.whc.domain.ResponseData;
+import com.whc.domain.SeckillStatus;
 import com.whc.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,9 +26,12 @@ public class OrderController {
         orderService.push();
     }
 
-    @RequestMapping("/buy")
-    public void buy(){
-        orderService.buy();
+    @GetMapping("/buy")
+    public ResponseData buy(){
+        String goodsId = "1";
+        String userId = "1";
+        SeckillStatus seckillStatus = orderService.buy(goodsId, userId);
+        return new ResponseData(seckillStatus.getStatus(), seckillStatus.getMessage());
     }
 
     @RequestMapping("/pop")
