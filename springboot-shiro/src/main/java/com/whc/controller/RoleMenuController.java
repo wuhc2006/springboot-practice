@@ -1,4 +1,4 @@
-package com.whc.sender;
+package com.whc.controller;
 
 import com.whc.domain.entity.Menu;
 import com.whc.service.RoleMenuService;

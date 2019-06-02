@@ -1,4 +1,4 @@
-package com.whc.sender;
+package com.whc.controller;
 
 import com.alibaba.druid.util.StringUtils;
 import com.whc.domain.entity.User;

@@ -11,10 +11,10 @@ import org.springframework.cache.annotation.EnableCaching;
  */
 @EnableCaching
 @SpringBootApplication
-public class App {
+public class SpringbootRedisApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(App.class, args);
+        SpringApplication.run(SpringbootRedisApplication.class, args);
     }
 
 }

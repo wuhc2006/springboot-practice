@@ -1,4 +1,4 @@
-package com.whc.sender;
+package com.whc.controller;
 
 import com.whc.service.impl.FileService;
 import org.slf4j.Logger;
@@ -16,7 +16,7 @@ import java.io.IOException;
 
 /**
  * @ClassName UploadController
- * @Description TODO 文件上传
+ * @Description 文件上传
  * @Author Administrator
  * @Date 2019/3/2 20:56
  * @Version 1.0

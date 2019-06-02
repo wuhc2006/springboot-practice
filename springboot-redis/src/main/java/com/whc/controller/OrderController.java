@@ -1,4 +1,4 @@
-package com.whc.sender;
+package com.whc.controller;
 
 import com.whc.domain.ResponseData;
 import com.whc.domain.SeckillStatus;

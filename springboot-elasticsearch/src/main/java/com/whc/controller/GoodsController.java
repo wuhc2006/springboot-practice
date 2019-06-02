@@ -1,4 +1,4 @@
-package com.whc.sender;
+package com.whc.controller;
 
 import com.whc.entity.Goods;
 import com.whc.repository.GoodsRepository;

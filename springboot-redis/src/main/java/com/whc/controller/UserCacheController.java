@@ -1,4 +1,4 @@
-package com.whc.sender;
+package com.whc.controller;
 
 import com.whc.domain.ResponseData;
 import com.whc.domain.User;
@@ -11,13 +11,14 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.concurrent.TimeUnit;
 
 /**
  * @ClassName UserController
- * @Description TODO 这是第一种缓存方式，手动设置key值
+ * @Description 这是第一种缓存方式，手动设置key值
  * @Author Administrator
  * @Date 2019/2/25 22:29
  * @Version 1.0
@@ -36,6 +37,7 @@ public class UserCacheController {
 
     /**
      * 根据用户id获取详情
+     *
      * @param id
      * @return
      */
@@ -44,7 +46,7 @@ public class UserCacheController {
         String key = "user_" + id;
         ValueOperations<String, Object> operations = redisTemplate.opsForValue();
         boolean hasKey = redisTemplate.hasKey(key);
-        if (hasKey){
+        if (hasKey) {
             User user = (User) operations.get(key);
             LOGGER.info("从缓存中获取了用户>>>>>>>>>>>>>>");
             return user;
@@ -58,18 +60,25 @@ public class UserCacheController {
         return user;
     }
 
+    @RequestMapping("/getCount")
+    @ResponseBody
+    public Integer getCount() {
+        return new Integer(100);
+    }
+
     /**
      * 根据id删除用户
+     *
      * @param id
      * @return
      */
     @RequestMapping("/deleteUserById")
-    public ResponseData deleteUserById(Long id){
+    public ResponseData deleteUserById(Long id) {
         userService.deleteUserById(id);
         // 删除缓存
         String key = "user_" + id;
         boolean hasKey = redisTemplate.hasKey(key);
-        if (hasKey){
+        if (hasKey) {
             redisTemplate.delete(key);
         }
         return new ResponseData(200, "删除成功！");

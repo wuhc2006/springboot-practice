@@ -1,4 +1,4 @@
-package com.whc.sender;
+package com.whc.controller;
 
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
