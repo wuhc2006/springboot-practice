@@ -5,6 +5,7 @@ import com.whc.domain.SeckillStatus;
 import com.whc.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,8 +27,8 @@ public class OrderController {
         orderService.push();
     }
 
-    @GetMapping("/buy")
-    public ResponseData buy(String userId){
+    @GetMapping("/buy/{userId}")
+    public ResponseData buy(@PathVariable String userId){
         if (userId == null || userId.trim().length() == 0){
             userId = "1";
         }

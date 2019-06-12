@@ -63,7 +63,7 @@ public class UserCacheController {
     @RequestMapping("/getCount")
     @ResponseBody
     public Integer getCount() {
-        return new Integer(100);
+        return 100;
     }
 
     /**

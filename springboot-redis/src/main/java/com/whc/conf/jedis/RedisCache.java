@@ -1,6 +1,8 @@
 package com.whc.conf.jedis;
 
 import com.whc.util.SerializeUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -12,6 +14,8 @@ import java.util.Properties;
  * redis缓存相关的配置和以及redis操作
  */
 public class RedisCache {
+
+    private static final Logger log = LoggerFactory.getLogger(RedisCache.class);
 
     private static Properties pps = new Properties();
     private static JedisPool jedisPool;
@@ -30,9 +34,18 @@ public class RedisCache {
      * @param timeout 过期时间，单位s
      */
     public static void putObject(Object key, Object value, int timeout) {
-        Jedis jedis = getJedis();
-        jedis.set(SerializeUtil.serialize(key), SerializeUtil.serialize(value));
-        jedis.expire(SerializeUtil.serialize(key), timeout);
+        Jedis jedis = null;
+        try{
+            jedis = getJedis();
+            jedis.set(SerializeUtil.serialize(key), SerializeUtil.serialize(value));
+            if (0 < timeout && timeout < Integer.MAX_VALUE){
+                jedis.expire(SerializeUtil.serialize(key), timeout);
+            }
+        }catch (Exception e){
+            log.error(e.getMessage(), e);
+        }finally {
+            close(jedis);
+        }
     }
 
     /**
@@ -44,11 +57,17 @@ public class RedisCache {
     public static Object getObject(Object key) {
 
         byte[] bytes = SerializeUtil.serialize(key);
-        byte[] value = getJedis().get(bytes);
-        if (value == null) {
-            return null;
+        Jedis jedis = null;
+        try{
+            jedis = getJedis();
+            byte[] value = jedis.get(bytes);
+            if (value == null) {
+                return null;
+            }
+            return SerializeUtil.deserialize(value);
+        }finally {
+            close(jedis);
         }
-        return SerializeUtil.deserialize(value);
     }
 
     /**
@@ -58,18 +77,27 @@ public class RedisCache {
      * @return
      */
     public static Object removeObject(Object key) {
-        Jedis jedis = getJedis();
+        Jedis jedis = null;
+        try{
+            jedis = getJedis();
+            byte[] bytes = jedis.get(SerializeUtil.serialize(key));
+            jedis.del(SerializeUtil.serialize(key));
+            return SerializeUtil.deserialize(bytes);
+        } finally {
+            close(jedis);
+        }
 
-        byte[] bytes = jedis.get(SerializeUtil.serialize(key));
-
-        jedis.del(SerializeUtil.serialize(key));
-
-        return SerializeUtil.deserialize(bytes);
     }
 
     public static int getSize() {
-        Long size = getJedis().dbSize();
-        return size.intValue();
+        Jedis jedis = null;
+        try{
+            jedis = getJedis();
+            Long size = getJedis().dbSize();
+            return size.intValue();
+        }finally {
+            close(jedis);
+        }
     }
 
     /**
@@ -77,7 +105,7 @@ public class RedisCache {
      *
      * @return
      */
-    public static Jedis getJedis() {
+    public synchronized static Jedis getJedis() {
         Jedis jedis = null;
         if (jedisPool == null) {
             jedis = initJedis();
@@ -110,10 +138,6 @@ public class RedisCache {
         jedis = jp.getResource();
         jedisPool = jp;
         return jedis;
-    }
-
-    static {
-
     }
 
     private static void close(Jedis jedis) {

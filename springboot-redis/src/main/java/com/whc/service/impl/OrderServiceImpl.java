@@ -130,8 +130,9 @@ public class OrderServiceImpl implements OrderService {
 
         goodsDao.save(goods);
         orderDao.save(order);
-        // 3. 更新库存缓存
-        RedisCache.putObject(goodsId, goods.getInventory(), 60);
+        // 3. 更新缓存
+        RedisCache.putObject("小米" + goodsId, goods.getInventory(), 60);
+        RedisCache.putObject(userId, (Integer)RedisCache.getObject(userId) + 1, Integer.MAX_VALUE);
         return SeckillStatus.SUCESS;
     }
 
@@ -143,10 +144,10 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public int query(String goodsId) {
-        Object object = RedisCache.getObject(goodsId);
+        Object object = RedisCache.getObject("小米" + goodsId);
         if (object == null) {
             Goods goods = goodsDao.findById(Long.parseLong(goodsId)).get();
-            RedisCache.putObject(goodsId, goods.getInventory(), 60);
+            RedisCache.putObject("小米" + goodsId, goods.getInventory(), 60);
             return goods.getInventory();
         }
         return Integer.valueOf(object.toString());
@@ -168,7 +169,7 @@ public class OrderServiceImpl implements OrderService {
             }
         }else{
             List<Order> orders = orderDao.findOrderByGoodsIdAndUserId(goodsId, userId);
-            RedisCache.putObject(userId, orders.size(), 60);
+            RedisCache.putObject(userId, orders.size(), Integer.MAX_VALUE);
             return orders.size() > 0;
         }
         return false;
