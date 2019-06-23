@@ -9,21 +9,22 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
+        <module>springboot-activity</module>
         <module>springboot-api</module>
         <module>springboot-common</module>
-        <module>springboot-redis</module>
         <module>springboot-dubbo</module>
         <module>springboot-elasticsearch</module>
+        <module>springboot-redis</module>
         <module>springboot-shiro</module>
         <module>springboot-thread</module>
         <module>springboot-rabbitmq</module>
+        <module>springboot-mycat</module>
     </modules>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.1.0.RELEASE</version>
-        <relativePath></relativePath>
     </parent>
 
     <properties>
