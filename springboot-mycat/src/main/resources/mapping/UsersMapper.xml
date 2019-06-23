@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="whc.dao.UsersMapper">
+    <resultMap id="BaseResulMap" type="whc.entity.Users">
+        <id column="id" property="id" jdbcType="BIGINT"></id>
+        <result column="name" property="name" jdbcType="VARCHAR"></result>
+        <result column="age" property="age" jdbcType="INTEGER"></result>
+        <result column="email" property="email" jdbcType="VARCHAR"></result>
+    </resultMap>
+    <sql id="BaseColumnList">
+        id, name, age, email
+    </sql>
+    <insert id="insertOne" parameterType="whc.entity.Users">
+        insert into t_users(id, name, age, email)
+        values(
+        #{id, jdbcType=BIGINT},
+        #{name, jdbcType=VARCHAR},
+        #{age, jdbcType=INTEGER},
+        #{email, jdbcType=VARCHAR}
+        )
+    </insert>
+    <select id="findAll" resultMap="BaseResulMap">
+      SELECT
+      <include refid="BaseColumnList"/>
+      from t_users
+    </select>
+    <select id="selectOne" resultMap="BaseResulMap" parameterType="Long">
+        select
+        <include refid="BaseColumnList" />
+        from t_users
+        where id = #{id, jdbcType = INTEGER}
+    </select>
+</mapper>
