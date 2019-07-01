@@ -36,7 +36,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class OrderServiceImpl implements OrderService {
 
     private Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
-    private static AtomicInteger userId = new AtomicInteger(0);
+    private AtomicInteger userId = new AtomicInteger(0);
     private static final ExecutorService executorService = Executors.newCachedThreadPool();
     private static final int MAX_THREADS = 8;
     private volatile static List<Order> list = new CopyOnWriteArrayList();

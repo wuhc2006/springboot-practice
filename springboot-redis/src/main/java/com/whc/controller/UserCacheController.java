@@ -9,10 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.concurrent.TimeUnit;
 
@@ -41,8 +39,9 @@ public class UserCacheController {
      * @param id
      * @return
      */
-    @GetMapping("/getUserById")
-    public User getUserById(Long id) {
+    @GetMapping("/getUserById/{id}")
+    public User getUserById(@PathVariable Long id) {
+        Assert.notNull(id, "id不允许为空!");
         String key = "user_" + id;
         ValueOperations<String, Object> operations = redisTemplate.opsForValue();
         boolean hasKey = redisTemplate.hasKey(key);
