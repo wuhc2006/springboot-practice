@@ -9,6 +9,8 @@ import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 
 /**
+ * 分多次读取，避免一次读入过多
+ *
  * @Author Administrator
  * @Date 2019/7/1 21:44
  */
