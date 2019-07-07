@@ -65,14 +65,14 @@
 			<algorithm>latestMonth</algorithm>
 		</rule>
 	</tableRule>
-	
+
 	<tableRule name="auto-sharding-rang-mod">
 		<rule>
 			<columns>id</columns>
 			<algorithm>rang-mod</algorithm>
 		</rule>
 	</tableRule>
-	
+
 	<tableRule name="jch">
 		<rule>
 			<columns>id</columns>
@@ -81,7 +81,7 @@
 	</tableRule>
 
 	<function name="murmur"
-		class="io.mycat.route.function.PartitionByMurmurHash">
+			  class="io.mycat.route.function.PartitionByMurmurHash">
 		<property name="seed">0</property><!-- 默认是0 -->
 		<property name="count">2</property><!-- 要分片的数据库节点数量，必须指定，否则没法分片 -->
 		<property name="virtualBucketTimes">160</property><!-- 一个实际的数据库节点被映射为这么多虚拟节点，默认是160倍，也就是虚拟节点数是物理节点数的160倍 -->
@@ -94,11 +94,11 @@
 			  class="io.mycat.route.function.PartitionByCRC32PreSlot">
 	</function>
 	<function name="hash-int"
-		class="io.mycat.route.function.PartitionByFileMap">
+			  class="io.mycat.route.function.PartitionByFileMap">
 		<property name="mapFile">partition-hash-int.txt</property>
 	</function>
 	<function name="rang-long"
-		class="io.mycat.route.function.AutoPartitionByLong">
+			  class="io.mycat.route.function.AutoPartitionByLong">
 		<property name="mapFile">autopartition-long.txt</property>
 	</function>
 	<function name="mod-long" class="io.mycat.route.function.PartitionByMod">
@@ -111,19 +111,19 @@
 		<property name="partitionLength">128</property>
 	</function>
 	<function name="latestMonth"
-		class="io.mycat.route.function.LatestMonthPartion">
+			  class="io.mycat.route.function.LatestMonthPartion">
 		<property name="splitOneDay">24</property>
 	</function>
 	<function name="partbymonth"
-		class="io.mycat.route.function.PartitionByMonth">
+			  class="io.mycat.route.function.PartitionByMonth">
 		<property name="dateFormat">yyyy-MM-dd</property>
 		<property name="sBeginDate">2015-01-01</property>
 	</function>
-	
+
 	<function name="rang-mod" class="io.mycat.route.function.PartitionByRangeMod">
-        	<property name="mapFile">partition-range-mod.txt</property>
+		<property name="mapFile">partition-range-mod.txt</property>
 	</function>
-	
+
 	<function name="jump-consistent-hash" class="io.mycat.route.function.PartitionByJumpConsistentHash">
 		<property name="totalBuckets">3</property>
 	</function>

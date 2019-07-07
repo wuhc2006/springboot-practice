@@ -2,7 +2,6 @@ package whc.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import whc.dao.UsersMapper;
 import whc.entity.Response;
 import whc.entity.Users;
 import whc.service.UsersService;
