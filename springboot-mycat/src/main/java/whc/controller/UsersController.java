@@ -17,8 +17,12 @@ import java.util.Random;
 @RequestMapping("/users")
 public class UsersController {
 
-    @Autowired
     private UsersService usersService;
+
+    @Autowired
+    public void setUsersService(UsersService usersService) {
+        this.usersService = usersService;
+    }
 
     @GetMapping("/")
     public List<Users> findAll(){
@@ -26,16 +30,16 @@ public class UsersController {
     }
 
     @PostMapping("/{id}")
-    public Response insert(@PathVariable Long id){
+    public Response<?> insert(@PathVariable Long id){
         Random rnd = new Random();
         Users users = new Users(id, "admin", rnd.nextInt(10), "admin");
         usersService.insertOne(users);
-        return new Response(200, "成功", users);
+        return new Response<>(200, "成功", users);
     }
 
     @GetMapping("/{id}")
     public Response<Users> selectOne(@PathVariable Long id){
-        return new Response(200, "成功", usersService.selectOne(id));
+        return new Response<>(200, "成功", usersService.selectOne(id));
     }
 
     @GetMapping("/test")

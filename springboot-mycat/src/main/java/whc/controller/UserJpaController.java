@@ -17,8 +17,12 @@ import java.util.List;
 @RequestMapping("/jpa")
 public class UserJpaController {
 
-    @Autowired
     private UserJpaService userJpaService;
+
+    @Autowired
+    public void setUserJpaService(UserJpaService userJpaService) {
+        this.userJpaService = userJpaService;
+    }
 
     @GetMapping("/")
     public List<User> selectAll() {

@@ -20,8 +20,13 @@ import java.util.Random;
 @RequestMapping("/jdbc")
 public class UsersJdbcController {
 
-    @Autowired
     private UsersJdbc usersJdbc;
+
+    // 构造器注入
+    @Autowired
+    public void setUsersJdbc(UsersJdbc usersJdbc) {
+        this.usersJdbc = usersJdbc;
+    }
 
     @GetMapping("/name/{name}")
     public Response<List<Users>> selectByName(@PathVariable String name) throws Exception {
