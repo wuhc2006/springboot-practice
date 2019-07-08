@@ -39,4 +39,14 @@ public class UsersJdbcController {
         usersJdbc.executeUpdate(sql, params);
         return new Response(200, "成功", users);
     }
+
+    @PostMapping("/dist")
+    public Response insertMultiTransaction() throws Exception{
+        try{
+            usersJdbc.executeUpdateTransaction();
+        } catch (Exception e){
+            return new Response(500, "分布式事务控制成功！", e);// 出现异常，说明事务控制成功
+        }
+        return new Response(200, "分布式写库失败!", null);
+    }
 }

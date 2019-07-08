@@ -23,22 +23,24 @@ import java.util.List;
 public class UsersJdbc {
     /**
      * 查询列表
+     *
      * @param
      * @return
      * @throws
      */
     @SuppressWarnings("unchecked")
-    public static List<Users> executeQuery(String sql) throws Exception {
+    public List<Users> executeQuery(String sql) throws Exception {
         return executeQuery(sql, Collections.EMPTY_LIST);
     }
 
     /**
      * 根据条件查询列表
+     *
      * @param
      * @return
      * @throws
      */
-    public static List<Users> executeQuery(String sql, List<Object> params) throws Exception {
+    public List<Users> executeQuery(String sql, List<Object> params) throws Exception {
         List<Users> usersList = new ArrayList<Users>();
         try (Connection cn = ConnectionManager.getConnection();
              PreparedStatement statement = cn.prepareStatement(sql)) {
@@ -53,7 +55,7 @@ public class UsersJdbc {
         return usersList;
     }
 
-    private static void setParams(PreparedStatement statement, List<Object> params) throws Exception {
+    private void setParams(PreparedStatement statement, List<Object> params) throws Exception {
         for (int i = 0; i < params.size(); i++) {
             Object value = params.get(i);
             if (value instanceof Integer) {
@@ -72,7 +74,32 @@ public class UsersJdbc {
         }
     }
 
-    public static void executeUpdate(String sql, List<Object> params) throws Exception {
+    /**
+     * 测试分布式事务
+     *
+     * @throws Exception
+     */
+    public void executeUpdateTransaction() throws Exception {
+        try (Connection cn = ConnectionManager.getConnection()) {
+            cn.setAutoCommit(false);
+            try {
+                String sql1 = "insert into t_users(id, name, age, email) values(400002,'admin',20,'@qq.com')";// 让它成功
+                String sql2 = "insert into t_users(id, name, age, email) values(1,'whc',30,'@163.com')";// 让它失败
+                PreparedStatement statement1 = cn.prepareStatement(sql1);
+                PreparedStatement statement2 = cn.prepareStatement(sql2);
+                statement1.executeUpdate();
+                statement2.executeUpdate();
+                cn.commit();
+            } catch (Exception e) {
+                cn.rollback();
+                throw new RuntimeException(e);
+            } finally {
+                cn.setAutoCommit(true);
+            }
+        }
+    }
+
+    public void executeUpdate(String sql, List<Object> params) throws Exception {
         try (Connection cn = ConnectionManager.getConnection();
              PreparedStatement statement = cn.prepareStatement(sql)) {
             setParams(statement, params);
@@ -80,11 +107,12 @@ public class UsersJdbc {
         }
     }
 
-    public static Object executeScalar(String sql) throws Exception {
+
+    public Object executeScalar(String sql) throws Exception {
         throw new UnsupportedOperationException("TODO-");
     }
 
-    public static Object executeScalar(String sql, List<Object> params) throws Exception {
+    public Object executeScalar(String sql, List<Object> params) throws Exception {
         throw new UnsupportedOperationException("TODO-");
     }
 }
