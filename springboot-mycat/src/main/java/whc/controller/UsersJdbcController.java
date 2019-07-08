@@ -24,29 +24,29 @@ public class UsersJdbcController {
     private UsersJdbc usersJdbc;
 
     @GetMapping("/name/{name}")
-    public Response<Users> selectByName(@PathVariable String name) throws Exception {
+    public Response<List<Users>> selectByName(@PathVariable String name) throws Exception {
         String sql = "select * from t_users where name = ?";
         List<Object> params = Arrays.asList(name);
-        return new Response(200, "success", usersJdbc.executeQuery(sql, params));
+        return new Response<>(200, "success", usersJdbc.executeQuery(sql, params));
     }
 
     @PostMapping("/{id}")
-    public Response insert(@PathVariable Long id) throws Exception{
+    public Response<Users> insert(@PathVariable Long id) throws Exception{
         Random rnd = new Random();
         Users users = new Users(id, "a", rnd.nextInt(20), "@qq.com");
         List<Object> params = Arrays.asList(users.getId(), users.getName(), users.getAge(), users.getEmail());
         String sql = "insert into t_users(id, name, age, email) values(?,?,?,?)";
         usersJdbc.executeUpdate(sql, params);
-        return new Response(200, "成功", users);
+        return new Response<>(200, "成功", users);
     }
 
     @PostMapping("/dist")
-    public Response insertMultiTransaction() throws Exception{
+    public Response<?> insertMultiTransaction() throws Exception{
         try{
             usersJdbc.executeUpdateTransaction();
         } catch (Exception e){
-            return new Response(500, "分布式事务控制成功！", e);// 出现异常，说明事务控制成功
+            return new Response<>(500, "分布式事务控制成功！", e);// 出现异常，说明事务控制成功
         }
-        return new Response(200, "分布式写库失败!", null);
+        return new Response<>(200, "分布式写库失败!", null);
     }
 }
