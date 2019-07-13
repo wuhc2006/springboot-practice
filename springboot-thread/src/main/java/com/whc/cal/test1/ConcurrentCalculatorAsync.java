@@ -1,27 +1,20 @@
-package com.whc.test1;
+package com.whc.cal.test1;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.*;
 
 /**
  * @ClassName ConcurrentCalculator
- * @Description TODO 多线程实现同步求和，ExecutoreService提供了submit()方法，
- * 传递一个Callable，或Runnable，返回Future。
- * 如果Executor后台线程池还没有完成Callable的计算，这调用返回Future对象的get()方法，会阻塞直到计算完成。
+ * @Description TODO 并发计算数组的和，“异步”求和
  * @Author Administrator
  * @Date 2018/12/16 20:54
  * @Version 1.0
  */
-public class ConcurrentCalculator {
-    private ExecutorService executorService;
+public class ConcurrentCalculatorAsync {
+    private ExecutorService exec;
+    private CompletionService<Long> completionService;
+    //这个地方，纯粹是“一厢情愿”，“并行执行”不受咱们控制，取决于操作系统的“态度”
     private int cpuCoreNumber;
-    private List<Future<Long>> tasks = new ArrayList<>();
 
-    public ConcurrentCalculator() {
-        cpuCoreNumber = Runtime.getRuntime().availableProcessors();
-        executorService = Executors.newFixedThreadPool(cpuCoreNumber);
-    }
 
     class SumCalculator implements Callable<Long> {
         private int[] numbers;
@@ -45,6 +38,14 @@ public class ConcurrentCalculator {
         }
     }
 
+
+    public ConcurrentCalculatorAsync() {
+        cpuCoreNumber = Runtime.getRuntime().availableProcessors();
+        exec = Executors.newFixedThreadPool(cpuCoreNumber);
+        completionService = new ExecutorCompletionService<Long>(exec);
+    }
+
+
     public Long sum(final int[] numbers) {
         // 根据CPU核心个数拆分任务，创建FutureTask并提交到Executor
         for (int i = 0; i < cpuCoreNumber; i++) {
@@ -55,25 +56,25 @@ public class ConcurrentCalculator {
                 end = numbers.length;
             }
             SumCalculator subCalc = new SumCalculator(numbers, start, end);
-            FutureTask<Long> task = new FutureTask<Long>(subCalc);
-            tasks.add(task);
-            if (!executorService.isShutdown()) {
-                executorService.submit(task);
+            if (!exec.isShutdown()) {
+                completionService.submit(subCalc);
             }
+
         }
         return getResult();
     }
+
 
     /**
      * 迭代每个只任务，获得部分和，相加返回
      */
     public Long getResult() {
         Long result = 0L;
-        for (Future<Long> task : tasks) {
+        for (int i = 0; i < cpuCoreNumber; i++) {
             try {
-                // 如果计算未完成则阻塞
-                Long subSum = task.get();
+                Long subSum = completionService.take().get();
                 result += subSum;
+                System.out.println("subSum=" + subSum + ",result=" + result);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {
@@ -83,7 +84,9 @@ public class ConcurrentCalculator {
         return result;
     }
 
+
     public void close() {
-        executorService.shutdown();
+        exec.shutdown();
     }
+
 }

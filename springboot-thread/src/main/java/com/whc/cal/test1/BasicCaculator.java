@@ -1,4 +1,4 @@
-package com.whc.test1;
+package com.whc.cal.test1;
 
 /**
  * @ClassName BasicCaculator

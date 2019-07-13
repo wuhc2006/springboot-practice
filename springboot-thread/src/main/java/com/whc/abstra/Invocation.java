@@ -1,4 +1,4 @@
-package com.whc.abs;
+package com.whc.abstra;
 
 /**
  * @author Administrator

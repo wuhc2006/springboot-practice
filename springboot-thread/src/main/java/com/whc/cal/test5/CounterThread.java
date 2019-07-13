@@ -1,9 +1,6 @@
-package com.whc.test5;
+package com.whc.cal.test5;
 
-import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * @ClassName CounterThread

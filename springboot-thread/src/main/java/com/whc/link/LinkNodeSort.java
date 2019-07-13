@@ -1,11 +1,14 @@
 package com.whc.link;
 
-/**
- * @Author Administrator
- * @Date 2019/7/7 13:13
- */
-public class LinkListTest {
+import com.whc.link.LinkListTest;
 
+/**
+ * 单向链表的逆序
+ *
+ * @Author Administrator
+ * @Date 2019/7/8 21:46
+ */
+public class LinkNodeSort {
     public static void main(String[] args) {
         Node tail = new Node(6, null);
         Node node5 = new Node(5, tail);
@@ -14,8 +17,6 @@ public class LinkListTest {
         Node node2 = new Node(2, node3);
         Node head = new Node(1, node2);
 
-        System.out.println(head.toString());
-        Node n = Node.removeNode(head, 4);
-        System.out.println(n == null ? "empty" : n);
+        System.out.println(Node.reverseNode(head).toString());
     }
 }

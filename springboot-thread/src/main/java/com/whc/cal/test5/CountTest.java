@@ -1,4 +1,4 @@
-package com.whc.test5;
+package com.whc.cal.test5;
 
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutorService;

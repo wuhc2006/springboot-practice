@@ -1,4 +1,4 @@
-package com.whc.test3;
+package com.whc.cal.test3;
 
 /**
  * @ClassName MultiThreadSum

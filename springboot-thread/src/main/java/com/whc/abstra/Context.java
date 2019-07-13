@@ -1,4 +1,4 @@
-package com.whc.abs;
+package com.whc.abstra;
 
 /**
  * 接口是最抽象的一层，只定义需要实现的接口函数及功能
