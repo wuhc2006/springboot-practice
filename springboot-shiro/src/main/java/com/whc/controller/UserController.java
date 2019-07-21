@@ -13,11 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Date;
 
 /**
- * @ClassName UserController
- * @Description TODO 用户管理
- * @Author Administrator
- * @Date 2018/12/22 22:21
- * @Version 1.0
+ * @author Administrator
+ * @date 2018/12/22 22:21
  */
 @Api(value = "/user", tags = "用户管理")
 @RestController

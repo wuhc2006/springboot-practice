@@ -5,11 +5,8 @@ import com.whc.domain.entity.Menu;
 import java.util.List;
 
 /**
- * @ClassName MenuService
- * @Description TODO
- * @Author Administrator
- * @Date 2019/1/12 9:43
- * @Version 1.0
+ * @author Administrator
+ * @date 2019/1/12 9:43
  */
 public interface MenuService {
     int deleteByPrimaryKey(Long menuId);

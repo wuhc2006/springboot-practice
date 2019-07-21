@@ -3,11 +3,8 @@ package com.whc.util;
 import java.security.MessageDigest;
 
 /**
- * @ClassName MD5Util
- * @Description TODO MD5加密工具
- * @Author Administrator
- * @Date 2019/1/5 20:00
- * @Version 1.0
+ * @author Administrator
+ * @date 2019/1/5 20:00
  */
 public class MD5Util {
     public static String MD5(String inStr) {

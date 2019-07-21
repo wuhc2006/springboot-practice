@@ -10,11 +10,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @ClassName RoleServiceImpl
- * @Description TODO
- * @Author Administrator
- * @Date 2018/12/22 23:24
- * @Version 1.0
+ * @author Administrator
+ * @date 2018/12/22 23:24
  */
 @Service
 public class RoleServiceImpl implements RoleService {

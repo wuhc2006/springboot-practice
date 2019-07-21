@@ -12,11 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
- * @ClassName RoleMenuServiceImpl
- * @Description TODO
- * @Author Administrator
- * @Date 2019/1/12 9:48
- * @Version 1.0
+ * @author Administrator
+ * @date 2019/1/12 9:48
  */
 @Service
 public class RoleMenuServiceImpl implements RoleMenuService {

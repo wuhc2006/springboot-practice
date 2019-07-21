@@ -8,11 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * @ClassName RoleMenuController
- * @Description TODO
- * @Author Administrator
- * @Date 2019/1/12 9:51
- * @Version 1.0
+ * @author Administrator
+ * @date 2019/1/12 9:51
  */
 @RestController
 @RequestMapping("/roleMenu")

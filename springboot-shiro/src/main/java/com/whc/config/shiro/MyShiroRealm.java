@@ -19,11 +19,8 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * @ClassName MyShiroRealm
- * @Description TODO
- * @Author Administrator
- * @Date 2018/12/22 23:08
- * @Version 1.0
+ * @author Administrator
+ * @date 2018/12/22 23:08
  */
 public class MyShiroRealm extends AuthorizingRealm {
 

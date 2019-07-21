@@ -7,7 +7,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,19 +15,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @ClassName RoleController
- * @Description TODO
- * @Author Administrator
- * @Date 2018/12/26 22:31
- * @Version 1.0
+ * @author Administrator
+ * @date 2018/12/26 22:31
  */
 @Api(value = "/role", tags = "角色管理")
 @RestController
 @RequestMapping("/role")
 public class RoleController {
 
-    @Autowired
-    private RoleService roleService;
+    private final RoleService roleService;
+
+    public RoleController(RoleService roleService) {
+        this.roleService = roleService;
+    }
 
     /**
      * 列出所有角色

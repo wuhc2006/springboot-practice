@@ -9,11 +9,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @ClassName menuMapperImpl
- * @Description TODO
- * @Author Administrator
- * @Date 2019/1/12 9:44
- * @Version 1.0
+ * @author Administrator
+ * @date 2019/1/12 9:44
  */
 @Service
 public class MenuServiceImpl implements MenuService {

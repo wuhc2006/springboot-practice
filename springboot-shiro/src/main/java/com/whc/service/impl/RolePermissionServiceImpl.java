@@ -9,11 +9,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @ClassName RolePermissionServiceImpl
- * @Description TODO
- * @Author Administrator
- * @Date 2018/12/26 23:04
- * @Version 1.0
+ * @author Administrator
+ * @date 2018/12/26 23:04
  */
 @Service
 public class RolePermissionServiceImpl implements RolePermissionService {

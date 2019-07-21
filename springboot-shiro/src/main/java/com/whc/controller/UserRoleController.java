@@ -8,11 +8,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @ClassName UserRoleController
- * @Description TODO
- * @Author Administrator
- * @Date 2018/12/26 22:55
- * @Version 1.0
+ * @author Administrator
+ * @date 2018/12/26 22:55
  */
 @RestController
 @RequestMapping("/userRole")

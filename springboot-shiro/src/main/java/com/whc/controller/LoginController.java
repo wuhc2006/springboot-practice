@@ -28,11 +28,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * @ClassName UserController
- * @Description TODO
- * @Author Administrator
- * @Date 2018/12/22 22:21
- * @Version 1.0
+ * @author Administrator
+ * @date 2018/12/22 22:21
  */
 @Api(value = "用户登录管理", tags = "用户登录管理")
 @Controller

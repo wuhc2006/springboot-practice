@@ -1,7 +1,6 @@
 package com.whc.service.impl;
 
 import com.whc.dao.UserRoleMapper;
-import com.whc.domain.entity.User;
 import com.whc.domain.entity.UserRole;
 import com.whc.service.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +9,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @ClassName UserRoleServiceImpl
- * @Description TODO
- * @Author Administrator
- * @Date 2018/12/22 23:25
- * @Version 1.0
+ * @author Administrator
+ * @date 2018/12/22 23:25
  */
 @Service
 public class UserRoleServiceImpl implements UserRoleService {

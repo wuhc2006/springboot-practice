@@ -11,11 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- * @ClassName RolePermission
- * @Description TODO 权限管理
- * @Author Administrator
- * @Date 2018/12/26 23:00
- * @Version 1.0
+ * @author Administrator
+ * @date 2018/12/26 23:00
  */
 @RestController
 @RequestMapping("/permission")
