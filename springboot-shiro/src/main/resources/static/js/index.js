@@ -20,8 +20,9 @@ var orderBackPath = "http://cy.aimeng.tech:9002/sk/admin/om"//9002
 //账户管理
 var accountFrontPath = "http://cy.aimeng.tech/sk/um/api/v1"//8001
 var accountBackPath = "http://cy.aimeng.tech/sk/admin/um"//8002
+debugger
+var basePath = 'http://localhost:' + window.location.port
 
-var basePath = "http://localhost:8080"
 /* isLogin();
 //判断是否登录，如果没有登录，直接跳转到登录界面
 function isLogin() {

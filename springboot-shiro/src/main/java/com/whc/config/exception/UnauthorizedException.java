@@ -1,13 +1,12 @@
 package com.whc.config.exception;
 
 /**
- * @ClassName UnauthorizedException
- * @Description TODO
- * @Author Administrator
- * @Date 2019/1/5 15:51
- * @Version 1.0
+ * @author Administrator
+ * @date 2019/1/5 15:51
  */
 public class UnauthorizedException extends RuntimeException{
+
+    private static final long serialVersionUID = 1082692679846863960L;
 
     public UnauthorizedException(String msg){
         super(msg);

@@ -17,6 +17,14 @@ public class Role {
 
     private Integer status;
 
+    public Role(String name, String title, Date addTime, Integer type, Integer status) {
+        this.name = name;
+        this.title = title;
+        this.addTime = addTime;
+        this.type = type;
+        this.status = status;
+    }
+
     public Long getId() {
         return id;
     }

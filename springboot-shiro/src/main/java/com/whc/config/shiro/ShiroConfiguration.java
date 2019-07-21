@@ -16,11 +16,10 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * @ClassName ShiroConfiguration
- * @Description TODO shiro的配置类
- * @Author Administrator
- * @Date 2018/12/23 21:29
- * @Version 1.0
+ * shiro的配置类
+ *
+ * @author Administrator
+ * @date 2018/12/23 21:29
  */
 @Configuration
 public class ShiroConfiguration {
@@ -45,7 +44,6 @@ public class ShiroConfiguration {
     public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager){
 
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
-
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         //设置自定义的jwt过滤器
         Map<String, Filter> filterMap = new HashMap<>(1);
@@ -56,15 +54,17 @@ public class ShiroConfiguration {
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         //配置不会拦截的请求
         filterChainDefinitionMap.put("/swagger**","anon");
-        filterChainDefinitionMap.put("/login","anon");
+        filterChainDefinitionMap.put("/login*","anon");
         filterChainDefinitionMap.put("/logout","anon");
         filterChainDefinitionMap.put("/401", "anon");
+        filterChainDefinitionMap.put("/403", "anon");
         filterChainDefinitionMap.put("/404", "anon");
 
         //过滤链定义，从上向下顺序执行，一般将/**放在最为下边
         filterChainDefinitionMap.put("/*.html","authc");//拦截所有html请求
         filterChainDefinitionMap.put("/**","jwt");
 
+        shiroFilterFactoryBean.setUnauthorizedUrl("/401");
         //配置登录和登录成功页面，如果不配置，退出时默认跳转到login.jsp
         shiroFilterFactoryBean.setLoginUrl("/");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);

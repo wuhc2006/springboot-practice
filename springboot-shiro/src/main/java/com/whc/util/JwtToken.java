@@ -3,14 +3,14 @@ package com.whc.util;
 import org.apache.shiro.authc.AuthenticationToken;
 
 /**
- * @ClassName JwtToken
- * @Description TODO
- * @Author Administrator
- * @Date 2019/1/5 15:59
- * @Version 1.0
+ * jwt token
+ *
+ * @author Administrator
+ * @date 2019/1/5 15:59
  */
 public class JwtToken implements AuthenticationToken {
 
+    private static final long serialVersionUID = -2473879284422706611L;
     //密钥
     private String token;
 

@@ -1,16 +1,12 @@
 package com.whc.config.shiro;
 
 import com.whc.domain.entity.Permission;
-import com.whc.domain.entity.Role;
 import com.whc.domain.entity.User;
 import com.whc.domain.entity.UserRole;
 import com.whc.service.*;
 import com.whc.util.JwtToken;
 import com.whc.util.JwtUtil;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -57,6 +53,7 @@ public class MyShiroRealm extends AuthorizingRealm {
 
     /**
      * 授权
+     *
      * @param principal
      * @return
      */
@@ -65,6 +62,10 @@ public class MyShiroRealm extends AuthorizingRealm {
 
         String username = JwtUtil.getUsername(principal.toString());
         User user = userService.findByName(username);
+
+        if (user == null){
+            throw new UnknownAccountException();
+        }
 
         //查询用户具有的角色
         List<UserRole> userRoleList = userRoleService.selectByUserId(user.getId());
@@ -107,7 +108,6 @@ public class MyShiroRealm extends AuthorizingRealm {
             throw new AuthenticationException("username or password error");
         }
 
-        SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(token, token, getName());
-        return simpleAuthenticationInfo;
+        return new SimpleAuthenticationInfo(token, token, getName());
     }
 }

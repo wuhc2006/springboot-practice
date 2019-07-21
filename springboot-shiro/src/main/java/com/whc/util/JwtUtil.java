@@ -11,11 +11,10 @@ import java.io.UnsupportedEncodingException;
 import java.util.Date;
 
 /**
- * @ClassName JwtUtil
- * @Description TODO JWT加密，校验工具，并且使用用户自己的密码充当加密密钥
- * @Author Administrator
- * @Date 2019/1/5 14:46
- * @Version 1.0
+ * JWT加密，校验工具，并且使用用户自己的密码充当加密密钥
+ *
+ * @author Administrator
+ * @date 2019/1/5 14:46
  */
 public class JwtUtil {
 
@@ -24,6 +23,7 @@ public class JwtUtil {
 
     /**
      * 校验token是否正确
+     *
      * @param token 密钥
      * @param username
      * @param secret
@@ -44,6 +44,7 @@ public class JwtUtil {
 
     /**
      * 获得token中的信息无需secret解密也能获得
+     *
      * @param token token中包含的用户名
      * @return
      */
@@ -58,6 +59,7 @@ public class JwtUtil {
 
     /**
      * 生成签名，5分钟过期
+     *
      * @param username 用户名
      * @param secret  用户的密码
      * @return 加密的token

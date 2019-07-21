@@ -12,28 +12,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * @ClassName JwtFilter
- * @Description TODO
- * @Author Administrator
- * @Date 2019/1/5 16:45
- * @Version 1.0
+ * jwt过滤器来作为shiro的过滤器
+ *
+ * @author Administrator
+ * @date 2019/1/5 16:45
  */
 public class JwtFilter extends BasicHttpAuthenticationFilter {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
-
-    /**
-     * 判断用户是否想要登入，检查head里面是否有token字段就可以
-     * @param request
-     * @param response
-     * @return
-     */
-    @Override
-    protected boolean isLoginAttempt(ServletRequest request, ServletResponse response) {
-        HttpServletRequest req = (HttpServletRequest) request;
-        String authorization = req.getHeader("token");
-        return authorization != null;
-    }
 
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
@@ -50,7 +36,22 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
     }
 
     /**
+     * 判断用户是否想要登入，检查head里面是否有token字段就可以
+     *
+     * @param request
+     * @param response
+     * @return
+     */
+    @Override
+    protected boolean isLoginAttempt(ServletRequest request, ServletResponse response) {
+        HttpServletRequest req = (HttpServletRequest) request;
+        String authorization = req.getHeader("token");
+        return authorization != null;
+    }
+
+    /**
      * 执行登录
+     *
      * @param request
      * @param response
      * @return
@@ -70,6 +71,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
 
     /**
      * 支持跨域请求
+     *
      * @param request
      * @param response
      * @return

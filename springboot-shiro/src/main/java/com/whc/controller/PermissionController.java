@@ -1,6 +1,5 @@
 package com.whc.controller;
 
-import com.whc.domain.entity.Permission;
 import com.whc.service.PermissionService;
 import com.whc.vo.ApiResponseVO;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -9,14 +8,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 /**
- * @ClassName MenuController
- * @Description TODO 菜单管理
- * @Author Administrator
- * @Date 2018/12/26 22:33
- * @Version 1.0
+ * 菜单管理
+ *
+ * @author Administrator
+ * @date 2018/12/26 22:33
  */
 @RestController
 @RequestMapping("/menu")
@@ -28,12 +24,6 @@ public class PermissionController {
 
     @GetMapping("/list")
     public ApiResponseVO<Object> list(){
-        ApiResponseVO<Object> apiResponseVO = new ApiResponseVO<>();
-        apiResponseVO.setCode(200);
-        apiResponseVO.setMsg("获取菜单成功！");
-
-        List<Permission> permissionList = permissionService.selectPermissionsByRole(1l);
-        apiResponseVO.setData(permissionList);
-        return apiResponseVO;
+        return new ApiResponseVO<>(200, "获取菜单成功！", permissionService.selectPermissionsByRole(1l));
     }
 }

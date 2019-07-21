@@ -4,19 +4,13 @@ import com.whc.domain.entity.Menu;
 import com.whc.service.MenuService;
 import com.whc.vo.ApiResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 /**
- * @ClassName MenuController
- * @Description TODO
- * @Author Administrator
- * @Date 2019/1/12 9:50
- * @Version 1.0
+ * 菜单控制器
+ *
+ * @author Administrator
+ * @date 2019/1/12 9:50
  */
 @RestController
 @RequestMapping("/menu")
@@ -26,70 +20,35 @@ public class MenuController {
     private MenuService menuService;
 
     @GetMapping("/selectAll")
-    public ApiResponseVO<Object> selectAll(){
-        ApiResponseVO<Object> apiResponseVO = new ApiResponseVO<>();
-        List<Menu> menuList = menuService.selectAll();
-        apiResponseVO.setCode(200);
-        apiResponseVO.setMsg("查询成功！");
-        apiResponseVO.setData(menuList);
-        return apiResponseVO;
+    public ApiResponseVO<Object> selectAll() {
+        return new ApiResponseVO<>(200, "查询成功！", menuService.selectAll());
     }
 
     @GetMapping("/selectOne")
-    public ApiResponseVO<Object> selectOne(Long menuId){
-        ApiResponseVO<Object> apiResponseVO = new ApiResponseVO<>();
-        if (menuId != null){
-            Menu menu = menuService.selectByPrimaryKey(menuId);
-            apiResponseVO.setCode(200);
-            apiResponseVO.setMsg("查询成功！");
-            apiResponseVO.setData(menu);
-        }else{
-            apiResponseVO.setCode(500);
-            apiResponseVO.setMsg("入参为空");
+    public ApiResponseVO<Object> selectOne(@RequestParam Long menuId) {
+        Menu menu = menuService.selectByPrimaryKey(menuId);
+        if (menu != null) {
+            return new ApiResponseVO<>(200, "查询成功！", menu);
+        } else {
+            return new ApiResponseVO<>(500, "未找到符合条件的记录!", menuId);
         }
-        return apiResponseVO;
     }
 
     @PostMapping("/add")
-    public ApiResponseVO<Object> addMenu(Menu menu){
-        ApiResponseVO<Object> apiResponseVO = new ApiResponseVO<>();
-        if (menu != null){
-            menuService.insertSelective(menu);
-            apiResponseVO.setCode(200);
-            apiResponseVO.setMsg("添加成功！");
-        }else{
-            apiResponseVO.setCode(500);
-            apiResponseVO.setMsg("入参为空");
-        }
-        return apiResponseVO;
+    public ApiResponseVO<Object> addMenu(@RequestParam Menu menu) {
+        return new ApiResponseVO<>(200, "添加成功！", null);
     }
 
     @PostMapping("/update")
-    public ApiResponseVO<Object> updateMenu(Menu menu){
-        ApiResponseVO<Object> apiResponseVO = new ApiResponseVO<>();
-        if (menu!=null){
-            menuService.updateByPrimaryKeySelective(menu);
-            apiResponseVO.setCode(200);
-            apiResponseVO.setMsg("添加成功！");
-        }else{
-            apiResponseVO.setCode(500);
-            apiResponseVO.setMsg("入参为空");
-        }
-        return apiResponseVO;
+    public ApiResponseVO<Object> updateMenu(@RequestParam Menu menu) {
+        menuService.updateByPrimaryKeySelective(menu);
+        return new ApiResponseVO<>(200, "更新成功！", null);
     }
 
     @PostMapping("/delete")
-    public ApiResponseVO<Object> delete(Long menuId){
-        ApiResponseVO<Object> apiResponseVO = new ApiResponseVO<>();
-        if (menuId!=null){
-            menuService.deleteByPrimaryKey(menuId);
-            apiResponseVO.setCode(200);
-            apiResponseVO.setMsg("添加成功！");
-        }else{
-            apiResponseVO.setCode(500);
-            apiResponseVO.setMsg("入参为空");
-        }
-        return apiResponseVO;
+    public ApiResponseVO<Object> delete(@RequestParam Long menuId) {
+        menuService.deleteByPrimaryKey(menuId);
+        return new ApiResponseVO<>(200, "删除成功！", null);
     }
 
 }

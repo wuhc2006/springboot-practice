@@ -14,11 +14,13 @@ import java.io.Serializable;
 @ApiModel(value = "ApiResponseVO", description = "接口返回数据统一结构")
 public class ApiResponseVO<T> implements Serializable {
 
-    @ApiModelProperty(value = "接口响应信息，通常是业务处理的错误信息", required = true)
-    private String msg;
+    private static final long serialVersionUID = -8011033980394074300L;
 
     @ApiModelProperty(value = "接口状态码，通常是业务错误代码. 等于【0】时表示接口处理成功，没有任何错误", required = true)
     private Integer code = 0;
+
+    @ApiModelProperty(value = "接口响应信息，通常是业务处理的错误信息", required = true)
+    private String msg;
 
     @ApiModelProperty(value = "接口返回的具体数据，可以为单个记录、列表数组", required = true)
     private T data;
@@ -33,6 +35,13 @@ public class ApiResponseVO<T> implements Serializable {
         this.msg = msg;
         this.code = code;
         this.data = data;
+    }
+
+    public ApiResponseVO(Integer code, String msg, T data, Integer total) {
+        this.code = code;
+        this.msg = msg;
+        this.data = data;
+        this.total = total;
     }
 
     public ApiResponseVO(ExceptionCode exceptionCode){
@@ -73,6 +82,16 @@ public class ApiResponseVO<T> implements Serializable {
 
     public void setTotal(Integer total) {
         this.total = total;
+    }
+
+    @Override
+    public String toString() {
+        return "ApiResponseVO{" +
+                "msg='" + msg + '\'' +
+                ", code=" + code +
+                ", data=" + data +
+                ", total=" + total +
+                '}';
     }
 }
 

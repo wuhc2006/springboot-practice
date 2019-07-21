@@ -1,7 +1,8 @@
 package com.whc.executor;
 
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+
+import static java.util.concurrent.Executors.newFixedThreadPool;
 
 /**
  * @ClassName ExecutorTest
@@ -22,7 +23,7 @@ public class ExecutorTest implements Runnable {
     }
 
     public static void main(String[] args) {
-        ExecutorService executorService = Executors.newFixedThreadPool(5);
+        ExecutorService executorService = newFixedThreadPool(5);
         for (int i = 0; i < 500; i++) {
             executorService.execute(new ExecutorTest());
         }

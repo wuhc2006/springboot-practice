@@ -30,70 +30,33 @@ public class UserController{
     @ApiOperation(value = "查找用户", tags = "查找用户")
     @GetMapping("/selectOne")
     public ApiResponseVO<Object> selectOne(Long id){
-        ApiResponseVO<Object> responseVO = new ApiResponseVO<>();
-
-        //try to do something……
-        User user = userService.selectByPrimaryKey(id);
-
-        responseVO.setCode(200);
-        responseVO.setMsg("查找成功！");
-        responseVO.setData(user);
-        responseVO.setTotal(0);
-        return responseVO;
+        return new ApiResponseVO<>(200, "查找成功!", userService.selectByPrimaryKey(id));
     }
 
     @ApiOperation(value = "新增用户", tags = "新增用户")
     @GetMapping("/insertOne")
     public ApiResponseVO<Object> insertOne(String username, String password){
-        ApiResponseVO<Object> responseVO = new ApiResponseVO<>();
-
-        //try to do something……
-
-        User user = new User();
-        user.setUsername(username);
-        user.setPassword(password);
-        user.setAddTime(new Date());
+        User user = new User(username, password, new Date());
         this.userService.insertOne(user);
-
-        responseVO.setCode(200);
-        responseVO.setMsg("新增成功！");
-        responseVO.setData(user);
-        responseVO.setTotal(0);
-        return responseVO;
+        return new ApiResponseVO<>(200, "新增成功!", user);
     }
 
     @ApiOperation(value = "修改用户", tags = "修改用户")
     @GetMapping("/update")
     public ApiResponseVO<Object> update(Long id, String username, String password){
-        ApiResponseVO<Object> responseVO = new ApiResponseVO<>();
-
-        //try to do something……
         User user = this.userService.selectByPrimaryKey(id);
         user.setUsername(username);
         user.setPassword(password);
         user.setUpdateTime(new Date());
         this.userService.update(user);
-
-        responseVO.setCode(200);
-        responseVO.setMsg("修改成功！");
-        responseVO.setData(user);
-        responseVO.setTotal(0);
-        return responseVO;
+        return new ApiResponseVO<>(200, "修改成功!", user);
     }
 
-    @ApiOperation(value = "修改用户", tags = "修改用户")
+    @ApiOperation(value = "删除用户", tags = "删除用户")
     @GetMapping("/deleteById")
     public ApiResponseVO<Object> deleteById(Long id){
-        ApiResponseVO<Object> responseVO = new ApiResponseVO<>();
-
-        //try to do something……
         this.userService.deleteById(id);
-
-        responseVO.setCode(200);
-        responseVO.setMsg("删除成功！");
-        responseVO.setData(null);
-        responseVO.setTotal(0);
-        return responseVO;
+        return new ApiResponseVO<>(200, "删除成功！", id);
     }
 
 }

@@ -1,13 +1,9 @@
 package com.whc.controller;
 
-import com.whc.domain.entity.Menu;
 import com.whc.service.RoleMenuService;
 import com.whc.vo.ApiResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,18 +26,8 @@ public class RoleMenuController {
      * @return
      */
     @GetMapping("/selectMenus")
-    public ApiResponseVO<Object> selectMenuByRoleId(Long roleId){
-        ApiResponseVO<Object> apiResponseVO = new ApiResponseVO<>();
-        if (roleId != null){
-            List<Menu> menuList = roleMenuService.selectMenuByRoleId(roleId);
-            apiResponseVO.setCode(200);
-            apiResponseVO.setMsg("查找到菜单");
-            apiResponseVO.setData(menuList);
-        }else{
-            apiResponseVO.setCode(500);
-            apiResponseVO.setMsg("输入参数为空");
-        }
-        return apiResponseVO;
+    public ApiResponseVO<Object> selectMenuByRoleId(@RequestParam Long roleId){
+        return new ApiResponseVO<>(200, "查找到菜单", roleMenuService.selectMenuByRoleId(roleId));
     }
 
     /**

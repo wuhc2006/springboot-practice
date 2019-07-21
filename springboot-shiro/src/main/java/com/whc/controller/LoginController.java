@@ -11,18 +11,21 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * @ClassName UserController
@@ -35,6 +38,8 @@ import java.util.Map;
 @Controller
 public class LoginController {
 
+    private final Logger logger = LoggerFactory.getLogger(LoginController.class);
+
     @Autowired
     private UserService userService;
 
@@ -44,25 +49,24 @@ public class LoginController {
     public ApiResponseVO<Object> loginSuccess(HttpServletRequest request, HttpServletResponse response,
                                @RequestParam("username") String username, @RequestParam("password") String password){
 
-        ApiResponseVO<Object> apiResponseVO = new ApiResponseVO<>();
         if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)){
-            apiResponseVO.setCode(500);
-            apiResponseVO.setMsg("用户名或密码为空");
-            return apiResponseVO;
+            return new ApiResponseVO<>(500, "用户名或密码为空！", null);
         }
 
         User user = userService.findByName(username);
+        if (user == null){
+            return new ApiResponseVO<>(500, "用户不存在！", null);
+        }
         if (!user.getPassword().equals(password)){
-            apiResponseVO.setCode(500);
-            apiResponseVO.setMsg("密码错误！");
-            return apiResponseVO;
+            return new ApiResponseVO<>(500, "密码错误！", null);
         }
 
-        //构建jwttoken
+        //构建jwt token
         String token = JwtUtil.sign(username, password);
         JwtToken jwtToken = new JwtToken(token);
 
         //在这里验证登录
+        ApiResponseVO<Object> apiResponseVO = new ApiResponseVO<>();
         Subject subject = SecurityUtils.getSubject();
         try{
             subject.login(jwtToken);
@@ -89,6 +93,7 @@ public class LoginController {
             apiResponseVO.setCode(200);
             apiResponseVO.setMsg("success");
             apiResponseVO.setData(token);
+            logger.info("登录成功！{}，登录时间：{}", apiResponseVO, new SimpleDateFormat("yyy-MM-dd hh:mm:ss").format(new Date()));
             return apiResponseVO;
         }
 
@@ -106,6 +111,13 @@ public class LoginController {
         return "login";
     }
 
+    @ApiOperation(value = "未授权界面", tags = "未授权界面")
+    @RequestMapping("/403")
+    public String unAuthorizated(){
+        return "401";
+    }
+
+
     /**
      * 主页
      * @return
@@ -113,9 +125,13 @@ public class LoginController {
     @ApiOperation(value = "主页", tags = "主页")
     @RequestMapping("/index")
     public String index(Model model){
-        model.addAttribute("username", JwtUtil.getUsername((String)SecurityUtils.getSubject().getPrincipal()));
+        Object principal = SecurityUtils.getSubject().getPrincipal();
+        if (principal == null){
+            return "login";
+        }
+        model.addAttribute("username", JwtUtil.getUsername((String) principal));
         //加载菜单
-        List<Map<String, Object>> menuList = new ArrayList();
+        List<Map<String, Object>> menuList = new ArrayList<>();
         for (int i = 0; i < 3; i++){
             Map<String, Object> menu = new HashMap<>();
             menu.put("id", i + 1);
@@ -137,12 +153,7 @@ public class LoginController {
     @PostMapping("/logout")
     @ResponseBody
     public ApiResponseVO<Object> logout(HttpServletRequest request, HttpServletResponse response){
-
         SecurityUtils.getSubject().logout();
-        ApiResponseVO<Object> responseVO = new ApiResponseVO<>();
-        responseVO.setCode(200);
-        responseVO.setMsg("退出成功！");
-
-        return responseVO;
+        return new ApiResponseVO<>(200, "退出成功!", null);
     }
 }

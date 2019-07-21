@@ -10,34 +10,48 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * @ClassName ExceptionController
- * @Description TODO 统一处理异常
- * @Author Administrator
- * @Date 2019/1/5 15:53
- * @Version 1.0
+ * 统一处理异常
+ *
+ * @author Administrator
+ * @date 2019/1/5 15:53
  */
 @RestControllerAdvice
 public class ExceptionController {
 
-   /* // 捕捉shiro的异常
+    /**
+     * 捕捉shiro的异常
+     *
+     * @param e
+     * @return
+     */
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(ShiroException.class)
     public ApiResponseVO<Object> handle401(ShiroException e) {
-        return new ApiResponseVO<Object>(401, e.getMessage(), null);
+        return new ApiResponseVO<>(401, "未授权!", e.getMessage());
     }
 
-    // 捕捉UnauthorizedException
+    /**
+     * 捕捉UnauthorizedException
+     *
+     * @return
+     */
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(UnauthorizedException.class)
     public ApiResponseVO<Object> handle401() {
-        return new ApiResponseVO<Object>(401, "Unauthorized", null);
+        return new ApiResponseVO<>(401, "未授权!", null);
     }
 
-    // 捕捉其他所有异常
+    /**
+     * 捕捉其他所有异常
+     *
+     * @param request
+     * @param ex
+     * @return
+     */
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiResponseVO<Object> globalException(HttpServletRequest request, Throwable ex) {
-        return new ApiResponseVO<Object>(getStatus(request).value(), ex.getMessage(), null);
+        return new ApiResponseVO<>(getStatus(request).value(), ex.getMessage(), null);
     }
 
     private HttpStatus getStatus(HttpServletRequest request) {
@@ -46,5 +60,5 @@ public class ExceptionController {
             return HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return HttpStatus.valueOf(statusCode);
-    }*/
+    }
 }

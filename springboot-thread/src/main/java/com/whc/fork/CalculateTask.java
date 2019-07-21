@@ -15,6 +15,7 @@ public class CalculateTask extends RecursiveTask<Integer> {
      * 每个小任务至多累加20个数
      */
     private static final int THRESHOLD = 20;
+    private static final long serialVersionUID = 924419308837637525L;
     private int arr[];
     private int start;
     private int end;

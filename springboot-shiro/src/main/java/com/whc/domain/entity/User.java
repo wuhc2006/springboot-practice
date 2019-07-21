@@ -37,6 +37,12 @@ public class User {
     @ApiModelProperty("更新时间")
     private Date updateTime;
 
+    public User(String username, String password, Date addTime) {
+        this.username = username;
+        this.password = password;
+        this.addTime = addTime;
+    }
+
     public Long getId() {
         return id;
     }
