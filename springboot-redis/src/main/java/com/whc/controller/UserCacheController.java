@@ -15,11 +15,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @ClassName UserController
- * @Description 这是第一种缓存方式，手动设置key值
- * @Author Administrator
- * @Date 2019/2/25 22:29
- * @Version 1.0
+ * 这是第一种缓存方式，手动设置key值
+ *
+ * @author Administrator
+ * @date 2019/2/25 22:29
  */
 @RestController
 public class UserCacheController {

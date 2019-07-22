@@ -1,7 +1,6 @@
 package com.whc.service.impl;
 
 import com.whc.conf.jedis.RedisCache;
-import com.whc.util.SerializeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,15 +9,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
-import java.util.Random;
 import java.util.UUID;
 
 /**
- * @ClassName FileService
- * @Description 将文件缓存到redis或从redis下载文件
- * @Author Administrator
- * @Date 2019/3/2 21:17
- * @Version 1.0
+ * 将文件缓存到redis或从redis下载文件
+ *
+ * @author Administrator
+ * @date 2019/3/2 21:17
  */
 @Service
 public class FileService {

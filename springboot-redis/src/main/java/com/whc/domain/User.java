@@ -8,11 +8,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
- * @ClassName User
- * @Description TODO
- * @Author Administrator
- * @Date 2019/2/25 22:32
- * @Version 1.0
+ * @author Administrator
+ * @date 2019/2/25 22:32
  */
 @Entity
 @Table(name = "T_USER_TEST")

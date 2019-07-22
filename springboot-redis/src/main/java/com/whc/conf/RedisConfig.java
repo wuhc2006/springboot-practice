@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.interceptor.KeyGenerator;
@@ -16,18 +15,19 @@ import org.springframework.data.redis.cache.RedisCacheWriter;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.serializer.*;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializationContext;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 
-import java.lang.reflect.Method;
 import java.net.UnknownHostException;
 import java.time.Duration;
 
 /**
- * @ClassName RedisConfig
- * @Description TODO redis配置，采用jackson序列化和反序列化的方式实现
- * @Author Administrator
- * @Date 2019/3/3 10:19
- * @Version 1.0
+ * redis配置，采用jackson序列化和反序列化的方式实现
+ *
+ * @author Administrator
+ * @date 2019/3/3 10:19
  */
 @Configuration
 @EnableCaching

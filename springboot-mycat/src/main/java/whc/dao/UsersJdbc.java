@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -42,17 +43,26 @@ public class UsersJdbc {
      */
     public List<Users> executeQuery(String sql, List<Object> params) throws Exception {
         List<Users> usersList = new ArrayList<Users>();
+        ResultSet rs = null;
         try (Connection cn = ConnectionManager.getConnection();
              PreparedStatement statement = cn.prepareStatement(sql)) {
             setParams(statement, params);
-            ResultSet rs = statement.executeQuery();
+            rs = statement.executeQuery();
             while (rs.next()) {
                 Users users = new Users(rs.getLong("id"), rs.getString("name"), rs.getInt("age"),
                         rs.getString("email"));
                 usersList.add(users);
             }
+        } finally {
+            close(rs);
         }
         return usersList;
+    }
+
+    private void close(ResultSet rs) throws SQLException {
+        if (rs != null) {
+            rs.close();
+        }
     }
 
     private void setParams(PreparedStatement statement, List<Object> params) throws Exception {

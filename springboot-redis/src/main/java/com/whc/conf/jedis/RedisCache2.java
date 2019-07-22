@@ -2,11 +2,8 @@ package com.whc.conf.jedis;
 
 import com.whc.util.SerializeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-import org.thymeleaf.expression.Maps;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
@@ -17,15 +14,12 @@ import java.util.Set;
 import static com.whc.conf.jedis.RedisCache.getJedis;
 
 /**
- * @ClassName RedisUtil
- * @Description TODO
  * <p>
  * 此工具与RedisCache工具的putObject和getObject类似
  * 目前存在jedisPool无法注入的问题 2019.3.10
  * </p>
- * @Author Administrator
- * @Date 2019/3/10 11:27
- * @Version 1.0
+ * @author Administrator
+ * @date 2019/3/10 11:27
  */
 @Component
 public class RedisCache2 {

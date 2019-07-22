@@ -150,7 +150,7 @@ public class OrderServiceImpl implements OrderService {
             RedisCache.putObject("小米" + goodsId, goods.getInventory(), 60);
             return goods.getInventory();
         }
-        return Integer.valueOf(object.toString());
+        return Integer.parseInt(object.toString());
     }
 
     /**

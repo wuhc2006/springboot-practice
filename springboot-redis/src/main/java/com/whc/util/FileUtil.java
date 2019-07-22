@@ -43,39 +43,39 @@ public class FileUtil {
      * @return
      */
     private static byte[] toByteArray(String path) {
-        if (path == null){
+        if (path == null) {
             logger.error("路径为空！");
             return null;
         }
         File f = new File(path);
-        if (!f.exists()){
+        if (!f.exists()) {
             logger.error("文件不存在！");
             return null;
         }
 
         BufferedInputStream in = null;
-        try{
+        try {
             in = new BufferedInputStream(new FileInputStream(f));
             byte[] buffer = new byte[10240];
             int len = 0;
             int i = 0;
-            while ((len = in.read()) != -1){
+            while ((len = in.read()) != -1) {
                 buffer[i] = (byte) len;
                 i++;
             }
             byte[] bytes = new byte[i];
             System.arraycopy(buffer, 0, bytes, 0, i);
             return bytes;
-        }catch (FileNotFoundException e){
-            logger.error(e.getStackTrace().toString());
+        } catch (FileNotFoundException e) {
+            logger.error(e.getMessage());
         } catch (IOException e) {
-            logger.error(e.getStackTrace().toString());
-        }finally {
-            if (in != null){
+            logger.error(e.getMessage());
+        } finally {
+            if (in != null) {
                 try {
                     in.close();
                 } catch (IOException e) {
-                    logger.error(e.getStackTrace().toString());
+                    logger.error(e.getMessage());
                 }
             }
         }

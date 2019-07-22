@@ -2,17 +2,13 @@ package com.whc.mq;
 
 import com.whc.conf.jedis.RedisCache;
 import com.whc.domain.Order;
-import com.whc.util.SerializeUtil;
 import redis.clients.jedis.Jedis;
 
-import java.util.Random;
-
 /**
- * @ClassName Producer
- * @Description TODO 生产某种商品的订单
- * @Author Administrator
- * @Date 2019/3/10 15:33
- * @Version 1.0
+ * 生产某种商品的订单
+ *
+ * @author Administrator
+ * @date 2019/3/10 15:33
  */
 public class Producer implements Runnable {
 

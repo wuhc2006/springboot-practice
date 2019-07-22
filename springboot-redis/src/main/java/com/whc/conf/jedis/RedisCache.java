@@ -130,10 +130,10 @@ public class RedisCache {
         JedisPoolConfig poolConfig = new JedisPoolConfig();
         JedisPool jp = new JedisPool(poolConfig,
                 pps.getProperty("host"),
-                Integer.valueOf(pps.getProperty("port")),
-                Integer.valueOf(pps.getProperty("timeout")),
+                Integer.parseInt(pps.getProperty("port")),
+                Integer.parseInt(pps.getProperty("timeout")),
                 pps.getProperty(pps.getProperty("password")),
-                Integer.valueOf(pps.getProperty("database")));
+                Integer.parseInt(pps.getProperty("database")));
 
         jedis = jp.getResource();
         jedisPool = jp;

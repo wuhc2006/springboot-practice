@@ -15,11 +15,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 /**
- * @ClassName UploadController
- * @Description 文件上传
- * @Author Administrator
- * @Date 2019/3/2 20:56
- * @Version 1.0
+ * 文件上传
+ *
+ * @author Administrator
+ * @date 2019/3/2 20:56
  */
 @Controller
 public class FileController {

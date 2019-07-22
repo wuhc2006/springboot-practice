@@ -13,14 +13,12 @@ import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
 /**
- * @ClassName JedisConfig
- * @Description TODO 注册jedispool
+ * 注册jedispool
  * <p>
  *     @PropertySource替换@ConfigurationProperties,以前的只针对Springboot 1.x
  * </p>
- * @Author Administrator
- * @Date 2019/3/10 11:02
- * @Version 1.0
+ * @author Administrator
+ * @date 2019/3/10 11:02
  */
 @Configuration
 @EnableCaching

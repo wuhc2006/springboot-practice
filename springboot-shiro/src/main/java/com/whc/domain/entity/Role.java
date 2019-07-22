@@ -17,6 +17,9 @@ public class Role {
 
     private Integer status;
 
+    public Role() {
+    }
+
     public Role(String name, String title, Date addTime, Integer type, Integer status) {
         this.name = name;
         this.title = title;

@@ -10,11 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @ClassName OrderController
- * @Description TODO
- * @Author Administrator
- * @Date 2019/3/10 17:02
- * @Version 1.0
+ * @author Administrator
+ * @date 2019/3/10 17:02
  */
 @RestController
 public class OrderController {

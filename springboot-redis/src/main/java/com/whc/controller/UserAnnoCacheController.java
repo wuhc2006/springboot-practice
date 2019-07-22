@@ -10,11 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @ClassName UserAnnoCacheController
- * @Description TODO 注解形式完成redis缓存管理
- * @Author Administrator
- * @Date 2019/3/3 13:02
- * @Version 1.0
+ * 注解形式完成redis缓存管理
+ *
+ * @author Administrator
+ * @date 2019/3/3 13:02
  */
 @RestController
 public class UserAnnoCacheController {

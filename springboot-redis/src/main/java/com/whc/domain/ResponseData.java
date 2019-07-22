@@ -3,16 +3,13 @@ package com.whc.domain;
 import java.io.Serializable;
 
 /**
- * @ClassName ResponseData
- * @Description TODO
- * @Author Administrator
- * @Date 2019/2/27 22:46
- * @Version 1.0
+ * @author Administrator
+ * @date 2019/2/27 22:46
  */
 public class ResponseData<T> implements Serializable {
     private static final long serialVersionUID = 6757870792246920076L;
-    public static final int SUCCESS_CODE = 200;
-    public static final int FAIL_CODE = 500;
+    private static final int SUCCESS_CODE = 200;
+    private static final int FAIL_CODE = 500;
 
     private int code;
     private String message;

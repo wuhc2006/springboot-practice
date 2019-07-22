@@ -10,11 +10,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * @ClassName Goods
- * @Description TODO
- * @Author Administrator
- * @Date 2019/3/10 15:39
- * @Version 1.0
+ * @author Administrator
+ * @date 2019/3/10 15:39
  */
 @Entity
 @Table(name = "t_goods")

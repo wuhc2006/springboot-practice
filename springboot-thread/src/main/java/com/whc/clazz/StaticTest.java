@@ -21,7 +21,7 @@ public class StaticTest {
         System.out.println("2");
     }
 
-    static StaticTest test = new StaticTest();
+    private static StaticTest test = new StaticTest();
     static {
         System.out.println(test.get());
     }

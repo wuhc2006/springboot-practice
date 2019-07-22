@@ -11,11 +11,10 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 /**
- * @ClassName UserAnnoCacheServiceImpl
- * @Description TODO
- * @Author Administrator
- * @Date 2019/3/3 13:04
- * @Version 1.0
+ * 声明式缓存
+ *
+ * @author Administrator
+ * @date 2019/3/3 13:04
  */
 @Service("userAnnoCacheService")
 public class UserAnnoCacheServiceImpl implements UserService {

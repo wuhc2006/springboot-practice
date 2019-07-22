@@ -24,7 +24,7 @@ public enum SeckillStatus {
         return status;
     }
 
-    public void setStatus(int status) {
+    private void setStatus(int status) {
         this.status = status;
     }
 
@@ -32,7 +32,7 @@ public enum SeckillStatus {
         return message;
     }
 
-    public void setMessage(String message) {
+    private void setMessage(String message) {
         this.message = message;
     }
 }
