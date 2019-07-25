@@ -10,6 +10,7 @@
     <title>商家后台管理系统</title>
     <link rel="stylesheet" href="./frame/layui/css/layui.css">
     <link rel="stylesheet" href="./frame/static/css/style.css">
+    <link rel="stylesheet" href="./css/main.css">
     <link rel="icon" href="./frame/static/image/code.png">
 </head>
 
@@ -62,7 +63,11 @@
             </ul>
         </div>
         <!-- side -->
-        <div class="layui-side my-side">
+        <div class="layui-side layui-bg-black my-side">
+            <div class="user-photo">
+                <a class="img" title="我的头像" ><img src="./imgs/photo.jpg"></a>
+                <p>你好！<span class="userName">whc</span>, 欢迎登录</p>
+            </div>
             <div class="layui-side-scroll">
                 <ul class="layui-nav layui-nav-tree " lay-shrink="all" id="side-main" lay-filter="side-main" >
                     <!---th:each="menu:${menuList}"-->
@@ -90,7 +95,7 @@
                 </ul>
                 <div class="layui-tab-content">
                     <div class="layui-tab-item layui-show">
-                        <iframe id="iframe" src="pages/welcome.html" frameborder="0"></iframe>
+                        <iframe id="iframe" src="pages/main.html" frameborder="0"></iframe>
                     </div>
                 </div>
             </div>
