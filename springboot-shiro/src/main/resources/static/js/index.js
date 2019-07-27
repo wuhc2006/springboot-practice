@@ -12,14 +12,14 @@ layui.config({
 
 //var basePath = 'http://127.0.0.1/sk/admin/um';
 //供应商
-var supplierFrontPath = "http://cy.aimeng.tech/sk/sv/api/v1"//7001
-var supplierBackPath = "http://cy.aimeng.tech/sk/admin/sv"//7002
+var supplierFrontPath = 'http://localhost:' + window.location.port//7001
+var supplierBackPath = 'http://localhost:' + window.location.port//7002
 //订单
-var orderFrontPath = "http://cy.aimeng.tech:9001/sk/om/api/v1"//9001
-var orderBackPath = "http://cy.aimeng.tech:9002/sk/admin/om"//9002
+var orderFrontPath = 'http://localhost:' + window.location.port//9001
+var orderBackPath = 'http://localhost:' + window.location.port//9002
 //账户管理
-var accountFrontPath = "http://cy.aimeng.tech/sk/um/api/v1"//8001
-var accountBackPath = "http://cy.aimeng.tech/sk/admin/um"//8002
+var accountFrontPath = 'http://localhost:' + window.location.port//8001
+var accountBackPath = "http://localhost:"+ window.location.port//8002
 var basePath = 'http://localhost:' + window.location.port
 
 /* isLogin();

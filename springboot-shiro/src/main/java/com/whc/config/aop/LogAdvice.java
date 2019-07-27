@@ -11,6 +11,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * @author Administrator
  * @date 2019/7/26 22:40
@@ -21,7 +24,7 @@ public class LogAdvice {
 
     private static final Logger logger = LoggerFactory.getLogger(LogAdvice.class);
 
-    @Pointcut("execution(* com.whc.controller..*(..))")
+    @Pointcut("execution(* com.whc.service..*(..))")
     public void saveLog() {
     }
 
@@ -40,7 +43,7 @@ public class LogAdvice {
         Object[] values = point.getArgs();
         Object token = ContextUtil.get();
         token = token == null ? null : JwtUtil.getUsername(token.toString());
-        logger.info(token + "执行了方法" + method + ".参数：" + getInvokeInfo(params, values));
+        logger.info(token + "在" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "执行了方法;" + method + "参数：" + getInvokeInfo(params, values));
 
         Object result = null;
         try {

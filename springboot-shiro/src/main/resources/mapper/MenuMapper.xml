@@ -155,4 +155,37 @@
     <include refid="Base_Column_List" />
     from t_menu
   </select>
+    <select id="list" resultType="com.whc.domain.entity.Menu" parameterType="com.whc.domain.entity.Menu">
+      select * from t_menu
+      <where>
+        1 = 1
+        <if test="parentId != null and parentId !=''" >
+          and parent_id like #{parentId,jdbcType=BIGINT}"%"
+        </if>
+        <if test="name != null and name!=''" >
+          and name like "%"#{name,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="parentName != null and parentName!=''" >
+          and parent_name like "%"#{parentName,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="path != null and path!=''" >
+          and path like #{path,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="createTime != null and createTime!=''" >
+          and create_time = #{createTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="createPeople != null and createPeople!=''" >
+          and create_people = #{createPeople,jdbcType=VARCHAR}
+        </if>
+        <if test="updateTime != null and updateTime!=''" >
+          and update_time = #{updateTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="updatePeople != null" >
+          and update_people = #{updatePeople,jdbcType=VARCHAR}
+        </if>
+        <if test="sortNo != null" >
+          and sort_no = #{sortNo,jdbcType=BIGINT}
+        </if>
+      </where>
+    </select>
 </mapper>

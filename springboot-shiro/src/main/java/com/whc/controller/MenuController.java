@@ -1,5 +1,7 @@
 package com.whc.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.whc.domain.entity.Menu;
 import com.whc.service.MenuService;
 import com.whc.vo.ApiResponseVO;
@@ -19,9 +21,11 @@ public class MenuController {
     @Autowired
     private MenuService menuService;
 
-    @GetMapping("/selectAll")
-    public ApiResponseVO<Object> selectAll() {
-        return new ApiResponseVO<>(200, "查询成功！", menuService.selectAll());
+    @GetMapping("/list")
+    public ApiResponseVO<Object> selectAll(int page, int pageSize, Menu menu) {
+        PageHelper.startPage(page, pageSize);
+        PageInfo<Menu> pageInfo = new PageInfo<>(menuService.list(menu));
+        return new ApiResponseVO<>(200, "查询成功！", pageInfo.getList(), (int)pageInfo.getTotal());
     }
 
     @GetMapping("/selectOne")

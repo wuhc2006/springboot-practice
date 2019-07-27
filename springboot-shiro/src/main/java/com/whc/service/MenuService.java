@@ -22,4 +22,6 @@ public interface MenuService {
     int updateByPrimaryKey(Menu record);
 
     List<Menu> selectAll();
+
+    List<Menu> list(Menu menu);
 }

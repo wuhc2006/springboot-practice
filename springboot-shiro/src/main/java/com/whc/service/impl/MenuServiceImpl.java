@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Administrator
@@ -51,5 +52,10 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public List<Menu> selectAll() {
         return menuMapper.selectAll();
+    }
+
+    @Override
+    public List<Menu> list(Menu menu) {
+        return menuMapper.list(menu);
     }
 }
