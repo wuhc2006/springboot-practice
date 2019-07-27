@@ -14,65 +14,28 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
         var roleTitle = $.trim($("#roleTitle").val());
         // 表格渲染
         var tableIns = table.render({
-            elem: '#dateTable' //指定原始表格元素选择器（推荐id选择器）
+            elem: '#dateTable' ,//指定原始表格元素选择器（推荐id选择器）
                 /*	            , height: vipTable.getFullHeight()    //容器高度*/
-                ,
             response: {
-                statusName: 'code' //数据状态的字段名称，默认：code
-                    ,
-                statusCode: 200 //成功的状态码，默认：0
-                    ,
-                msgName: 'msg' //状态信息的字段名称，默认：msg
-                    ,
-                countName: 'total' //数据总数的字段名称，默认：count
-                    ,
+                statusName: 'code' ,//数据状态的字段名称，默认：code
+                statusCode: 200, //成功的状态码，默认：0
+                msgName: 'msg', //状态信息的字段名称，默认：msg
+                countName: 'total', //数据总数的字段名称，默认：count
                 dataName: 'data' //数据列表的字段名称，默认：data
             },
-            method: 'get',
             request: { //分页   设置分页名称
-                pageName: 'page' //页码的参数名称，默认：page
-                    ,
+                pageName: 'page', //页码的参数名称，默认：page
                 limitName: 'pageSize' //每页数据量的参数名，默认：limit
             },
             cols: [
                 [ //标题栏
-                    {
-                        type: 'numbers',
-                        title: '序号',
-                        width: 60,
-                        align: 'center'
-                    }, {
-                        field: 'name',
-                        title: '角色代号',
-                        width: 200,
-                        align: 'center'
-                    }, {
-                        field: 'title',
-                        title: '角色名称',
-                        width: 200,
-                        align: 'center'
-                    }, {
-                        field: 'type',
-                        title: '角色类型',
-                        width: 200,
-                        align: 'center' /*,templet: '#roleTypeTpl'*/
-                    }, {
-                        field: 'status',
-                        title: '状态',
-                        width: 200,
-                        align: 'center' /*,templet: '#roleStatusTpl'*/
-                    }, {
-                        field: 'addTime',
-                        title: '创建时间',
-                        width: 300,
-                        align: 'center'
-                    }, {
-                        fixed: 'right',
-                        title: '操作',
-                        width: 450,
-                        align: 'center',
-                        toolbar: '#barOption'
-                    } //这里的toolbar值是模板元素的选择器
+                    {type: 'numbers',title: '序号',width: 60,align: 'center'},
+                    {field: 'name',title: '角色代号',width: 200,align: 'center'},
+                    {field: 'title',title: '角色名称',width: 200,align: 'center'},
+                    {field: 'type',title: '角色类型',width: 200,align: 'center'},
+                    {field: 'status',title: '状态',width: 200,align: 'center'},
+                    {field: 'addTime',title: '创建时间',width: 300,align: 'center'},
+                    {fixed: 'right',title: '操作',width: 450,align: 'center',toolbar: '#barOption'} //这里的toolbar值是模板元素的选择器
                 ]
             ],
             id: 'dataCheck',
@@ -91,11 +54,6 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
             done: function (res, curr, count) {
                 //如果是异步请求数据方式，res即为你接口返回的信息。
                 //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
-                console.log(res);
-                //得到当前页码
-                console.log(curr);
-                //得到数据总量
-                console.log(count);
                 //角色类型转换
                 $("[data-field='type']").children().each(function () {
                     if ($(this).text() == '0') {
@@ -122,7 +80,6 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
     //loadData();
     //从后台加载数据
     function loadData() {
-        debugger
         $.ajax({
             type: 'get',
             url: basePath + '/role/list',
@@ -133,9 +90,9 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
             },
             dataTable: 'json',
             success: function (result) {
-                var role = result.data;
-                for (var i = 0; i < role.length; i++) {
-                    var roleTypeText;
+                let role = result.data;
+                for (let i = 0; i < role.length; i++) {
+                    let roleTypeText;
                     if (role[i].type == 1) {
                         roleTypeText = '管理员'
                     } else {
@@ -171,20 +128,14 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
         //打开新增菜单对话框
         layer.open({
             type: 1,
-            skin: 'layui-layer-lan' //样式类名
-                ,
+            skin: 'layui-layer-lan', //样式类名
             title: '新增角色',
-            area: ['600px', '420px'] // 宽高
-                ,
-            offset: '100px' //只定义top坐标，水平保持居中
-                ,
+            area: ['600px', '420px'], // 宽高
+            offset: '100px', //只定义top坐标，水平保持居中
             shade: ['0.3', '#000'],
-            maxmin: true //最大最小化。
-                ,
-            content: $('#addRolePage') // 内容，content可传入的值是灵活多变的，不仅可以传入普通的html内容，还可以指定DOM，更可以随着type的不同而不同。
-                ,
-            btn: ['保存', '取消'] //弹出框里的确认，取 消
-                ,
+            maxmin: true, //最大最小化。
+            content: $('#addRolePage'), // 内容，content可传入的值是灵活多变的，不仅可以传入普通的html内容，还可以指定DOM，更可以随着type的不同而不同。
+            btn: ['保存', '取消'], //弹出框里的确认，取 消
             yes: function (index, layero) { //该回调携带两个参数，分别为当前层索引、当前层DOM对象。如：
                 var roleNameAdd = $('#roleNameAdd').val();
                 var roleTitleAdd = $('#roleTitleAdd').val();

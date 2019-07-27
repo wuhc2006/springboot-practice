@@ -20,4 +20,6 @@ public interface MenuMapper {
     List<Menu> selectAll();
 
     List<Menu> list(Menu menu);
+
+    List<Menu> selectByUserId(Long userId);
 }

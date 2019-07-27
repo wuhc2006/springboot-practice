@@ -18,4 +18,6 @@ public interface UserMapper {
     boolean deleteById(Long id);
     boolean update(User user);
     User findByName(String username);
+
+    List<User> list(User user);
 }

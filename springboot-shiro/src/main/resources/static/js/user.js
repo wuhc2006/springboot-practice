@@ -33,23 +33,12 @@
 	                        align: 'center',
 	                        sort: true
 	                    }, {
-	                        field: 'roleType',
-	                        title: '角色类型',
-	                        width: 150,
-	                        align: 'center'
-	                    },{
-	                        field: 'roleTitle',
-	                        title: '角色名称',
-	                        width: 150,
-	                        align: 'center',
-	                        sort: true
-	                    },  {
 	                        field: 'userStatus',
 	                        title: '状态',
 	                        width: 150,
 	                        align: 'center'
 	                    }, {
-	                        field: 'userCreateTime',
+	                        field: 'addTime',
 	                        title: '创建时间',
 	                        width: 300,
 	                        sort: true,
@@ -63,11 +52,15 @@
 	                ]
 	            ],
 	            id: 'dataCheck',
-	            url: accountBackPath + '/user/listUsers',
+	            url: accountBackPath + '/user/list',
 	            method: 'get',
 	            page: true,
 	            limits: [30, 60, 90, 150, 300],
 	            limit: 30, //默认采用30
+				request: { //分页   设置分页名称
+					pageName: 'page', //页码的参数名称，默认：page,
+					limitName: 'pageSize' //每页数据量的参数名，默认：limit
+				},
 	            response: {
 	                statusName: 'code', //数据状态的字段名称，默认：code
 	                statusCode: 200, //成功的状态码，默认：0
@@ -201,54 +194,35 @@
 	                var status = $('#userStatusAdd').val();
 	                var password = $('#passwordAdd').val();
 	                var roleId;
-	                $.ajax({
-	                    type: "post",
-	                    dataType: 'json',
-	                    url: accountBackPath + '/role/list',
-	                    data: {
-	                        page: 1,
-	                        pageSize: 100,
-	                        "name": "",
-	                        "title": title,
-	                        "type": type
-	                    },
-	                    success: function (result) {
-	                        var role = result.data;
-	                        //获取第一个的roleid
-	                        roleId = role[0].id;
-	                        $.ajax({
-	                            type: "POST",
-	                            dataType: 'json',
-	                            url: accountBackPath + '/user/addUser',
-	                            data: {
-	                                "loginName": loginName,
-	                                "name": name,
-	                                "roleId": roleId,
-	                                "roleType": type,
-	                                "roleTitle": title,
-	                                "status": status,
-	                                "password": password
-	                            },
-	                            success: function (data) {
-	                                debugger;
-	                                console.log(data);
-	                                if (data.code == 200) {
-	                                    layer.msg('添加成功!', {
-	                                        icon: 6
-	                                    });
-	                                    queryDynamic();
-	                                } else {
-	                                    layer.msg(data.msg, {
-	                                        icon: 5,
-	                                        time: 2000
-	                                    }, function (index) {
-	                                        layer.close(index);
-	                                    });
-	                                }
-	                            }
-	                        });
-	                    }
-	                });
+					$.ajax({
+						type: "POST",
+						dataType: 'json',
+						url: accountBackPath + '/user/insert',
+						data: {
+							"loginName": loginName,
+							"username": name,
+							"roleId": roleId,
+							"roleType": type,
+							"roleTitle": title,
+							"status": status,
+							"password": password
+						},
+						success: function (data) {
+							if (data.code == 200) {
+								layer.msg('添加成功!', {
+									icon: 6
+								});
+								queryDynamic();
+							} else {
+								layer.msg(data.msg, {
+									icon: 5,
+									time: 2000
+								}, function (index) {
+									layer.close(index);
+								});
+							}
+						}
+					});
 	                layer.closeAll();
 	            }
 	        });
@@ -319,7 +293,7 @@
 	                    var password = $('#passwordAdd').val();
 	                    var roleId;
 	                    $.ajax({
-	                        type: "post",
+	                        type: "get",
 	                        dataType: 'json',
 	                        url: accountBackPath + '/role/list',
 	                        data: {
@@ -338,11 +312,12 @@
 	                            $.ajax({
 	                                type: "POST",
 	                                dataType: 'json',
-	                                url: accountBackPath + '/user/updateUser',
+	                                url: accountBackPath + '/user/update',
 	                                data: {
-	                                    'userId': data.userId,
+	                                    'id': data.id,
 	                                    'roleId': roleId,
-	                                    'name': name,
+	                                    'username': name,
+										'password': password,
 	                                    "roleType": type,
 	                                    'roleTitle': title,
 	                                    "status": status
@@ -378,9 +353,9 @@
 	                $.ajax({
 	                    type: "POST",
 	                    dataType: 'json',
-	                    url: accountBackPath + '/user/deleteUser',
+	                    url: accountBackPath + '/user/delete',
 	                    data: {
-	                        'userId': data.userId
+	                        'id': data.userId
 	                    },
 	                    success: function (data) {
 	                        if (data.code == 200) {

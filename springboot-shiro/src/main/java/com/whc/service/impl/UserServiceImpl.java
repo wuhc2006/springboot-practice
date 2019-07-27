@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> selectAll() {
-        return null;
+        return userMapper.selectAll();
     }
 
     @Override
@@ -46,5 +46,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByName(String username) {
         return userMapper.findByName(username);
+    }
+
+    @Override
+    public List<User> list(User user) {
+        return userMapper.list(user);
     }
 }

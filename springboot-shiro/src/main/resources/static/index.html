@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" >
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta http-equiv="Access-Control-Allow-Origin" content="*" />
+    <meta http-equiv="Access-Control-Allow-Origin" content="*"/>
     <title>商家后台管理系统</title>
     <link rel="stylesheet" href="./frame/layui/css/layui.css">
     <link rel="stylesheet" href="./frame/static/css/style.css">
@@ -15,271 +15,283 @@
 </head>
 
 <body>
-    <!-- layout admin -->
-    <div class="layui-layout layui-layout-admin admin">
-        <!-- 添加skin-1类可手动修改主题为纯白，添加skin-2类可手动修改主题为蓝白 -->
-        <!-- header -->
-        <div class="layui-header my-header" id="my-header">
-            <a href="/index">
-                <!--<img class="my-header-logo" src="" alt="logo">-->
-                <div class="my-header-logo">餐饮后台管理系统</div>
-            </a>
-            <div class="my-header-btn">
-                <button class="layui-btn layui-btn-small btn-nav">
-                    <i class="layui-icon">&#xe65f;</i>
-                </button>
-            </div>
+<!-- layout admin -->
+<div class="layui-layout layui-layout-admin admin">
+    <!-- 添加skin-1类可手动修改主题为纯白，添加skin-2类可手动修改主题为蓝白 -->
+    <!-- header -->
+    <div class="layui-header my-header" id="my-header">
+        <a href="/index">
+            <!--<img class="my-header-logo" src="" alt="logo">-->
+            <div class="my-header-logo">餐饮后台管理系统</div>
+        </a>
+        <div class="my-header-btn">
+            <button class="layui-btn layui-btn-small btn-nav">
+                <i class="layui-icon">&#xe65f;</i>
+            </button>
+        </div>
 
-            <!-- 顶部左侧添加选项卡监听 -->
-            <ul class="layui-nav" lay-filter="side-top-left"></ul>
+        <!-- 顶部左侧添加选项卡监听 -->
+        <ul class="layui-nav" lay-filter="side-top-left"></ul>
 
-            <!-- 顶部右侧添加选项卡监听 -->
-            <ul class="layui-nav my-header-user-nav" lay-filter="side-top-right">
-                <li class="layui-nav-item">
-                    <a class="name" href="javascript:;">
-                        <i class="layui-icon">&#xe66a;</i>主题</a>
-                    <dl class="layui-nav-child">
-                        <dd data-skin="0">
-                            <a href="javascript:;">默认</a>
-                        </dd>
-                        <dd data-skin="1">
-                            <a href="javascript:;">纯白</a>
-                        </dd>
-                        <dd data-skin="2">
-                            <a href="javascript:;">蓝白</a>
-                        </dd>
-                    </dl>
+        <!-- 顶部右侧添加选项卡监听 -->
+        <ul class="layui-nav my-header-user-nav" lay-filter="side-top-right">
+            <li class="layui-nav-item">
+                <a class="name" href="javascript:;" >
+                    <i class="layui-icon">&#xe66a;</i>主题</a>
+                <dl class="layui-nav-child">
+                    <dd data-skin="0">
+                        <a href="javascript:;">默认</a>
+                    </dd>
+                    <dd data-skin="1">
+                        <a href="javascript:;">纯白</a>
+                    </dd>
+                    <dd data-skin="2">
+                        <a href="javascript:;">蓝白</a>
+                    </dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item">
+                <a class="name" href="javascript:;" id="user-logo" th:text="${username}">
+                </a>
+                <dl class="layui-nav-child">
+                    <dd>
+                        <a href="javascript:;" onclick="logout();return false;">
+                            <i class="layui-icon">&#x1007;</i>退出</a>
+                    </dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+    <!-- side -->
+    <div class="layui-side layui-bg-black my-side">
+        <div class="user-photo">
+            <a class="img" title="我的头像"><img src="./imgs/photo.jpg"></a>
+            <p>你好！<span class="userName" th:text="${username}"></span>, 欢迎登录</p>
+        </div>
+        <div class="layui-side-scroll">
+            <ul class="layui-nav layui-nav-tree " lay-shrink="all" id="side-main" lay-filter="side-main">
+                <li class='layui-nav-item' th:each="menu:${menuList}" th:id="${menu.menuId}">
+                    <a href="javascript:void(0);" th:href-url="${menu.path}" th:text ="${menu.name}" >
+                        <i class='layui-icon'>&#xe653;</i>
+                    </a>
                 </li>
-                <li class="layui-nav-item">
-                    <a class="name" href="javascript:;" id="user-logo" th:text="${username}">
-                        </a>
-                    <dl class="layui-nav-child">
-                        <dd>
-                            <a href="javascript:;" onclick="logout();return false;">
-                                <i class="layui-icon">&#x1007;</i>退出</a>
-                        </dd>
-                    </dl>
+                <!--<li class='layui-nav-item' id="2">
+                    <a href='javascript:void(0);' href-url='./pages/menu/menu-main.html'><i class='layui-icon'>&#xe653;</i>菜单管理</a>
                 </li>
+                <li class='layui-nav-item' id="3">
+                    <a href='javascript:void(0);' href-url='./pages/role/role-main.html'><i class='layui-icon'>&#xe656;</i>角色管理</a>
+                </li>
+                <li class='layui-nav-item' id="4">
+                    <a href='javascript:void(0);' href-url='http://out.bitunion.org'><i class='layui-icon'>&#xe60a;</i>商品管理</a>
+                </li>-->
             </ul>
         </div>
-        <!-- side -->
-        <div class="layui-side layui-bg-black my-side">
-            <div class="user-photo">
-                <a class="img" title="我的头像" ><img src="./imgs/photo.jpg"></a>
-                <p>你好！<span class="userName">whc</span>, 欢迎登录</p>
-            </div>
-            <div class="layui-side-scroll">
-                <ul class="layui-nav layui-nav-tree " lay-shrink="all" id="side-main" lay-filter="side-main" >
-                    <!---th:each="menu:${menuList}"-->
-                    <!--<li class='layui-nav-item' th:each="entry:${menu}" th:text="${entry}"><i class='layui-icon'>&#xe653;</i></a></li>-->
-                    <li class='layui-nav-item' id="2">
-                        <a href='javascript:void(0);' href-url='./pages/menu/menu-main.html'><i class='layui-icon'>&#xe653;</i>菜单管理</a>
-                    </li>
-                    <li class='layui-nav-item' id="3">
-                        <a href='javascript:void(0);' href-url='./pages/role/role-main.html'><i class='layui-icon'>&#xe656;</i>角色管理</a>
-                    </li>
-                    <li class='layui-nav-item' id="4">
-                        <a href='javascript:void(0);' href-url='http://www.baidu.com'><i class='layui-icon'>&#xe60a;</i>商品管理</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <!-- body -->
-        <div class="layui-body my-body">
-            <div class="layui-tab layui-tab-card my-tab" lay-filter="card" lay-allowClose="true">
-                <ul class="layui-tab-title">
-                    <li class="layui-this" lay-id="1">
+    </div>
+    <!-- body -->
+    <div class="layui-body my-body">
+        <div class="layui-tab layui-tab-card my-tab" lay-filter="card" lay-allowClose="true">
+            <ul class="layui-tab-title">
+                <li class="layui-this" lay-id="1">
                         <span>
                             <i class="layui-icon">&#xe638;</i>首页</span>
-                    </li>
-                </ul>
-                <div class="layui-tab-content">
-                    <div class="layui-tab-item layui-show">
-                        <iframe id="iframe" src="pages/main.html" frameborder="0"></iframe>
-                    </div>
+                </li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <iframe id="iframe" src="pages/main.html" frameborder="0"></iframe>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- 右键菜单 -->
-    <div class="my-dblclick-box none">
-        <table class="layui-tab dblclick-tab">
-            <tr class="card-refresh">
-                <td>
-                    <i class="layui-icon">&#x1002;</i>刷新当前标签</td>
-            </tr>
-            <tr class="card-close">
-                <td>
-                    <i class="layui-icon">&#x1006;</i>关闭当前标签</td>
-            </tr>
-            <tr class="card-close-all">
-                <td>
-                    <i class="layui-icon">&#x1006;</i>关闭所有标签</td>
-            </tr>
-        </table>
-    </div>
-    <script type="text/javascript" src="./js/jquery-3.3.1.min.js"></script>
-    <script type="text/javascript" src="./frame/layui/layui.js"></script>
-    <script type="text/javascript" src="./js/index.js"></script>
-    <script type="text/javascript" src="./frame/static/js/vip_comm.js"></script>
-    <script type="text/javascript">
-        layui.use(['layer', 'vip_nav', 'element'], function () {
-            // 操作对象
-            var layer = layui.layer,
-                vipNav = layui.vip_nav,
-                form = layui.form,
-                element = layui.element,
-                $ = layui.jquery;
+<!-- 右键菜单 -->
+<div class="my-dblclick-box none">
+    <table class="layui-tab dblclick-tab">
+        <tr class="card-refresh">
+            <td>
+                <i class="layui-icon">&#x1002;</i>刷新当前标签
+            </td>
+        </tr>
+        <tr class="card-close">
+            <td>
+                <i class="layui-icon">&#x1006;</i>关闭当前标签
+            </td>
+        </tr>
+        <tr class="card-close-all">
+            <td>
+                <i class="layui-icon">&#x1006;</i>关闭所有标签
+            </td>
+        </tr>
+    </table>
+</div>
+<script type="text/javascript" src="./js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="./frame/layui/layui.js"></script>
+<script type="text/javascript" src="./js/index.js"></script>
+<script type="text/javascript" src="./frame/static/js/vip_comm.js"></script>
+<script type="text/javascript">
+    layui.use(['layer', 'vip_nav', 'element'], function () {
+        // 操作对象
+        var layer = layui.layer,
+            vipNav = layui.vip_nav,
+            form = layui.form,
+            element = layui.element,
+            $ = layui.jquery;
 
-            //加载一级菜单并隐藏
-            LoadFirstLevelMenu();
-            //判断角色,动态加载菜单
-            judgeAuthority();
+        //加载一级菜单并隐藏
+        LoadFirstLevelMenu();
+        //判断角色,动态加载菜单
+        judgeAuthority();
 
-            //监听菜单点击事件
-            element.on('nav(side-top-right)', function (data) {
-                alert(123);
-                console.log(this); //当前Tab标题所在的原始DOM元素
-                console.log(data.index); //得到当前Tab的所在下标
-                console.log(data.elem); //得到当前的Tab大容器
-            });
-            element.init();
-            //加载一级菜单并隐藏
-            function LoadFirstLevelMenu() {
-                $.ajax({
-                    type: 'get',
-                    url: basePath + '/menu/list',
-                    data: {
-                        page: 1,
-                        pageSize: 100,
-                        name: ""
-                    },
-                    dataType: 'json',
-                    success: function (result) {
-                        //先清空
-                        /*$(document).find(".layui-nav[lay-filter='side-main']").html("");
-                        var menuInfo = result.data;
-                        var view = "";
-                        for (var i = 0; i < menuInfo.length; i++) {
-                            if (menuInfo[i].parentId == 0) {
-                                view += "<li class='layui-nav-item' style='display:none' id='" +
-                                    menuInfo[i].menuId + "'>" +
-                                    "<a href='javascript:;' href-url=''>" +
-                                    "<i class='layui-icon'>&#xe620;</i>" + menuInfo[i].name +
-                                    "</a>" +
-                                    "</li>";
-                            }
-                        }
-                        //根据结果展示出菜单
-                        $(document).find(".layui-nav[lay-filter='side-main']").html(view);*/
-                    },
-                })
-            }
-            //判断角色,动态加载菜单
-            function judgeAuthority() {
-                $.ajax({
-                    type: "post",
-                    url: basePath + "/role/getCurRole",
-                    dataType: 'json',
-                    success: function (result) {
-                        //根据用户登录的cookie信息,获取当前用户的角色id
-                        var roleId = result.data.id;
-                        showMenu(roleId);
-                        $(".admin").css("display", "block");
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        //如果出现错误或者未授权,返回登录界面
-                        if (jqXHR.status == 401) {
-                            loginError("用户未授权，返回登录");
-                        }
-                    }
-                });
-            }
-
-            //展示菜单,根据角色id获取菜单信息
-            function showMenu(roleId) {
-                $.ajax({
-                    type: "post",
-                    url: basePath + "/roleMenu/selectMenus",
-                    data: {
-                        "roleId": roleId
-                    },
-                    dataType: 'json',
-                    success: function (result) {
-                        var menuList = result.data;
-                        //遍历用户拥有的菜单选项
-                        var view = "";
-                        for (var i = 0; i < menuList.length; i++) {
-                            if (menuList[i].parentId == 0) {
-                                // 显示该菜单即可
-                                $("#" + menuList[i].menuId).css("display", "block");
-                            } else if (menuList[i].parentId > 0) {
-                                //加载二级菜单:首先寻找到它的一级菜单,然后在对应的位置上append上去
-                                //1.将它的父节点显示出来
-                                $("#" + menuList[i].parentId).css("display", "block");
-                                //2.将自身元素添加上去
-                                var view = "";
-                                view += "<dl class='layui-nav-child'>" +
-                                    "<dd>" +
-                                    "<a href='javascript:;' href-url='" + menuList[i].path + "'>" +
-                                    "<i class='layui-icon'>&#xe621;</i>" + menuList[i].name +
-                                    "</a>" +
-                                    "</dd>" +
-                                    "</dl>";
-                                $("#" + menuList[i].parentId).append(view);
-                            }
-                        }
-                        layui.element.init();
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        //如果出现错误或者未授权,返回登录界面
-                        if (jqXHR.status == 401) {
-                            loginError("用户未授权，返回登录");
-                        }
-                    }
-                });
-            }
-
-
+        //监听菜单点击事件
+        element.on('nav(side-top-right)', function (data) {
+            alert(123);
+            console.log(this); //当前Tab标题所在的原始DOM元素
+            console.log(data.index); //得到当前Tab的所在下标
+            console.log(data.elem); //得到当前的Tab大容器
         });
-        //退出
-        function logout() {
+        element.init();
+
+        //加载一级菜单并隐藏
+        function LoadFirstLevelMenu() {
             $.ajax({
-                type: "post",
-                url: basePath + "/logout",
+                type: 'get',
+                url: basePath + '/menu/list',
+                data: {
+                    page: 1,
+                    pageSize: 100,
+                    name: ""
+                },
                 dataType: 'json',
                 success: function (result) {
-                    logoutSuccess();
+                    /*//先清空
+                    $(document).find(".layui-nav[lay-filter='side-main']").html("");
+                    var menuInfo = result.data;
+                    var view = "";
+                    for (var i = 0; i < menuInfo.length; i++) {
+                        debugger
+                        if (menuInfo[i].parentId == 0) {
+                            view += "<li class='layui-nav-item' id='" +
+                                menuInfo[i].menuId + "'>" +
+                                "<a href='javascript:void(0);' href-url='"+menuInfo[i].path+"'>" +
+                                "<i class='layui-icon'>&#xe620;</i>" + menuInfo[i].name +
+                                "</a>" +
+                                "</li>";
+                        }
+                    }
+                    //根据结果展示出菜单
+                    $(document).find(".layui-nav[lay-filter='side-main']").html(view);*/
+                },
+            })
+        }
+
+        //判断角色,动态加载菜单
+        function judgeAuthority() {
+            $.ajax({
+                type: "post",
+                url: basePath + "/userRole/getRoleByUser",
+                dataType: 'json',
+                success: function (result) {
+                    //根据用户登录的cookie信息,获取当前用户的角色id
+                    var roleId = result.data.id;
+                    showMenu(roleId);
+                    $(".admin").css("display", "block");
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     //如果出现错误或者未授权,返回登录界面
-                    if (jqXHR.status == 500) {
-                        logoutError("退出失败！");
+                    if (jqXHR.status == 401) {
+                        loginError("用户未授权，返回登录");
                     }
                 }
             });
         }
-        //退出成功
-        function logoutSuccess() {
-            layer.msg("退出成功", {
-                icon: 6,
-                time: 1000
-            }, function (index) {
-                layer.close(index);
-                window.location.href = 'login.html';
+
+        //展示菜单,根据角色id获取菜单信息
+        function showMenu(roleId) {
+            $.ajax({
+                type: "post",
+                url: basePath + "/roleMenu/selectMenus",
+                data: {
+                    "roleId": roleId
+                },
+                dataType: 'json',
+                success: function (result) {
+                    var menuList = result.data;
+                    //遍历用户拥有的菜单选项
+                    var view = "";
+                    for (var i = 0; i < menuList.length; i++) {
+                        if (menuList[i].parentId == 0) {
+                            // 显示该菜单即可
+                            $("#" + menuList[i].menuId).css("display", "block");
+                        } else if (menuList[i].parentId > 0) {
+                            //加载二级菜单:首先寻找到它的一级菜单,然后在对应的位置上append上去
+                            //1.将它的父节点显示出来
+                            $("#" + menuList[i].parentId).css("display", "block");
+                            //2.将自身元素添加上去
+                            var view = "";
+                            view += "<dl class='layui-nav-child'>" +
+                                "<dd>" +
+                                "<a href='javascript:;' href-url='" + menuList[i].path + "'>" +
+                                "<i class='layui-icon'>&#xe621;</i>" + menuList[i].name +
+                                "</a>" +
+                                "</dd>" +
+                                "</dl>";
+                            $("#" + menuList[i].parentId).append(view);
+                        }
+                    }
+                    layui.element.init();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    //如果出现错误或者未授权,返回登录界面
+                    if (jqXHR.status == 401) {
+                        loginError("用户未授权，返回登录");
+                    }
+                }
             });
         }
-        //退出失败
-        function logoutError(msg) {
-            layer.msg(msg, {
-                icon: 5,
-                time: 2000
-            }, function (index) {
-                layer.close(index);
-            });
-        }
-    </script>
+
+
+    });
+
+    //退出
+    function logout() {
+        $.ajax({
+            type: "post",
+            url: basePath + "/logout",
+            dataType: 'json',
+            success: function (result) {
+                logoutSuccess();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                //如果出现错误或者未授权,返回登录界面
+                if (jqXHR.status == 500) {
+                    logoutError("退出失败！");
+                }
+            }
+        });
+    }
+
+    //退出成功
+    function logoutSuccess() {
+        layer.msg("退出成功", {
+            icon: 6,
+            time: 1000
+        }, function (index) {
+            layer.close(index);
+            window.location.href = 'login.html';
+        });
+    }
+
+    //退出失败
+    function logoutError(msg) {
+        layer.msg(msg, {
+            icon: 5,
+            time: 2000
+        }, function (index) {
+            layer.close(index);
+        });
+    }
+</script>
 </body>
 
 </html>

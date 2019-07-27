@@ -2,7 +2,9 @@ package com.whc.controller;
 
 import com.alibaba.druid.util.StringUtils;
 import com.whc.domain.entity.User;
+import com.whc.service.MenuService;
 import com.whc.service.UserService;
+import com.whc.util.ContextUtil;
 import com.whc.util.JwtToken;
 import com.whc.util.JwtUtil;
 import com.whc.vo.ApiResponseVO;
@@ -24,8 +26,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
 
 /**
  * @author Administrator
@@ -40,11 +43,18 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private MenuService menuService;
+
     @ApiOperation(value = "登录", tags = "登录")
     @RequestMapping("/login")
     @ResponseBody
     public ApiResponseVO<Object> loginSuccess(HttpServletRequest request, HttpServletResponse response,
-                               @RequestParam("username") String username, @RequestParam("password") String password){
+                               @RequestParam("username") String username, @RequestParam("password") String password) throws IOException {
+        if (ContextUtil.get() != null){
+            response.sendRedirect("/index");
+            return new ApiResponseVO<>(200, "您已经登录!", null);
+        }
 
         if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)){
             return new ApiResponseVO<>(500, "用户名或密码为空！", null);
@@ -105,6 +115,9 @@ public class LoginController {
     @ApiOperation(value = "任意界面", tags = "任意界面")
     @RequestMapping("/")
     public String login(){
+        if (ContextUtil.get() != null){
+            return "index";
+        }
         return "login";
     }
 
@@ -126,17 +139,10 @@ public class LoginController {
         if (principal == null){
             return "login";
         }
-        model.addAttribute("username", JwtUtil.getUsername((String) principal));
-        //加载菜单
-        List<Map<String, Object>> menuList = new ArrayList<>();
-        for (int i = 0; i < 3; i++){
-            Map<String, Object> menu = new HashMap<>();
-            menu.put("id", i + 1);
-            menu.put("name", "菜单管理"+i);
-            menu.put("href", "http://www.baidu.com");
-            menuList.add(menu);
-        }
-        model.addAttribute("menuList", menuList);
+        String username = JwtUtil.getUsername((String) principal);
+        model.addAttribute("username", username);
+        User user = userService.findByName(username);
+        model.addAttribute("menuList", menuService.selectByUserId(user.getId()));
         return "index";
     }
 

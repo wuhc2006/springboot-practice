@@ -155,12 +155,14 @@
     <include refid="Base_Column_List" />
     from t_menu
   </select>
-    <select id="list" resultType="com.whc.domain.entity.Menu" parameterType="com.whc.domain.entity.Menu">
-      select * from t_menu
+    <select id="list" resultMap="BaseResultMap" parameterType="com.whc.domain.entity.Menu">
+      select
+       <include refid="Base_Column_List"/>
+       from t_menu
       <where>
         1 = 1
-        <if test="parentId != null and parentId !=''" >
-          and parent_id like #{parentId,jdbcType=BIGINT}"%"
+        <if test="parentId != null" >
+          and parent_id = #{parentId,jdbcType=BIGINT}
         </if>
         <if test="name != null and name!=''" >
           and name like "%"#{name,jdbcType=VARCHAR}"%"
@@ -187,5 +189,17 @@
           and sort_no = #{sortNo,jdbcType=BIGINT}
         </if>
       </where>
+    </select>
+    <select id="selectByUserId" resultType="com.whc.domain.entity.Menu" parameterType="java.lang.Long">
+        select
+      t1.menu_id, t1.parent_id, t1.name, t1.parent_name, t1.path, t1.create_time, t1.create_people, t1.update_time,
+        t1.update_people, t1.sort_no
+      from t_menu as t1
+      inner join t_role_menu as t2
+      on t1.menu_id = t2.menu_id
+      inner join t_user_role as t3
+      on t2.role_id = t3.role_id
+      where t3.user_id = #{userId, jdbcType = BIGINT}
+      and t1.parent_id = 0
     </select>
 </mapper>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.whc.dao.UserMapper">
-    <resultMap id="BaseResulMap" type="com.whc.domain.entity.User">
+    <resultMap id="BaseResultMap" type="com.whc.domain.entity.User">
         <id column="id" property="id" jdbcType="BIGINT"></id>
         <result column="username" property="username" jdbcType="VARCHAR"></result>
         <result column="password" property="password" jdbcType="VARCHAR"></result>
@@ -11,7 +11,7 @@
     <sql id="BaseColumnList">
         id, username, password, add_time, update_time
     </sql>
-    <select id="selectByPrimaryKey" resultMap="BaseResulMap" parameterType="Long">
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long">
         select
         <include refid="BaseColumnList" />
         from t_user
@@ -37,17 +37,28 @@
     <delete id="deleteById" parameterType="Long">
         delete from t_user where id = #{id, jdbcType = INTEGER}
     </delete>
-    <select id="selectAll" resultMap="BaseResulMap">
+    <select id="selectAll" resultMap="BaseResultMap">
         select
         <include refid="BaseColumnList" />
         from t_user
     </select>
-    <select id="findByName" parameterType="String" resultMap="BaseResulMap">
+    <select id="findByName" parameterType="String" resultMap="BaseResultMap">
         select
         <include refid="BaseColumnList" />
         from t_user
         where
         username=#{username,jdbcType=VARCHAR}
         limit 1
+    </select>
+    <select id="list" resultMap="BaseResultMap" parameterType="com.whc.domain.entity.User">
+        select
+        <include refid="BaseColumnList"/>
+        from t_user
+        <where>
+        1=1
+            <if test="username != null and username!=''">
+                and username like "%"#{username,jdbcType=VARCHAR}"%"
+            </if>
+        </where>
     </select>
 </mapper>
