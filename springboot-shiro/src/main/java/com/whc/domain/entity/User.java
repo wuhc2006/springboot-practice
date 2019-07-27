@@ -26,6 +26,10 @@ public class User {
     @NotEmpty
     private String username;
 
+    @ApiModelProperty("用户名")
+    @NotEmpty
+    private String realname;
+
     @ApiModelProperty("密码")
     @NotEmpty
     private String password;
@@ -44,6 +48,14 @@ public class User {
         this.username = username;
         this.password = password;
         this.addTime = addTime;
+    }
+
+    public String getRealname() {
+        return realname;
+    }
+
+    public void setRealname(String realname) {
+        this.realname = realname;
     }
 
     public Long getId() {

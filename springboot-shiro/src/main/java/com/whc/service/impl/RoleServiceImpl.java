@@ -43,4 +43,9 @@ public class RoleServiceImpl implements RoleService {
     public int update(Role role) {
         return roleMapper.updateByPrimaryKey(role);
     }
+
+    @Override
+    public List<Role> list(Role role) {
+        return roleMapper.list(role);
+    }
 }

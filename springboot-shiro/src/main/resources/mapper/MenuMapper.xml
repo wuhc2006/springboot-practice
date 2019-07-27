@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.whc.dao.MenuMapper" >
-  <resultMap id="BaseResultMap" type="com.whc.domain.entity.Menu" >
-    <id column="menu_id" property="menuId" jdbcType="BIGINT" />
-    <result column="parent_id" property="parentId" jdbcType="BIGINT" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="parent_name" property="parentName" jdbcType="VARCHAR" />
-    <result column="path" property="path" jdbcType="VARCHAR" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="create_people" property="createPeople" jdbcType="VARCHAR" />
-    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
-    <result column="update_people" property="updatePeople" jdbcType="VARCHAR" />
-    <result column="sort_no" property="sortNo" jdbcType="BIGINT" />
-  </resultMap>
-  <sql id="Base_Column_List" >
+<mapper namespace="com.whc.dao.MenuMapper">
+    <resultMap id="BaseResultMap" type="com.whc.domain.entity.Menu">
+        <id column="menu_id" property="menuId" jdbcType="BIGINT"/>
+        <result column="parent_id" property="parentId" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="parent_name" property="parentName" jdbcType="VARCHAR"/>
+        <result column="path" property="path" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="create_people" property="createPeople" jdbcType="VARCHAR"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="update_people" property="updatePeople" jdbcType="VARCHAR"/>
+        <result column="sort_no" property="sortNo" jdbcType="BIGINT"/>
+    </resultMap>
+    <sql id="Base_Column_List">
     menu_id, parent_id, name, parent_name, path, create_time, create_people, update_time, 
     update_people, sort_no
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
-    <include refid="Base_Column_List" />
-    from t_menu
-    where menu_id = #{menuId,jdbcType=BIGINT}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from t_menu
+        where menu_id = #{menuId,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from t_menu
     where menu_id = #{menuId,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.whc.domain.entity.Menu" >
+    <insert id="insert" parameterType="com.whc.domain.entity.Menu">
     insert into t_menu (menu_id, parent_id, name, 
       parent_name, path, create_time, 
       create_people, update_time, update_people, 
@@ -37,107 +37,107 @@
       #{createPeople,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updatePeople,jdbcType=VARCHAR}, 
       #{sortNo,jdbcType=BIGINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.whc.domain.entity.Menu" >
-    insert into t_menu
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="menuId != null" >
-        menu_id,
-      </if>
-      <if test="parentId != null" >
-        parent_id,
-      </if>
-      <if test="name != null" >
-        name,
-      </if>
-      <if test="parentName != null" >
-        parent_name,
-      </if>
-      <if test="path != null" >
-        path,
-      </if>
-      <if test="createTime != null" >
-        create_time,
-      </if>
-      <if test="createPeople != null" >
-        create_people,
-      </if>
-      <if test="updateTime != null" >
-        update_time,
-      </if>
-      <if test="updatePeople != null" >
-        update_people,
-      </if>
-      <if test="sortNo != null" >
-        sort_no,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="menuId != null" >
-        #{menuId,jdbcType=BIGINT},
-      </if>
-      <if test="parentId != null" >
-        #{parentId,jdbcType=BIGINT},
-      </if>
-      <if test="name != null" >
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="parentName != null" >
-        #{parentName,jdbcType=VARCHAR},
-      </if>
-      <if test="path != null" >
-        #{path,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="createPeople != null" >
-        #{createPeople,jdbcType=VARCHAR},
-      </if>
-      <if test="updateTime != null" >
-        #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updatePeople != null" >
-        #{updatePeople,jdbcType=VARCHAR},
-      </if>
-      <if test="sortNo != null" >
-        #{sortNo,jdbcType=BIGINT},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.whc.domain.entity.Menu" >
-    update t_menu
-    <set >
-      <if test="parentId != null" >
-        parent_id = #{parentId,jdbcType=BIGINT},
-      </if>
-      <if test="name != null" >
-        name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="parentName != null" >
-        parent_name = #{parentName,jdbcType=VARCHAR},
-      </if>
-      <if test="path != null" >
-        path = #{path,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="createPeople != null" >
-        create_people = #{createPeople,jdbcType=VARCHAR},
-      </if>
-      <if test="updateTime != null" >
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updatePeople != null" >
-        update_people = #{updatePeople,jdbcType=VARCHAR},
-      </if>
-      <if test="sortNo != null" >
-        sort_no = #{sortNo,jdbcType=BIGINT},
-      </if>
-    </set>
-    where menu_id = #{menuId,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.whc.domain.entity.Menu" >
+    <insert id="insertSelective" parameterType="com.whc.domain.entity.Menu">
+        insert into t_menu
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="menuId != null">
+                menu_id,
+            </if>
+            <if test="parentId != null">
+                parent_id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="parentName != null">
+                parent_name,
+            </if>
+            <if test="path != null">
+                path,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="createPeople != null">
+                create_people,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="updatePeople != null">
+                update_people,
+            </if>
+            <if test="sortNo != null">
+                sort_no,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="menuId != null">
+                #{menuId,jdbcType=BIGINT},
+            </if>
+            <if test="parentId != null">
+                #{parentId,jdbcType=BIGINT},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="parentName != null">
+                #{parentName,jdbcType=VARCHAR},
+            </if>
+            <if test="path != null">
+                #{path,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createPeople != null">
+                #{createPeople,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatePeople != null">
+                #{updatePeople,jdbcType=VARCHAR},
+            </if>
+            <if test="sortNo != null">
+                #{sortNo,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.whc.domain.entity.Menu">
+        update t_menu
+        <set>
+            <if test="parentId != null">
+                parent_id = #{parentId,jdbcType=BIGINT},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="parentName != null">
+                parent_name = #{parentName,jdbcType=VARCHAR},
+            </if>
+            <if test="path != null">
+                path = #{path,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createPeople != null">
+                create_people = #{createPeople,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatePeople != null">
+                update_people = #{updatePeople,jdbcType=VARCHAR},
+            </if>
+            <if test="sortNo != null">
+                sort_no = #{sortNo,jdbcType=BIGINT},
+            </if>
+        </set>
+        where menu_id = #{menuId,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.whc.domain.entity.Menu">
     update t_menu
     set parent_id = #{parentId,jdbcType=BIGINT},
       name = #{name,jdbcType=VARCHAR},
@@ -150,46 +150,48 @@
       sort_no = #{sortNo,jdbcType=BIGINT}
     where menu_id = #{menuId,jdbcType=BIGINT}
   </update>
-  <select id="selectAll" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from t_menu
-  </select>
-    <select id="list" resultMap="BaseResultMap" parameterType="com.whc.domain.entity.Menu">
-      select
-       <include refid="Base_Column_List"/>
-       from t_menu
-      <where>
-        1 = 1
-        <if test="parentId != null" >
-          and parent_id = #{parentId,jdbcType=BIGINT}
-        </if>
-        <if test="name != null and name!=''" >
-          and name like "%"#{name,jdbcType=VARCHAR}"%"
-        </if>
-        <if test="parentName != null and parentName!=''" >
-          and parent_name like "%"#{parentName,jdbcType=VARCHAR}"%"
-        </if>
-        <if test="path != null and path!=''" >
-          and path like #{path,jdbcType=VARCHAR}"%"
-        </if>
-        <if test="createTime != null and createTime!=''" >
-          and create_time = #{createTime,jdbcType=TIMESTAMP}
-        </if>
-        <if test="createPeople != null and createPeople!=''" >
-          and create_people = #{createPeople,jdbcType=VARCHAR}
-        </if>
-        <if test="updateTime != null and updateTime!=''" >
-          and update_time = #{updateTime,jdbcType=TIMESTAMP}
-        </if>
-        <if test="updatePeople != null" >
-          and update_people = #{updatePeople,jdbcType=VARCHAR}
-        </if>
-        <if test="sortNo != null" >
-          and sort_no = #{sortNo,jdbcType=BIGINT}
-        </if>
-      </where>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_menu
     </select>
+    <select id="list" resultMap="BaseResultMap" parameterType="com.whc.domain.entity.Menu">
+        select
+        <include refid="Base_Column_List"/>
+        from t_menu
+        where
+        1 = 1
+        <include refid="whereStatement"></include>
+    </select>
+    <sql id="whereStatement">
+        <if test="parentId != null">
+            and parent_id = #{parentId,jdbcType=BIGINT}
+        </if>
+        <if test="name != null and name!=''">
+            and name like "%"#{name,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="parentName != null and parentName!=''">
+            and parent_name like "%"#{parentName,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="path != null and path!=''">
+            and path like #{path,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="createTime != null and createTime!=''">
+            and create_time = #{createTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="createPeople != null and createPeople!=''">
+            and create_people = #{createPeople,jdbcType=VARCHAR}
+        </if>
+        <if test="updateTime != null and updateTime!=''">
+            and update_time = #{updateTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="updatePeople != null">
+            and update_people = #{updatePeople,jdbcType=VARCHAR}
+        </if>
+        <if test="sortNo != null">
+            and sort_no = #{sortNo,jdbcType=BIGINT}
+        </if>
+    </sql>
     <select id="selectByUserId" resultType="com.whc.domain.entity.Menu" parameterType="java.lang.Long">
         select
       t1.menu_id, t1.parent_id, t1.name, t1.parent_name, t1.path, t1.create_time, t1.create_people, t1.update_time,

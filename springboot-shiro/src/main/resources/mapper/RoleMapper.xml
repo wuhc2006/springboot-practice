@@ -122,17 +122,23 @@
     1 = 1
     <include refid="whereStatement"></include>
   </select>
+  <select id="list" resultMap="BaseResultMap" parameterType="com.whc.domain.entity.Role">
+    select * from t_role
+    where
+    1 = 1
+    <include refid="whereStatement"></include>
+  </select>
   <sql id="whereStatement">
-    <if test="name != null" >
+    <if test="name != null and name !=''" >
       and name = #{name,jdbcType=VARCHAR}
     </if>
-    <if test="title != null" >
+    <if test="title != null and title != ''" >
       and title = #{title,jdbcType=VARCHAR}
     </if>
-    <if test="addTime != null" >
+    <if test="addTime != null and addTime != ''" >
       and add_time = #{addTime,jdbcType=TIMESTAMP}
     </if>
-    <if test="updateTime != null" >
+    <if test="updateTime != null and updateTime!=''" >
       and update_time = #{updateTime,jdbcType=TIMESTAMP}
     </if>
     <if test="type != null" >
