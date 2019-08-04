@@ -6,6 +6,18 @@
     <result column="role_id" property="roleId" jdbcType="BIGINT" />
     <result column="menu_id" property="menuId" jdbcType="BIGINT" />
   </resultMap>
+  <resultMap id="BaseResultMap1" type="com.whc.domain.entity.Menu">
+    <id column="menu_id" property="menuId" jdbcType="BIGINT"/>
+    <result column="parent_id" property="parentId" jdbcType="BIGINT"/>
+    <result column="name" property="name" jdbcType="VARCHAR"/>
+    <result column="parent_name" property="parentName" jdbcType="VARCHAR"/>
+    <result column="path" property="path" jdbcType="VARCHAR"/>
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    <result column="create_people" property="createPeople" jdbcType="VARCHAR"/>
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    <result column="update_people" property="updatePeople" jdbcType="VARCHAR"/>
+    <result column="sort_no" property="sortNo" jdbcType="BIGINT"/>
+  </resultMap>
   <sql id="Base_Column_List" >
     role_menu_id, role_id, menu_id
   </sql>
@@ -72,10 +84,11 @@
       menu_id = #{menuId,jdbcType=BIGINT}
     where role_menu_id = #{roleMenuId,jdbcType=BIGINT}
   </update>
-  <select id="selectMenuByRoleId" resultMap="BaseResultMap" parameterType="Long">
+  <select id="selectMenuByRoleId" resultMap="BaseResultMap1" parameterType="Long">
     select
-    <include refid="Base_Column_List"/>
-    from t_role_menu
+    t1.menu_id, t1.parent_id, t1.name, t1.parent_name, t1.path, t1.create_time, t1.create_people, t1.update_time,
+    t1.update_people, t1.sort_no
+    from t_menu as t1 inner join t_role_menu as t2 on t1.menu_id = t2.menu_id
     where
     role_id = #{roleId,jdbcType=BIGINT}
   </select>

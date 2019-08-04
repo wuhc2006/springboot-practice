@@ -51,7 +51,7 @@ public class ExceptionController {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiResponseVO<Object> globalException(HttpServletRequest request, Throwable ex) {
-        return new ApiResponseVO<>(getStatus(request).value(), ex.getMessage(), null);
+        throw new RuntimeException(ex);
     }
 
     private HttpStatus getStatus(HttpServletRequest request) {

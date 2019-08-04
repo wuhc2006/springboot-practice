@@ -9,11 +9,8 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
- * @ClassName User
- * @Description TODO 用户
- * @Author Administrator
- * @Date 2018/12/22 22:29
- * @Version 1.0
+ * @author Administrator
+ * @date 2018/12/22 22:29
  */
 @ApiModel(value = "User", description = "用户")
 public class User {
@@ -34,6 +31,10 @@ public class User {
     @NotEmpty
     private String password;
 
+    @ApiModelProperty("状态")
+    @NotEmpty
+    private String userStatus;
+
     @JsonFormat()
     @ApiModelProperty("创建时间")
     private Date addTime;
@@ -48,6 +49,14 @@ public class User {
         this.username = username;
         this.password = password;
         this.addTime = addTime;
+    }
+
+    public String getUserStatus() {
+        return userStatus;
+    }
+
+    public void setUserStatus(String userStatus) {
+        this.userStatus = userStatus;
     }
 
     public String getRealname() {

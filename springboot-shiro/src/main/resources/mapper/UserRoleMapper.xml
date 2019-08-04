@@ -19,7 +19,11 @@
     delete from t_user_role
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.whc.domain.entity.UserRole" >
+    <delete id="deleteByUser">
+      delete from t_user_role
+      where user_id = #{user_id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.whc.domain.entity.UserRole" useGeneratedKeys="true" keyProperty="id">
     insert into t_user_role (id, user_id, role_id
       )
     values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{roleId,jdbcType=BIGINT}

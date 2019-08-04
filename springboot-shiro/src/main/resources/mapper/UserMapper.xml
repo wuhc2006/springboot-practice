@@ -6,11 +6,12 @@
         <result column="username" property="username" jdbcType="VARCHAR"></result>
         <result column="real_name" property="realname" jdbcType="VARCHAR"></result>
         <result column="password" property="password" jdbcType="VARCHAR"></result>
+        <result column="user_status" property="userStatus" jdbcType="VARCHAR"></result>
         <result column="add_time" property="addTime" jdbcType="TIMESTAMP"></result>
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"></result>
     </resultMap>
     <sql id="BaseColumnList">
-        id, username, real_name, password, add_time, update_time
+        id, username, real_name, password,user_status, add_time, update_time
     </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long">
         select
@@ -18,23 +19,23 @@
         from t_user
         where id = #{id, jdbcType = INTEGER}
     </select>
-    <insert id="insertOne" parameterType="com.whc.domain.entity.User">
-        insert into t_user(username, real_name, password, add_time, update_time)
+    <insert id="insertOne" parameterType="com.whc.domain.entity.User" useGeneratedKeys="true" keyProperty="id">
+        insert into t_user(username, real_name, password,user_status, add_time, update_time)
         values(
         #{username, jdbcType=VARCHAR},
         #{realname, jdbcType=VARCHAR},
         #{password, jdbcType=VARCHAR},
+        #{userStatus, jdbcType=CHAR},
         #{addTime, jdbcType=TIMESTAMP},
         #{updateTime, jdbcType=TIMESTAMP}
         )
     </insert>
     <update id="update" parameterType="com.whc.domain.entity.User">
         update t_user set
-        username = #{username,jdbcType=VARCHAR},
         real_name = #{realname,jdbcType=VARCHAR},
         password = #{password,jdbcType=VARCHAR},
-        add_time = #{addTime,jdbcType=TIMESTAMP},
-        update_time = #{updateTime,jdbcType=TIMESTAMP} 
+        user_status = #{userStatus,jdbcType=CHAR},
+        update_time = #{updateTime,jdbcType=TIMESTAMP}
         where id = #{id, jdbcType = INTEGER}
     </update>
     <delete id="deleteById" parameterType="Long">
@@ -64,6 +65,9 @@
             </if>
             <if test="realname != null and realname!=''">
                 and real_name like "%"#{realname,jdbcType=VARCHAR}"%"
+            </if>
+            <if test="userStatus != null and userStatus!=''">
+                and user_status like "%"#{userStatus,jdbcType=CHAR}"%"
             </if>
         </where>
     </select>

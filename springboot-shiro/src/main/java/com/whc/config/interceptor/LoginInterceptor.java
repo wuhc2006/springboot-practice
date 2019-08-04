@@ -30,7 +30,6 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         Object principal = ContextUtil.get();
         if (principal == null) {
-            response.sendRedirect("/");
             return true;
         } else {
             return isValidUser(principal);

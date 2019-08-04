@@ -32,8 +32,8 @@ public class ApiResponseVO<T> implements Serializable {
     }
 
     public ApiResponseVO(Integer code, String msg, T data) {
-        this.msg = msg;
         this.code = code;
+        this.msg = msg;
         this.data = data;
     }
 
@@ -42,6 +42,26 @@ public class ApiResponseVO<T> implements Serializable {
         this.msg = msg;
         this.data = data;
         this.total = total;
+    }
+
+    public static<T> ApiResponseVO<T> success(String msg, T data, Integer total){
+        return new ApiResponseVO<>(200, "", data, total);
+    }
+
+    public static<T> ApiResponseVO<T> success(String msg){
+        return new ApiResponseVO<>(200, msg, null);
+    }
+
+    public static<T> ApiResponseVO<T> success(String msg, T data){
+        return new ApiResponseVO<>(200, msg, data);
+    }
+
+    public static<T> ApiResponseVO<T> success(T data){
+        return new ApiResponseVO<>(200, "", data);
+    }
+
+    public static<T> ApiResponseVO<T> fail(Integer code, String msg){
+        return new ApiResponseVO<>(code, msg, null);
     }
 
     public ApiResponseVO(ExceptionCode exceptionCode){

@@ -8,9 +8,9 @@ public interface UserService {
 
     User selectByPrimaryKey(Long id);
     List<User> selectAll();
-    boolean insertOne(User user);
-    boolean deleteById(Long id);
-    boolean update(User user);
+    int insertOne(User user);
+    int deleteById(Long id);
+    int update(User user);
     User findByName(String username);
 
     List<User> list(User user);

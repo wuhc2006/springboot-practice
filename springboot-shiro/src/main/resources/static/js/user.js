@@ -7,9 +7,26 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
         form = layui.form,
         $ = layui.jquery;
 
+    function dateToStr(date) {
+        var time = new Date(date.time);
+        var y = time.getFullYear();
+        var M = time.getMonth() + 1;
+        M = M < 10 ? ("0" + M) : M;
+        var d = time.getDate();
+        d = d < 10 ? ("0" + d) : d;
+        var h = time.getHours();
+        h = h < 10 ? ("0" + h) : h;
+        var m = time.getMinutes();
+        m = m < 10 ? ("0" + m) : m;
+        var s = time.getSeconds();
+        s = s < 10 ? ("0" + s) : s;
+        var str = y + "-" + M + "-" + d + " " + h + ":" + m + ":" + s;
+        console.log(str);
+        return str;
+    }
+
     function queryDynamic() {
         var username = $.trim($("#username").val());
-        var loginName = $.trim($("#loginName").val());
         var realname = $.trim($("#realname").val());
         // 表格渲染
         var tableIns = table.render({
@@ -22,14 +39,8 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
                         title: '序号',
                         width: '60'
                     }, {
-                    field: 'loginName',
-                    title: '账户名',
-                    width: 150,
-                    align: 'center',
-                    sort: true
-                }, {
                     field: 'username',
-                    title: '显示姓名',
+                    title: '用户名',
                     width: 150,
                     align: 'center',
                     sort: true
@@ -51,6 +62,12 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
                     sort: true,
                     align: 'center'
                 }, {
+                    field: 'updateTime',
+                    title: '修改时间',
+                    width: 300,
+                    sort: true,
+                    align: 'center'
+                },{
                     fixed: 'right',
                     title: '操作',
                     align: 'center',
@@ -81,22 +98,6 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
             },
             loading: false,
             done: function (res, curr, count) {
-                //如果是异步请求数据方式，res即为你接口返回的信息。
-                //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
-                console.log(res);
-                //得到当前页码
-                console.log(curr);
-                //得到数据总量
-                console.log(count);
-                //角色类型转换
-                $("[data-field='roleType']").children().each(function () {
-                    if ($(this).text() == '0') {
-                        $(this).text("平台");
-                    } else if ($(this).text() == '1') {
-                        $(this).text("供应商");
-                    }
-                });
-                //状态类型转换
                 $("[data-field='userStatus']").children().each(function () {
                     if ($(this).text() == '1') {
                         $(this).text("正常");
@@ -169,12 +170,12 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
     //新增平台用户
     $('#add').click(function (e) {
         //清空重置
-        $('#loginNameAdd').removeAttr("disabled");
-        /* $('#loginNameAdd').val("");
+        $('#usernameAdd').removeAttr("disabled");
+        $('#realnameAdd').val("");
         $('#usernameAdd').val("");
         $("#roleTypeAdd").val("-1");
         $("#roleTitleAdd").empty();
-        $('#passwordAdd').val(""); */
+        $('#passwordAdd').val("");
         //显示密码框
         $("#passwordPane").show();
         //打开新增菜单对话框
@@ -196,25 +197,17 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
             content: $('#addUserPage'), // 内容，content可传入的值是灵活多变的，不仅可以传入普通的html内容，还可以指定DOM，更可以随着type的不同而不同。
             btn: ['保存', '取消'], //弹出框里的确认，取 消
             yes: function (index, layero) { //该回调携带两个参数，分别为当前层索引、当前层DOM对象。如：
-                var loginName = $('#loginNameAdd').val();
                 var name = $('#usernameAdd').val();
-                var title = $('#roleTitleAdd').find("option:selected").text();
-                var type = $('#roleTypeAdd').val();
-                var status = $('#userStatusAdd').val();
                 var password = $('#passwordAdd').val();
-                var roleId;
+                let realname = $('#realnameAdd').val();
                 $.ajax({
                     type: "POST",
                     dataType: 'json',
                     url: accountBackPath + '/user/insert',
                     data: {
-                        "loginName": loginName,
                         "username": name,
-                        "roleId": roleId,
-                        "roleType": type,
-                        "roleTitle": title,
-                        "status": status,
-                        "password": password
+                        "password": password,
+                        "realname": realname
                     },
                     success: function (data) {
                         if (data.code == 200) {
@@ -268,16 +261,11 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
         var data = obj.data, //获得当前行数据
             layEvent = obj.event; //获得 lay-event 对应的值
         //设置当前显示的内容
-        //账户名不可以修改
-        $('#loginNameAdd').val(data.loginName).attr("disabled", "disabled");
-        $('#usernameAdd').val(data.username);
+        $('#usernameAdd').val(data.username).attr("disabled", "disabled"); //账户名不可以修改
         $('#roleTypeAdd').val(data.roleType);
-        //先清除后添加
-        $('#roleTitleAdd').empty();
-        $("#roleTitleAdd").append("<option value='" + data.roleId + "'>" + data.roleTitle +
-            "</option>");
         $('#userStatusAdd').val(data.userStatus);
         $('#passwordAdd').val(data.password);
+        $('#realnameAdd').val(data.realname);
         //必须添加下面这句,才能渲染
         layui.form.render('select');
         //隐藏密码框
@@ -296,6 +284,7 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
                 yes: function (index, layero) {
                     //获取修改后的值
                     var name = $('#usernameAdd').val();
+                    var realname = $('#realnameAdd').val();
                     var title = $('#roleTitleAdd').find("option:selected").text();
                     var type = $('#roleTypeAdd').val();
                     var status = $('#userStatusAdd').val();
@@ -325,11 +314,12 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
                                 data: {
                                     'id': data.id,
                                     'roleId': roleId,
+                                    'realname': realname,
                                     'username': name,
                                     'password': password,
                                     "roleType": type,
                                     'roleTitle': title,
-                                    "status": status
+                                    "userStatus": status
                                 },
                                 success: function (data) {
                                     if (data.code == 200) {
@@ -360,12 +350,9 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
                 title: '提示'
             }, function (index) {
                 $.ajax({
-                    type: "POST",
+                    type: "delete",
                     dataType: 'json',
-                    url: accountBackPath + '/user/delete',
-                    data: {
-                        'id': data.userId
-                    },
+                    url: accountBackPath + '/user/delete/' + data.id,
                     success: function (data) {
                         if (data.code == 200) {
                             layer.msg('删除成功!!!', {

@@ -114,9 +114,6 @@ public class LoginController {
     @ApiOperation(value = "任意界面", tags = "任意界面")
     @RequestMapping("/")
     public String login(){
-        if (ContextUtil.get() != null){
-            return "index";
-        }
         return "login";
     }
 

@@ -48,9 +48,9 @@ public class RoleMenuController {
         String username = JwtUtil.getUsername(ContextUtil.get().toString());
         User user = userService.findByName(username);
         if (user != null){
-            return new ApiResponseVO<>(500, "未找到用户!", roleMenuService.selectMenuByRoleId(user.getId()));
+            return new ApiResponseVO<>(200, "查找到菜单!", roleMenuService.selectMenuByRoleId(user.getId()));
         } else{
-            return new ApiResponseVO<>(500, "查找到菜单", null);
+            return new ApiResponseVO<>(500, "未找到用户", null);
         }
     }
 

@@ -43,7 +43,7 @@ public class LogAdvice {
         Object[] values = point.getArgs();
         Object token = ContextUtil.get();
         token = token == null ? null : JwtUtil.getUsername(token.toString());
-        logger.info(token + "在" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "执行了方法;" + method + "参数：" + getInvokeInfo(params, values));
+        logger.info(token + "在" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "执行了" + method + "方法，参数：" + getInvokeInfo(params, values));
 
         Object result = null;
         try {

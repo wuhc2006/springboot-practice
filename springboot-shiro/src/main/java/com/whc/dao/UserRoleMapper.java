@@ -7,6 +7,8 @@ import java.util.List;
 public interface UserRoleMapper {
     int deleteByPrimaryKey(Long id);
 
+    int deleteByUser(Long userId);
+
     int insert(UserRole record);
 
     int insertSelective(UserRole record);

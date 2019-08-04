@@ -5,11 +5,13 @@ import com.github.pagehelper.PageInfo;
 import com.whc.domain.entity.User;
 import com.whc.service.UserService;
 import com.whc.vo.ApiResponseVO;
+import io.netty.util.internal.StringUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
@@ -28,39 +30,46 @@ public class UserController{
     public ApiResponseVO<Object> list(int page, int pageSize, User user) {
         PageHelper.startPage(page, pageSize);
         PageInfo<User> pageInfo = new PageInfo<>(userService.list(user));
-        return new ApiResponseVO<>(200, "查询成功！", pageInfo.getList(), (int)pageInfo.getTotal());
+        return ApiResponseVO.success("查找成功", pageInfo.getList(), (int)pageInfo.getTotal());
     }
 
     @ApiOperation(value = "查找用户", tags = "查找用户")
     @GetMapping("/select/{id}")
     public ApiResponseVO<Object> selectOne(@PathVariable Long id){
-        return new ApiResponseVO<>(200, "查找成功!", userService.selectByPrimaryKey(id));
+        return ApiResponseVO.success("查找成功", userService.selectByPrimaryKey(id));
     }
 
     @ApiOperation(value = "新增用户", tags = "新增用户")
     @PostMapping("/insert")
-    public ApiResponseVO<Object> insertOne(@RequestParam String username,@RequestParam String password){
-        User user = new User(username, password, new Date());
+    public ApiResponseVO<Object> insertOne(@NotNull User user){
+        if (StringUtil.isNullOrEmpty(user.getUsername()) || StringUtil.isNullOrEmpty(user.getPassword())){
+            return new ApiResponseVO<>(200, "用户名或密码为空!", user);
+        }
+        user.setAddTime(new Date());
+        user.setUserStatus("1");
         this.userService.insertOne(user);
-        return new ApiResponseVO<>(200, "新增成功!", user);
+        return ApiResponseVO.success("新增成功", user);
     }
 
     @ApiOperation(value = "修改用户", tags = "修改用户")
     @PostMapping("/update")
-    public ApiResponseVO<Object> update(@RequestParam Long id, @RequestParam String username,@RequestParam String password){
-        User user = this.userService.selectByPrimaryKey(id);
-        user.setUsername(username);
-        user.setPassword(password);
+    public ApiResponseVO<Object> update(@NotNull User user){
+        if (user.getId() == null){
+            return new ApiResponseVO<>(500, "不合法的用户!", user);
+        }
+        if (StringUtil.isNullOrEmpty(user.getUsername()) || StringUtil.isNullOrEmpty(user.getPassword())){
+            return new ApiResponseVO<>(200, "用户名或密码为空!", user);
+        }
         user.setUpdateTime(new Date());
+        user.setPassword(userService.selectByPrimaryKey(user.getId()).getPassword());
         this.userService.update(user);
-        return new ApiResponseVO<>(200, "修改成功!", user);
+        return ApiResponseVO.success("修改成功", user);
     }
 
     @ApiOperation(value = "删除用户", tags = "删除用户")
-    @PostMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ApiResponseVO<Object> deleteById(@PathVariable Long id){
         this.userService.deleteById(id);
-        return new ApiResponseVO<>(200, "删除成功！", id);
+        return ApiResponseVO.success("删除成功", id);
     }
-
 }
