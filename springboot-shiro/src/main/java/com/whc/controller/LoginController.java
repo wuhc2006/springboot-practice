@@ -20,7 +20,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.Cookie;
@@ -50,7 +49,7 @@ public class LoginController {
     @RequestMapping("/login")
     @ResponseBody
     public ApiResponseVO<Object> loginSuccess(HttpServletRequest request, HttpServletResponse response,
-                               @RequestParam("username") String username, @RequestParam("password") String password) throws IOException {
+                               String username, String password) throws IOException {
         if (ContextUtil.get() != null){
             response.sendRedirect("/index");
             return new ApiResponseVO<>(200, "您已经登录!", null);
