@@ -75,15 +75,6 @@
                         <i class='layui-icon'>&#xe653;</i>
                     </a>
                 </li>
-                <!--<li class='layui-nav-item' id="2">
-                    <a href='javascript:void(0);' href-url='./pages/menu/menu-main.html'><i class='layui-icon'>&#xe653;</i>菜单管理</a>
-                </li>
-                <li class='layui-nav-item' id="3">
-                    <a href='javascript:void(0);' href-url='./pages/role/role-main.html'><i class='layui-icon'>&#xe656;</i>角色管理</a>
-                </li>
-                <li class='layui-nav-item' id="4">
-                    <a href='javascript:void(0);' href-url='http://out.bitunion.org'><i class='layui-icon'>&#xe60a;</i>商品管理</a>
-                </li>-->
             </ul>
         </div>
     </div>
@@ -138,119 +129,13 @@
             element = layui.element,
             $ = layui.jquery;
 
-        //加载一级菜单并隐藏
-        LoadFirstLevelMenu();
-        //判断角色,动态加载菜单
-        judgeAuthority();
-
         //监听菜单点击事件
         element.on('nav(side-top-right)', function (data) {
-            alert(123);
             console.log(this); //当前Tab标题所在的原始DOM元素
             console.log(data.index); //得到当前Tab的所在下标
             console.log(data.elem); //得到当前的Tab大容器
         });
         element.init();
-
-        //加载一级菜单并隐藏
-        function LoadFirstLevelMenu() {
-            $.ajax({
-                type: 'get',
-                url: basePath + '/menu/list',
-                data: {
-                    page: 1,
-                    pageSize: 100,
-                    name: ""
-                },
-                dataType: 'json',
-                success: function (result) {
-                    /*//先清空
-                    $(document).find(".layui-nav[lay-filter='side-main']").html("");
-                    var menuInfo = result.data;
-                    var view = "";
-                    for (var i = 0; i < menuInfo.length; i++) {
-                        debugger
-                        if (menuInfo[i].parentId == 0) {
-                            view += "<li class='layui-nav-item' id='" +
-                                menuInfo[i].menuId + "'>" +
-                                "<a href='javascript:void(0);' href-url='"+menuInfo[i].path+"'>" +
-                                "<i class='layui-icon'>&#xe620;</i>" + menuInfo[i].name +
-                                "</a>" +
-                                "</li>";
-                        }
-                    }
-                    //根据结果展示出菜单
-                    $(document).find(".layui-nav[lay-filter='side-main']").html(view);*/
-                },
-            })
-        }
-
-        //判断角色,动态加载菜单
-        function judgeAuthority() {
-            $.ajax({
-                type: "post",
-                url: basePath + "/userRole/getRoleByUser",
-                dataType: 'json',
-                success: function (result) {
-                    //根据用户登录的cookie信息,获取当前用户的角色id
-                    var roleId = result.data.id;
-                    showMenu(roleId);
-                    $(".admin").css("display", "block");
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    //如果出现错误或者未授权,返回登录界面
-                    if (jqXHR.status == 401) {
-                        loginError("用户未授权，返回登录");
-                    }
-                }
-            });
-        }
-
-        //展示菜单,根据角色id获取菜单信息
-        function showMenu(roleId) {
-            $.ajax({
-                type: "post",
-                url: basePath + "/roleMenu/selectMenus",
-                data: {
-                    "roleId": roleId
-                },
-                dataType: 'json',
-                success: function (result) {
-                    var menuList = result.data;
-                    //遍历用户拥有的菜单选项
-                    var view = "";
-                    for (var i = 0; i < menuList.length; i++) {
-                        if (menuList[i].parentId == 0) {
-                            // 显示该菜单即可
-                            $("#" + menuList[i].menuId).css("display", "block");
-                        } else if (menuList[i].parentId > 0) {
-                            //加载二级菜单:首先寻找到它的一级菜单,然后在对应的位置上append上去
-                            //1.将它的父节点显示出来
-                            $("#" + menuList[i].parentId).css("display", "block");
-                            //2.将自身元素添加上去
-                            var view = "";
-                            view += "<dl class='layui-nav-child'>" +
-                                "<dd>" +
-                                "<a href='javascript:;' href-url='" + menuList[i].path + "'>" +
-                                "<i class='layui-icon'>&#xe621;</i>" + menuList[i].name +
-                                "</a>" +
-                                "</dd>" +
-                                "</dl>";
-                            $("#" + menuList[i].parentId).append(view);
-                        }
-                    }
-                    layui.element.init();
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    //如果出现错误或者未授权,返回登录界面
-                    if (jqXHR.status == 401) {
-                        loginError("用户未授权，返回登录");
-                    }
-                }
-            });
-        }
-
-
     });
 
     //退出

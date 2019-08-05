@@ -5,6 +5,7 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
     var table = layui.table,
         vipTable = layui.vip_table,
         layer = layui.layer,
+        tree = layui.tree;
         $ = layui.jquery;
 
     //查询数据
