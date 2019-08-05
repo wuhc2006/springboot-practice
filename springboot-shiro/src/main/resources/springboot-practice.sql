@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50716
 File Encoding         : 65001
 
-Date: 2019-07-29 21:17:51
+Date: 2019-08-05 20:16:58
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -152,14 +152,15 @@ CREATE TABLE `t_role` (
   `type` int(2) DEFAULT '0' COMMENT '角色类型',
   `status` int(2) DEFAULT '1' COMMENT '启用或禁用，0为禁用，1为启用',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='角色表';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='角色表';
 
 -- ----------------------------
 -- Records of t_role
 -- ----------------------------
 INSERT INTO `t_role` VALUES ('1', 'admin', '管理员', '2019-01-02 21:16:49', '2019-01-21 21:13:39', '1', '1');
-INSERT INTO `t_role` VALUES ('2', 'guest', '游客', '2019-01-02 21:16:57', null, '0', '1');
+INSERT INTO `t_role` VALUES ('2', 'guest', '游客', '2019-01-02 21:16:57', '2019-08-04 19:57:46', '0', '1');
 INSERT INTO `t_role` VALUES ('4', 'whc', '测试1', '2019-01-11 22:48:10', '2019-07-26 23:40:37', '1', '1');
+INSERT INTO `t_role` VALUES ('5', 'common', '普通用户', '2019-08-04 17:17:15', null, '0', '1');
 
 -- ----------------------------
 -- Table structure for t_role_menu
@@ -269,18 +270,19 @@ CREATE TABLE `t_user` (
   `username` varchar(255) DEFAULT NULL COMMENT '用户名',
   `real_name` varchar(255) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL COMMENT '密码',
+  `user_status` char(1) DEFAULT NULL,
   `add_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COMMENT='用户表';
 
 -- ----------------------------
 -- Records of t_user
 -- ----------------------------
-INSERT INTO `t_user` VALUES ('1', 'admin', '管理员', 'admin', '2018-12-23 11:06:57', '2018-12-23 12:52:32');
-INSERT INTO `t_user` VALUES ('2', 'guest', '游客', 'guest', '2019-01-02 21:16:30', '2019-01-02 21:16:32');
-INSERT INTO `t_user` VALUES ('3', 'whc', '我', 'whc', '2019-07-21 11:46:45', '2019-07-21 11:46:48');
-INSERT INTO `t_user` VALUES ('4', 'test', '测试', 'test', '2019-07-27 20:16:06', null);
+INSERT INTO `t_user` VALUES ('1', 'admin', '管理员', 'admin', '1', '2018-12-23 11:06:57', '2018-12-23 12:52:32');
+INSERT INTO `t_user` VALUES ('2', 'guest', '游客', 'guest', '1', '2019-01-02 21:16:30', '2019-01-02 21:16:32');
+INSERT INTO `t_user` VALUES ('3', 'whc', '我', 'whc', '1', '2019-07-21 11:46:45', '2019-08-04 16:59:41');
+INSERT INTO `t_user` VALUES ('13', 'test', 'test1', 'test', '1', '2019-08-04 18:01:13', '2019-08-04 18:02:50');
 
 -- ----------------------------
 -- Table structure for t_user_role
@@ -291,13 +293,14 @@ CREATE TABLE `t_user_role` (
   `user_id` bigint(20) NOT NULL COMMENT '用户id',
   `role_id` bigint(20) NOT NULL COMMENT '角色id',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='用户角色信息表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='用户角色信息表';
 
 -- ----------------------------
 -- Records of t_user_role
 -- ----------------------------
 INSERT INTO `t_user_role` VALUES ('1', '1', '1');
 INSERT INTO `t_user_role` VALUES ('2', '2', '2');
+INSERT INTO `t_user_role` VALUES ('3', '13', '5');
 
 -- ----------------------------
 -- Table structure for t_user_test
