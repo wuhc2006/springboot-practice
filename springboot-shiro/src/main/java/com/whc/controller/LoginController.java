@@ -7,6 +7,7 @@ import com.whc.service.UserService;
 import com.whc.util.ContextUtil;
 import com.whc.util.JwtToken;
 import com.whc.util.JwtUtil;
+import com.whc.util.MD5Util;
 import com.whc.vo.ApiResponseVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -63,12 +64,13 @@ public class LoginController {
         if (user == null){
             return new ApiResponseVO<>(500, "用户不存在！", null);
         }
-        if (!user.getPassword().equals(password)){
+        String md5 = MD5Util.MD5(password);
+        if (!user.getPassword().equals(md5)){
             return new ApiResponseVO<>(500, "密码错误！", null);
         }
 
         //构建jwt token
-        String token = JwtUtil.sign(username, password);
+        String token = JwtUtil.sign(username, md5);
         JwtToken jwtToken = new JwtToken(token);
 
         //在这里验证登录

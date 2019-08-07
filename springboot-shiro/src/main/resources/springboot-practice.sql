@@ -279,10 +279,10 @@ CREATE TABLE `t_user` (
 -- ----------------------------
 -- Records of t_user
 -- ----------------------------
-INSERT INTO `t_user` VALUES ('1', 'admin', '管理员', 'admin', '1', '2018-12-23 11:06:57', '2018-12-23 12:52:32');
-INSERT INTO `t_user` VALUES ('2', 'guest', '游客', 'guest', '1', '2019-01-02 21:16:30', '2019-01-02 21:16:32');
-INSERT INTO `t_user` VALUES ('3', 'whc', '我', 'whc', '1', '2019-07-21 11:46:45', '2019-08-04 16:59:41');
-INSERT INTO `t_user` VALUES ('13', 'test', 'test1', 'test', '1', '2019-08-04 18:01:13', '2019-08-04 18:02:50');
+INSERT INTO `t_user` VALUES ('1', 'admin', '管理员', '21232f297a57a5a743894a0e4a801fc3', '1', '2018-12-23 11:06:57', '2018-12-23 12:52:32');
+INSERT INTO `t_user` VALUES ('2', 'guest', '游客', '084e0343a0486ff05530df6c705c8bb4', '1', '2019-01-02 21:16:30', '2019-01-02 21:16:32');
+INSERT INTO `t_user` VALUES ('3', 'whc', '我', '1ae28118d7cb9a6a87aec71b22467e74', '1', '2019-07-21 11:46:45', '2019-08-04 16:59:41');
+INSERT INTO `t_user` VALUES ('13', 'test', 'test1', '098f6bcd4621d373cade4e832627b4f6', '1', '2019-08-04 18:01:13', '2019-08-04 18:02:50');
 
 -- ----------------------------
 -- Table structure for t_user_role

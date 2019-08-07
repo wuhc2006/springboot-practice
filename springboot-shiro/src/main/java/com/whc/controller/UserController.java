@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.whc.domain.entity.User;
 import com.whc.service.UserService;
+import com.whc.util.MD5Util;
 import com.whc.vo.ApiResponseVO;
 import io.netty.util.internal.StringUtil;
 import io.swagger.annotations.Api;
@@ -47,6 +48,7 @@ public class UserController{
         }
         user.setAddTime(new Date());
         user.setUserStatus("1");
+        user.setPassword(MD5Util.MD5(user.getPassword()));
         this.userService.insertOne(user);
         return ApiResponseVO.success("新增成功", user);
     }
