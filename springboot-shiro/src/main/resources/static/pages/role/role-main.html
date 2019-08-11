@@ -93,25 +93,12 @@
 </div>
 
 <!--菜单信息-->
-<!-- <div class="zTreeDemoBackground center">
-	<ul id="menuTree" class="ztree"></ul>
-</div> -->
-<!--<div style="display: none" id="selectMenuPage" lay-filter="test22">
-	<form class="layui-form" action="####" style="margin-right: 5%; margin-top: 10px;height: 500px"  id="itemAddForm">
-		<div class="layui-form-item" pane="" id="selectMenuPage">
-		    <div class="zTreeDemoBackground center">
-				<ul id="menuTree" class="ztree"></ul>
-			</div>
-		</div>
-	</form>
-</div>-->
-<!--菜单页面选择-->
 <div style="display: none" id="selectMenuPage" lay-filter="test22">
-	<form class="layui-form" action="####" style="margin-right: 5%; margin-top: 10px;height: 500px"  id="itemAddForm">
-		<div class="layui-form-item" id="selectMenuPage">
-		    <label class="layui-form-label">菜单列表</label>
-		    <!--<div class="layui-input-block" id = "menuCheckList" lay-filter="menu">
-		    </div>-->
+	<form class="layui-form" action="####" style="margin-right: 5%; margin-top: 10px;height: 500px" >
+		<div class="layui-form-item">
+		    <div class="zTreeDemoBackground center">
+				<ul id="menuTree" class="ztree">12123123</ul>
+			</div>
 		</div>
 	</form>
 </div>
@@ -119,13 +106,6 @@
 <script type="text/javascript" src="../../frame/layui/layui.js"></script>
 <script type="text/javascript" src="../../js/index.js"></script>
 <script type="text/javascript" src="role.js"></script>
-<!-- 表格操作按钮集 -->
-<script type="text/html" id="roleTypeTpl">
-  if({{data.roleType}}=='0'){平台}else if({{data.type}}=='1'){供应商}
-</script>
-<script type="text/html" id="roleStatusTpl">
-  if({{data.status}}=='0'){停用}else if({{data.status}}=='1'){启用}
-</script>
 <script type="text/html" id="barOption">
     <a class="layui-btn layui-btn-mini layui-btn-normal" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-mini layui-btn-danger" lay-event="del">删除</a>

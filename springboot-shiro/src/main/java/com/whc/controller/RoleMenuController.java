@@ -8,10 +8,7 @@ import com.whc.util.ContextUtil;
 import com.whc.util.JwtUtil;
 import com.whc.vo.ApiResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,37 +28,39 @@ public class RoleMenuController {
 
     @Autowired
     private UserService userService;
+
     /**
      * 通过角色查询菜单
+     *
      * @return
      */
-    @GetMapping("/selectMenus")
-    public ApiResponseVO<Object> selectMenuByRoleId(Long roleId){
-        if (roleId == null){
+    @GetMapping("/select/{roleId}")
+    public ApiResponseVO<Object> selectMenuByRoleId(@PathVariable String roleId) {
+        if (roleId == null) {
             return selectMenuByContext();
         }
-        return new ApiResponseVO<>(200, "查找到菜单", roleMenuService.selectMenuByRoleId(roleId));
+        return new ApiResponseVO<>(200, "查找到菜单", roleMenuService.selectMenuByRoleId(Long.parseLong(roleId)));
     }
 
     @GetMapping("/selectMenuByContext")
-    public ApiResponseVO<Object> selectMenuByContext(){
+    public ApiResponseVO<Object> selectMenuByContext() {
         String username = JwtUtil.getUsername(ContextUtil.get().toString());
         User user = userService.findByName(username);
-        if (user != null){
+        if (user != null) {
             return new ApiResponseVO<>(200, "查找到菜单!", roleMenuService.selectMenuByRoleId(user.getId()));
-        } else{
+        } else {
             return new ApiResponseVO<>(500, "未找到用户", null);
         }
     }
 
     /**
      * 为某个角色添加菜单
+     *
      * @return
      */
     @PostMapping("/addMenu2Role")
-    public ApiResponseVO<Object> addMenu2Role(Long roleId, List<Long> menuIds){
-        ApiResponseVO<Object> apiResponseVO = new ApiResponseVO<>();
-        apiResponseVO = roleMenuService.addMenu2Role(roleId, menuIds);
+    public ApiResponseVO<Object> addMenu2Role(Long roleId, List<Long> menuIds) {
+        ApiResponseVO<Object> apiResponseVO = roleMenuService.addMenu2Role(roleId, menuIds);
         return apiResponseVO;
     }
 }

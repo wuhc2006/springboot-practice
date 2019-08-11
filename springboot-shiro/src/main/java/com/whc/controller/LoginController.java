@@ -94,7 +94,7 @@ public class LoginController {
         if(subject.isAuthenticated()){
             Cookie cookie = new Cookie("token",token);
             cookie.setHttpOnly(true);
-            cookie.setMaxAge(3600*5);
+            cookie.setMaxAge(60);// cookie有效期5个小时
             cookie.setPath("/");
             response.addCookie(cookie);
 

@@ -69,11 +69,11 @@ public class RoleController {
     }
 
     @ApiOperation(value = "删除角色", tags = "删除角色")
-    @PostMapping("/deleteById")
+    @PostMapping("/delete/{id}")
     @RequiresRoles("admin")
-    public ApiResponseVO<Object> deleteById(@RequestParam Long roleId) {
-        this.roleService.deleteById(roleId);
-        return new ApiResponseVO<>(200, "删除成功!", roleId);
+    public ApiResponseVO<Object> deleteById(@RequestParam Long id) {
+        this.roleService.deleteById(id);
+        return new ApiResponseVO<>(200, "删除成功!", id);
     }
 
 }

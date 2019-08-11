@@ -22,19 +22,19 @@ public class MenuController {
     private MenuService menuService;
 
     @GetMapping("/list")
-    public ApiResponseVO<Object> selectAll(int page, int pageSize, Menu menu) {
+    public ApiResponseVO<Object> selectAll(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int pageSize, Menu menu) {
         PageHelper.startPage(page, pageSize);
         PageInfo<Menu> pageInfo = new PageInfo<>(menuService.list(menu));
         return new ApiResponseVO<>(200, "查询成功！", pageInfo.getList(), (int)pageInfo.getTotal());
     }
 
-    @GetMapping("/selectOne")
-    public ApiResponseVO<Object> selectOne(@RequestParam Long menuId) {
-        Menu menu = menuService.selectByPrimaryKey(menuId);
+    @GetMapping("/selectOne/{id}")
+    public ApiResponseVO<Object> selectOne(@PathVariable Long id) {
+        Menu menu = menuService.selectByPrimaryKey(id);
         if (menu != null) {
             return new ApiResponseVO<>(200, "查询成功！", menu);
         } else {
-            return new ApiResponseVO<>(500, "未找到符合条件的记录!", menuId);
+            return new ApiResponseVO<>(500, "未找到符合条件的记录!", id);
         }
     }
 
@@ -49,9 +49,9 @@ public class MenuController {
         return new ApiResponseVO<>(200, "更新成功！", null);
     }
 
-    @PostMapping("/delete")
-    public ApiResponseVO<Object> delete(@RequestParam Long menuId) {
-        menuService.deleteByPrimaryKey(menuId);
+    @PostMapping("/delete/{id}")
+    public ApiResponseVO<Object> delete(@PathVariable Long id) {
+        menuService.deleteByPrimaryKey(id);
         return new ApiResponseVO<>(200, "删除成功！", null);
     }
 
