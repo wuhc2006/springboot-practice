@@ -137,11 +137,11 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
     // you code ...
     queryDynamic();
     //初始化控件数据
-    //loadData();
+    loadData();
     //从后台加载数据
     function loadData() {
         $.ajax({
-            type: 'post',
+            type: 'get',
             url: accountBackPath + '/role/list',
             data: {
                 page: 1,
@@ -152,9 +152,7 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
             success: function (result) {
                 var role = result.data;
                 for (var i = 0; i < role.length; i++) {
-                    $("#roleType").append("<option value='" + role[i].id + "'>" + role[i].type +
-                        "</option>");
-                    $("#roleTypeAdd").append("<option value='" + role[i].id + "'>" + role[i].type +
+                    $("#roleTitleAdd").append("<option value='" + role[i].id + "'>" + role[i].title +
                         "</option>");
                     layui.form.render('select');
                 }
@@ -256,7 +254,196 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
             }
         });
     });
-    //监听工具条事件
+
+    function updatePassword(data) {
+        layer.open({
+            type: 1,
+            skin: 'layui-layer-lan',
+            title: '修改密码',
+            area: ['800px', '400px'],
+            offset: '100px', //只定义top坐标，水平保持居中
+            shade: ['0.3', '#000'],
+            maxmin: true,
+            content: $('#updatePasswordPage'),
+            btn: ['确认', '取消'],
+            yes: function (index, layero) {
+                //获取修改后的值
+                var originalPassword = $('#originalPassword').val();
+                var newPassword = $('#newPassword').val();
+                var confirmPassword = $('#confirmPassword').val();
+                if (newPassword != confirmPassword) {
+                    alert("两次输入密码不一致，请重试！");
+                    return;
+                }
+                $.ajax({
+                    type: "POST",
+                    dataType: 'json',
+                    url: accountBackPath + '/user/updatePassword',
+                    data: {
+                        'userId': data.userId,
+                        'password': originalPassword,
+                        "newPassword": newPassword
+                    },
+                    success: function (data) {
+                        if (data.code == 200) {
+                            layer.msg('修改成功!', {
+                                icon: 6
+                            });
+                            queryDynamic();
+                        } else {
+                            layer.msg(data.msg, {
+                                icon: 5,
+                                time: 2000
+                            }, function (index) {
+                                layer.close(index);
+                            });
+                        }
+                    }
+                });
+                layer.closeAll();
+            }
+        });
+    }
+
+    function edit(data) {
+        layer.open({
+            type: 1,
+            skin: 'layui-layer-lan',
+            title: '编辑用户',
+            area: ['800px', '600px'],
+            offset: '100px', //只定义top坐标，水平保持居中
+            shade: ['0.3', '#000'],
+            maxmin: true,
+            content: $('#addUserPage'),
+            btn: ['确认', '取消'],
+            yes: function (index, layero) {
+                //获取修改后的值
+                var name = $('#usernameAdd').val();
+                var realname = $('#realnameAdd').val();
+                var title = $('#roleTitleAdd').find("option:selected").text();
+                var type = $('#roleTypeAdd').val();
+                var status = $('#userStatusAdd').val();
+                var password = $('#passwordAdd').val();
+                var roleId;
+                $.ajax({
+                    type: "get",
+                    dataType: 'json',
+                    url: accountBackPath + '/role/list',
+                    data: {
+                        page: 1,
+                        pageSize: 100,
+                        "name": "",
+                        "title": title,
+                        "type": type
+                    },
+                    success: function (result) {
+                        var role = result.data;
+                        //获取第一个的roleid
+                        roleId = role[0].id;
+
+                        //提交修改
+                        $.ajax({
+                            type: "POST",
+                            dataType: 'json',
+                            url: accountBackPath + '/user/update',
+                            data: {
+                                'id': data.id,
+                                'roleId': roleId,
+                                'realname': realname,
+                                'username': name,
+                                'password': password,
+                                "roleType": type,
+                                'roleTitle': title,
+                                "userStatus": status
+                            },
+                            success: function (data) {
+                                if (data.code == 200) {
+                                    layer.msg('修改成功!', {
+                                        icon: 6
+                                    });
+                                    queryDynamic();
+                                } else {
+                                    layer.msg(data.msg, {
+                                        icon: 5,
+                                        time: 2000
+                                    }, function (index) {
+                                        layer.close(
+                                            index);
+                                    });
+                                }
+                            }
+                        });
+                    }
+                });
+                layer.closeAll();
+            }
+        });
+    }
+
+    function del(data) {
+        layer.confirm('确定要删除?删除后数据不可恢复！', {
+            icon: 3,
+            title: '提示'
+        }, function (index) {
+            $.ajax({
+                type: "delete",
+                dataType: 'json',
+                url: accountBackPath + '/user/delete/' + data.id,
+                success: function (data) {
+                    if (data.code == 200) {
+                        layer.msg('删除成功!!!', {
+                            icon: 6
+                        });
+                        queryDynamic();
+                    }
+                },
+            });
+            layer.close(index);
+        });
+    }
+
+    /**
+     * 分配角色
+     */
+    function assignRole(data) {
+        layer.open({
+            type: 1,
+            skin: 'layui-layer-lan',
+            title: '分配角色',
+            area: ['800px', '600px'],
+            offset: '100px', //只定义top坐标，水平保持居中
+            shade: ['0.3', '#000'],
+            maxmin: true,
+            content: $('#assignRolePage'),
+            btn: ['确认', '取消'],
+            success:function(index, layero){
+                $("#roleTitleAdd").val(data.roleId);
+                layui.form.render('select');
+            },
+            yes: function (index, layero) {
+                let roleId = $("#roleTitleAdd option:selected").val();
+                if (roleId == ""){
+                    return;
+                }
+                $.ajax({
+                    type: "POST",
+                    dataType: 'json',
+                    url: accountBackPath + '/userRole/assignRole',
+                    data: {
+                        'userId': data.id,
+                        'roleId': roleId
+                    },
+                    success: function (data) {
+                        layer.msg('分配角色成功!!!', {icon: 6});
+                    }
+                });
+                layer.closeAll();
+            }
+
+        });
+    }
+
+//监听工具条事件
     table.on('tool(dateTable)', function (obj) {
         var data = obj.data, //获得当前行数据
             layEvent = obj.event; //获得 lay-event 对应的值
@@ -271,147 +458,13 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
         //隐藏密码框
         $("#passwordPane").hide();
         if (layEvent === 'edit') {
-            layer.open({
-                type: 1,
-                skin: 'layui-layer-lan',
-                title: '编辑用户',
-                area: ['800px', '600px'],
-                offset: '100px', //只定义top坐标，水平保持居中
-                shade: ['0.3', '#000'],
-                maxmin: true,
-                content: $('#addUserPage'),
-                btn: ['确认', '取消'],
-                yes: function (index, layero) {
-                    //获取修改后的值
-                    var name = $('#usernameAdd').val();
-                    var realname = $('#realnameAdd').val();
-                    var title = $('#roleTitleAdd').find("option:selected").text();
-                    var type = $('#roleTypeAdd').val();
-                    var status = $('#userStatusAdd').val();
-                    var password = $('#passwordAdd').val();
-                    var roleId;
-                    $.ajax({
-                        type: "get",
-                        dataType: 'json',
-                        url: accountBackPath + '/role/list',
-                        data: {
-                            page: 1,
-                            pageSize: 100,
-                            "name": "",
-                            "title": title,
-                            "type": type
-                        },
-                        success: function (result) {
-                            var role = result.data;
-                            //获取第一个的roleid
-                            roleId = role[0].id;
-
-                            //提交修改
-                            $.ajax({
-                                type: "POST",
-                                dataType: 'json',
-                                url: accountBackPath + '/user/update',
-                                data: {
-                                    'id': data.id,
-                                    'roleId': roleId,
-                                    'realname': realname,
-                                    'username': name,
-                                    'password': password,
-                                    "roleType": type,
-                                    'roleTitle': title,
-                                    "userStatus": status
-                                },
-                                success: function (data) {
-                                    if (data.code == 200) {
-                                        layer.msg('修改成功!', {
-                                            icon: 6
-                                        });
-                                        queryDynamic();
-                                    } else {
-                                        layer.msg(data.msg, {
-                                            icon: 5,
-                                            time: 2000
-                                        }, function (index) {
-                                            layer.close(
-                                                index);
-                                        });
-                                    }
-                                }
-                            });
-                        }
-                    });
-                    layer.closeAll();
-                }
-            });
-        } else if (layEvent == 'del') {
-            //打开一个询问框
-            layer.confirm('确定要删除?删除后数据不可恢复！', {
-                icon: 3,
-                title: '提示'
-            }, function (index) {
-                $.ajax({
-                    type: "delete",
-                    dataType: 'json',
-                    url: accountBackPath + '/user/delete/' + data.id,
-                    success: function (data) {
-                        if (data.code == 200) {
-                            layer.msg('删除成功!!!', {
-                                icon: 6
-                            });
-                            queryDynamic();
-                        }
-                    },
-                });
-                layer.close(index);
-            });
-        } else if (layEvent == 'updatePassword') {
-            layer.open({
-                type: 1,
-                skin: 'layui-layer-lan',
-                title: '修改密码',
-                area: ['800px', '400px'],
-                offset: '100px', //只定义top坐标，水平保持居中
-                shade: ['0.3', '#000'],
-                maxmin: true,
-                content: $('#updatePasswordPage'),
-                btn: ['确认', '取消'],
-                yes: function (index, layero) {
-                    //获取修改后的值
-                    var originalPassword = $('#originalPassword').val();
-                    var newPassword = $('#newPassword').val();
-                    var confirmPassword = $('#confirmPassword').val();
-                    if (newPassword != confirmPassword) {
-                        alert("两次输入密码不一致，请重试！");
-                        return;
-                    }
-                    $.ajax({
-                        type: "POST",
-                        dataType: 'json',
-                        url: accountBackPath + '/user/updatePassword',
-                        data: {
-                            'userId': data.userId,
-                            'password': originalPassword,
-                            "newPassword": newPassword
-                        },
-                        success: function (data) {
-                            if (data.code == 200) {
-                                layer.msg('修改成功!', {
-                                    icon: 6
-                                });
-                                queryDynamic();
-                            } else {
-                                layer.msg(data.msg, {
-                                    icon: 5,
-                                    time: 2000
-                                }, function (index) {
-                                    layer.close(index);
-                                });
-                            }
-                        }
-                    });
-                    layer.closeAll();
-                }
-            });
+            edit(data);
+        } else if (layEvent === 'del') {
+            del(data);
+        } else if (layEvent === 'updatePassword') {
+            updatePassword(data);
+        } else if (layEvent === 'assignRole'){
+            assignRole(data);
         }
     });
 });

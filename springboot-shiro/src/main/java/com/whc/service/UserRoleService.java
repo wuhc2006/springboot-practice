@@ -19,4 +19,6 @@ public interface UserRoleService {
     int updateByPrimaryKey(UserRole record);
 
     List<UserRole> selectByUserId(Long id);
+
+    void assignRole(Long userId, Long roleId);
 }

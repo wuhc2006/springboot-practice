@@ -6,7 +6,7 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
         vipTable = layui.vip_table,
         layer = layui.layer,
         tree = layui.tree;
-        $ = layui.jquery;
+    $ = layui.jquery;
 
     // 初始化表格数据
     load();
@@ -68,8 +68,51 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
                         $(this).text("启用");
                     }
                 });
+                initMenu();
             }
         });
+    }
+
+    let zTree;
+    /**
+     * 菜单设置
+     * @type {{data: {simpleData: {enable: boolean}}, check: {enable: boolean}}}
+     */
+    let settings = {
+        check: {
+            enable: true
+        },
+        data: {
+            simpleData: {
+                enable: true
+            }
+        }
+    }
+
+    /**
+     * 初始化菜单
+     */
+    function initMenu() {
+        $.ajax({
+            type: 'get',
+            url: basePath + '/menu/list',
+            dataTable: 'json',
+            async: false,
+            success: function (result) {
+                if (result.code === 200) {
+                    let nodes = [];
+                    for (let i = 0; i < result.data.length; i++) {
+                        let data = {};
+                        data.id = result.data[i].menuId;
+                        data.pId = result.data[i].parentId;
+                        data.name = result.data[i].name;
+                        nodes[i] = data;
+                    }
+                    zTree = jQuery.fn.zTree.init($("#menuTree"), settings, nodes);// 为了避免与layui的$冲突，此处用jQuery，不要用$
+                    zTree.expandAll(true);
+                }
+            }
+        })
     }
 
     function loadRole() {
@@ -163,7 +206,7 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
         } else if (layEvent === 'del') {
             del(data);
         } else if (layEvent === 'setPermission') {
-            setPermission();
+            setPermission(data);
         }
 
     });
@@ -251,48 +294,9 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
     }
 
     /**
-     * 菜单设置
-     * @type {{data: {simpleData: {enable: boolean}}, check: {enable: boolean}}}
-     */
-    let settings = {
-        check: {
-            enable: true
-        },
-        data: {
-            simpleData: {
-                enable: true
-            }
-        }
-    }
-
-    /**
-     * 初始化菜单
-     */
-    function initMenu() {
-        $.ajax({
-            type: 'get',
-            url: basePath + '/menu/list',
-            dataTable: 'json',
-            success: function (result) {
-                if (result.code === 200) {
-                    let nodes = [];
-                    for (let i = 0; i < result.data.length; i++) {
-                        let data = {};
-                        data.id = result.data[i].menuId;
-                        data.pId = result.data[i].parentId;
-                        data.name = result.data[i].name;
-                        nodes[i] = data;
-                    }
-                    jQuery.fn.zTree.init($("#menuTree"), settings, nodes);// 为了避免与layui的$冲突，此处用jQuery，不要用$
-                }
-            }
-        })
-    }
-
-    /**
      * 设置权限
      */
-    function setPermission() {
+    function setPermission(data) {
         layer.open({
             type: 1,
             skin: 'layui-layer-lan',
@@ -304,12 +308,66 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
             content: $('#selectMenuPage'),
             btn: ['确认', '取消'],
             success: function (index, layero) {
-                initMenu();
+                removeChecked();
+                loadMenu(data.id);
             },
             yes: function (index, layero) {
+                updateMenu(data.id);
                 layer.closeAll();
             }
 
+        });
+    }
+    
+    function updateMenu(roleId) {
+        let selNodes =zTree.getCheckedNodes();
+        let nodeIds = [];
+        for (let i = 0; i < selNodes.length; i++) {
+            nodeIds[i] = zTree.getCheckedNodes()[i].id;
+        }
+        $.ajax({
+            type: "post",
+            dataType: 'json',
+            url: basePath + '/roleMenu/addMenu2Role',
+            data:{
+                "roleId": roleId,
+                "menuIds": nodeIds
+            },
+            success: function (result) {
+                if (result.code === 200) {
+                    layer.msg('权限分配成功!', {icon: 6});
+                }
+            },
+        });
+    }
+
+    /**
+     * 移除已经选中的节点
+     */
+    function removeChecked() {
+        let nodes = zTree.getCheckedNodes();
+        for (let i = 0; i < nodes.length; i++) {
+            zTree.checkNode(nodes[i], false, false);
+        }
+    }
+
+    /**
+     * 通过角色查找菜单
+     * @param roleId
+     */
+    function loadMenu(roleId) {
+        $.ajax({
+            type: "get",
+            dataType: 'json',
+            url: basePath + '/roleMenu/select/' + roleId,
+            success: function (result) {
+                if (result.code === 200) {
+                    for (let i = 0; i < result.data.length; i++) {
+                        let node = zTree.getNodeByParam("id", result.data[i].menuId);
+                        zTree.checkNode(node,true,false);
+                    }
+                }
+            },
         });
     }
 

@@ -39,7 +39,7 @@ public class RoleController {
     @ApiOperation(value = "列出角色", tags = "列出所有角色")
     @GetMapping("/list")
     @RequiresRoles(value = {"admin", "guest"}, logical = Logical.OR)
-    public ApiResponseVO<Object> list(Role role, Integer page, Integer pageSize) {
+    public ApiResponseVO<Object> list(Role role, @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "100") int pageSize) {
         PageHelper.startPage(page, pageSize);
         PageInfo<Role> pageInfo = new PageInfo<>(roleService.list(role));
         return new ApiResponseVO<>(200, "查询成功！", pageInfo.getList(), (int) pageInfo.getTotal());

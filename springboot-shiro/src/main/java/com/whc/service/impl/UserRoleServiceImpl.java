@@ -5,6 +5,7 @@ import com.whc.domain.entity.UserRole;
 import com.whc.service.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -52,5 +53,19 @@ public class UserRoleServiceImpl implements UserRoleService {
     @Override
     public List<UserRole> selectByUserId(Long id) {
         return userRoleMapper.selectByUserId(id);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void assignRole(Long userId, Long roleId) {
+        // 先查询是否有角色
+        List<UserRole> userRoles = userRoleMapper.selectByUserId(userId);
+        if (userRoles != null && !userRoles.isEmpty()){
+            UserRole userRole = userRoles.get(0);
+            userRole.setRoleId(roleId);
+            userRoleMapper.updateByPrimaryKey(userRole);// 只能有一个角色
+        } else{
+            userRoleMapper.insert(new UserRole(userId, roleId));
+        }
     }
 }

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50716
 File Encoding         : 65001
 
-Date: 2019-08-05 20:16:58
+Date: 2019-08-11 22:05:49
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -20,7 +20,7 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `hibernate_sequence`;
 CREATE TABLE `hibernate_sequence` (
-  `next_val` bigint(20) DEFAULT NULL
+    `next_val` bigint(20) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -33,16 +33,16 @@ INSERT INTO `hibernate_sequence` VALUES ('13');
 -- ----------------------------
 DROP TABLE IF EXISTS `t_goods`;
 CREATE TABLE `t_goods` (
-  `id` bigint(20) NOT NULL,
-  `goods_name` varchar(20) NOT NULL COMMENT '商品名称',
-  `amount` int(8) NOT NULL,
-  `inventory` int(8) NOT NULL COMMENT '库存',
-  `original_price` decimal(10,2) NOT NULL COMMENT '原价',
-  `sell_price` decimal(10,2) NOT NULL COMMENT '售价',
-  `create_time` date NOT NULL COMMENT '创建时间',
-  `modify_time` date NOT NULL COMMENT '修改时间',
-  PRIMARY KEY (`id`),
-  FULLTEXT KEY `fullindex_goodsname` (`goods_name`)
+                           `id` bigint(20) NOT NULL,
+                           `goods_name` varchar(20) NOT NULL COMMENT '商品名称',
+                           `amount` int(8) NOT NULL,
+                           `inventory` int(8) NOT NULL COMMENT '库存',
+                           `original_price` decimal(10,2) NOT NULL COMMENT '原价',
+                           `sell_price` decimal(10,2) NOT NULL COMMENT '售价',
+                           `create_time` date NOT NULL COMMENT '创建时间',
+                           `modify_time` date NOT NULL COMMENT '修改时间',
+                           PRIMARY KEY (`id`),
+                           FULLTEXT KEY `fullindex_goodsname` (`goods_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -56,17 +56,17 @@ INSERT INTO `t_goods` VALUES ('2', 'apple手机', '3000', '100', '5000.00', '459
 -- ----------------------------
 DROP TABLE IF EXISTS `t_menu`;
 CREATE TABLE `t_menu` (
-  `menu_id` bigint(50) NOT NULL AUTO_INCREMENT COMMENT '菜单ID',
-  `parent_id` bigint(50) DEFAULT NULL COMMENT '菜单父节点ID',
-  `name` varchar(50) NOT NULL COMMENT '菜单名称',
-  `parent_name` varchar(50) DEFAULT NULL COMMENT '父级菜单名称',
-  `path` varchar(100) DEFAULT NULL COMMENT '路径',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `create_people` varchar(50) DEFAULT NULL COMMENT '创建人',
-  `update_time` timestamp NULL DEFAULT NULL COMMENT '修改时间',
-  `update_people` varchar(50) DEFAULT NULL COMMENT '修改人',
-  `sort_no` bigint(10) NOT NULL DEFAULT '1' COMMENT '排序字段',
-  PRIMARY KEY (`menu_id`)
+                          `menu_id` bigint(50) NOT NULL AUTO_INCREMENT COMMENT '菜单ID',
+                          `parent_id` bigint(50) DEFAULT NULL COMMENT '菜单父节点ID',
+                          `name` varchar(50) NOT NULL COMMENT '菜单名称',
+                          `parent_name` varchar(50) DEFAULT NULL COMMENT '父级菜单名称',
+                          `path` varchar(100) DEFAULT NULL COMMENT '路径',
+                          `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                          `create_people` varchar(50) DEFAULT NULL COMMENT '创建人',
+                          `update_time` timestamp NULL DEFAULT NULL COMMENT '修改时间',
+                          `update_people` varchar(50) DEFAULT NULL COMMENT '修改人',
+                          `sort_no` bigint(10) NOT NULL DEFAULT '1' COMMENT '排序字段',
+                          PRIMARY KEY (`menu_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=143 DEFAULT CHARSET=utf8 COMMENT='菜单信息表';
 
 -- ----------------------------
@@ -101,13 +101,13 @@ INSERT INTO `t_menu` VALUES ('142', '120', '用户历史订单', '订单管理',
 -- ----------------------------
 DROP TABLE IF EXISTS `t_order`;
 CREATE TABLE `t_order` (
-  `id` bigint(20) NOT NULL,
-  `user_id` bigint(20) NOT NULL COMMENT '用户id',
-  `goods_id` bigint(20) NOT NULL COMMENT '商品id',
-  `count` int(3) NOT NULL DEFAULT '1' COMMENT '购买数量',
-  `total_price` decimal(10,2) DEFAULT NULL,
-  `create_time` date NOT NULL COMMENT '创建时间',
-  PRIMARY KEY (`id`)
+                           `id` bigint(20) NOT NULL,
+                           `user_id` bigint(20) NOT NULL COMMENT '用户id',
+                           `goods_id` bigint(20) NOT NULL COMMENT '商品id',
+                           `count` int(3) NOT NULL DEFAULT '1' COMMENT '购买数量',
+                           `total_price` decimal(10,2) DEFAULT NULL,
+                           `create_time` date NOT NULL COMMENT '创建时间',
+                           PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -123,12 +123,12 @@ INSERT INTO `t_order` VALUES ('12', '4', '1', '1', '999.00', '2019-06-12');
 -- ----------------------------
 DROP TABLE IF EXISTS `t_permission`;
 CREATE TABLE `t_permission` (
-  `id` bigint(20) NOT NULL,
-  `name` varchar(255) DEFAULT NULL COMMENT '权限名称',
-  `description` varchar(255) DEFAULT NULL COMMENT '权限描述',
-  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
-  PRIMARY KEY (`id`)
+                                `id` bigint(20) NOT NULL,
+                                `name` varchar(255) DEFAULT NULL COMMENT '权限名称',
+                                `description` varchar(255) DEFAULT NULL COMMENT '权限描述',
+                                `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+                                `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+                                PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='权限表';
 
 -- ----------------------------
@@ -144,14 +144,14 @@ INSERT INTO `t_permission` VALUES ('4', 'delete', '删除', '2019-01-02 21:18:36
 -- ----------------------------
 DROP TABLE IF EXISTS `t_role`;
 CREATE TABLE `t_role` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL COMMENT '角色标号',
-  `title` varchar(255) DEFAULT NULL COMMENT '角色标题',
-  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
-  `type` int(2) DEFAULT '0' COMMENT '角色类型',
-  `status` int(2) DEFAULT '1' COMMENT '启用或禁用，0为禁用，1为启用',
-  PRIMARY KEY (`id`)
+                          `id` bigint(20) NOT NULL AUTO_INCREMENT,
+                          `name` varchar(255) DEFAULT NULL COMMENT '角色标号',
+                          `title` varchar(255) DEFAULT NULL COMMENT '角色标题',
+                          `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+                          `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+                          `type` int(2) DEFAULT '0' COMMENT '角色类型',
+                          `status` int(2) DEFAULT '1' COMMENT '启用或禁用，0为禁用，1为启用',
+                          PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='角色表';
 
 -- ----------------------------
@@ -159,20 +159,20 @@ CREATE TABLE `t_role` (
 -- ----------------------------
 INSERT INTO `t_role` VALUES ('1', 'admin', '管理员', '2019-01-02 21:16:49', '2019-01-21 21:13:39', '1', '1');
 INSERT INTO `t_role` VALUES ('2', 'guest', '游客', '2019-01-02 21:16:57', '2019-08-04 19:57:46', '0', '1');
-INSERT INTO `t_role` VALUES ('4', 'whc', '测试1', '2019-01-11 22:48:10', '2019-07-26 23:40:37', '1', '1');
-INSERT INTO `t_role` VALUES ('5', 'common', '普通用户', '2019-08-04 17:17:15', null, '0', '1');
+INSERT INTO `t_role` VALUES ('4', 'whc', '测试1', '2019-01-11 22:48:10', '2019-08-11 11:46:05', '1', '1');
+INSERT INTO `t_role` VALUES ('5', 'common', '普通用户1', '2019-08-04 17:17:15', '2019-08-11 12:36:44', '0', '1');
 
 -- ----------------------------
 -- Table structure for t_role_menu
 -- ----------------------------
 DROP TABLE IF EXISTS `t_role_menu`;
 CREATE TABLE `t_role_menu` (
-  `role_menu_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `role_id` bigint(20) NOT NULL COMMENT '角色id',
-  `menu_id` bigint(20) NOT NULL COMMENT '菜单id',
-  PRIMARY KEY (`role_menu_id`),
-  KEY `t_role_id` (`role_id`) USING HASH COMMENT '增加索引'
-) ENGINE=InnoDB AUTO_INCREMENT=2193 DEFAULT CHARSET=utf8;
+                               `role_menu_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+                               `role_id` bigint(20) NOT NULL COMMENT '角色id',
+                               `menu_id` bigint(20) NOT NULL COMMENT '菜单id',
+                               PRIMARY KEY (`role_menu_id`),
+                               KEY `t_role_id` (`role_id`) USING HASH COMMENT '增加索引'
+) ENGINE=InnoDB AUTO_INCREMENT=2198 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_role_menu
@@ -238,18 +238,23 @@ INSERT INTO `t_role_menu` VALUES ('2189', '2', '136');
 INSERT INTO `t_role_menu` VALUES ('2190', '2', '137');
 INSERT INTO `t_role_menu` VALUES ('2191', '2', '138');
 INSERT INTO `t_role_menu` VALUES ('2192', '2', '140');
+INSERT INTO `t_role_menu` VALUES ('2193', '5', '120');
+INSERT INTO `t_role_menu` VALUES ('2194', '5', '131');
+INSERT INTO `t_role_menu` VALUES ('2195', '5', '132');
+INSERT INTO `t_role_menu` VALUES ('2196', '5', '140');
+INSERT INTO `t_role_menu` VALUES ('2197', '5', '142');
 
 -- ----------------------------
 -- Table structure for t_role_permission
 -- ----------------------------
 DROP TABLE IF EXISTS `t_role_permission`;
 CREATE TABLE `t_role_permission` (
-  `id` bigint(20) NOT NULL,
-  `role_id` bigint(20) DEFAULT NULL COMMENT '角色id',
-  `permission_id` bigint(20) DEFAULT NULL COMMENT '权限id',
-  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
-  PRIMARY KEY (`id`)
+                                     `id` bigint(20) NOT NULL,
+                                     `role_id` bigint(20) DEFAULT NULL COMMENT '角色id',
+                                     `permission_id` bigint(20) DEFAULT NULL COMMENT '权限id',
+                                     `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+                                     `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+                                     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色权限表';
 
 -- ----------------------------
@@ -266,14 +271,14 @@ INSERT INTO `t_role_permission` VALUES ('5', '2', '2', '2019-01-02 21:19:36', nu
 -- ----------------------------
 DROP TABLE IF EXISTS `t_user`;
 CREATE TABLE `t_user` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `username` varchar(255) DEFAULT NULL COMMENT '用户名',
-  `real_name` varchar(255) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL COMMENT '密码',
-  `user_status` char(1) DEFAULT NULL,
-  `add_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
-  PRIMARY KEY (`id`)
+                          `id` bigint(20) NOT NULL AUTO_INCREMENT,
+                          `username` varchar(255) DEFAULT NULL COMMENT '用户名',
+                          `real_name` varchar(255) DEFAULT NULL,
+                          `password` varchar(255) DEFAULT NULL COMMENT '密码',
+                          `user_status` char(1) DEFAULT NULL,
+                          `add_time` datetime DEFAULT NULL COMMENT '创建时间',
+                          `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+                          PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COMMENT='用户表';
 
 -- ----------------------------
@@ -282,37 +287,38 @@ CREATE TABLE `t_user` (
 INSERT INTO `t_user` VALUES ('1', 'admin', '管理员', '21232f297a57a5a743894a0e4a801fc3', '1', '2018-12-23 11:06:57', '2018-12-23 12:52:32');
 INSERT INTO `t_user` VALUES ('2', 'guest', '游客', '084e0343a0486ff05530df6c705c8bb4', '1', '2019-01-02 21:16:30', '2019-01-02 21:16:32');
 INSERT INTO `t_user` VALUES ('3', 'whc', '我', '1ae28118d7cb9a6a87aec71b22467e74', '1', '2019-07-21 11:46:45', '2019-08-04 16:59:41');
-INSERT INTO `t_user` VALUES ('13', 'test', 'test1', '098f6bcd4621d373cade4e832627b4f6', '1', '2019-08-04 18:01:13', '2019-08-04 18:02:50');
+INSERT INTO `t_user` VALUES ('13', 'test', 'test', '098f6bcd4621d373cade4e832627b4f6', '1', '2019-08-04 18:01:13', '2019-08-11 10:39:23');
 
 -- ----------------------------
 -- Table structure for t_user_role
 -- ----------------------------
 DROP TABLE IF EXISTS `t_user_role`;
 CREATE TABLE `t_user_role` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) NOT NULL COMMENT '用户id',
-  `role_id` bigint(20) NOT NULL COMMENT '角色id',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='用户角色信息表';
+                               `id` bigint(20) NOT NULL AUTO_INCREMENT,
+                               `user_id` bigint(20) NOT NULL COMMENT '用户id',
+                               `role_id` bigint(20) NOT NULL COMMENT '角色id',
+                               PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='用户角色信息表';
 
 -- ----------------------------
 -- Records of t_user_role
 -- ----------------------------
 INSERT INTO `t_user_role` VALUES ('1', '1', '1');
-INSERT INTO `t_user_role` VALUES ('2', '2', '2');
-INSERT INTO `t_user_role` VALUES ('3', '13', '5');
+INSERT INTO `t_user_role` VALUES ('5', '2', '5');
+INSERT INTO `t_user_role` VALUES ('6', '3', '2');
+INSERT INTO `t_user_role` VALUES ('7', '13', '4');
 
 -- ----------------------------
 -- Table structure for t_user_test
 -- ----------------------------
 DROP TABLE IF EXISTS `t_user_test`;
 CREATE TABLE `t_user_test` (
-  `id` bigint(20) NOT NULL,
-  `age` int(11) DEFAULT NULL,
-  `money` decimal(19,2) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
-  `username` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+                               `id` bigint(20) NOT NULL,
+                               `age` int(11) DEFAULT NULL,
+                               `money` decimal(19,2) DEFAULT NULL,
+                               `password` varchar(255) DEFAULT NULL,
+                               `username` varchar(255) DEFAULT NULL,
+                               PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- ----------------------------

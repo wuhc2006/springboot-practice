@@ -59,7 +59,7 @@ public class RoleMenuController {
      * @return
      */
     @PostMapping("/addMenu2Role")
-    public ApiResponseVO<Object> addMenu2Role(Long roleId, List<Long> menuIds) {
+    public ApiResponseVO<Object> addMenu2Role(Long roleId, @RequestParam(value = "menuIds[]") List<Long> menuIds) {
         ApiResponseVO<Object> apiResponseVO = roleMenuService.addMenu2Role(roleId, menuIds);
         return apiResponseVO;
     }

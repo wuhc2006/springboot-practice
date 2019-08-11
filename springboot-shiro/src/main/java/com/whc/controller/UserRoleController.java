@@ -6,9 +6,9 @@ import com.whc.service.UserService;
 import com.whc.util.ContextUtil;
 import com.whc.util.JwtUtil;
 import com.whc.vo.ApiResponseVO;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author Administrator
@@ -28,7 +28,7 @@ public class UserRoleController {
      *
      * @return
      */
-    @RequestMapping("/getRoleByUser")
+    @GetMapping("/getRoleByUser")
     public ApiResponseVO<Object> getRoleByUser(Long userId) {
         if (userId == null) {
             User user = userService.findByName(JwtUtil.getUsername(ContextUtil.get().toString()));
@@ -39,6 +39,13 @@ public class UserRoleController {
             }
         }
         return new ApiResponseVO<>(200, "查询成功!", userRoleService.selectByUserId(userId));
+    }
+
+    @PostMapping("/assignRole")
+    @RequiresRoles("admin")
+    public ApiResponseVO<Object> assignRole(@RequestParam("userId") Long userId, @RequestParam("roleId") Long roleId){
+        userRoleService.assignRole(userId, roleId);
+        return ApiResponseVO.success("分配角色成功!");
     }
 
 }

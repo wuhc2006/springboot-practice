@@ -22,7 +22,7 @@ public class MenuController {
     private MenuService menuService;
 
     @GetMapping("/list")
-    public ApiResponseVO<Object> selectAll(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int pageSize, Menu menu) {
+    public ApiResponseVO<Object> selectAll(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "100") int pageSize, Menu menu) {
         PageHelper.startPage(page, pageSize);
         PageInfo<Menu> pageInfo = new PageInfo<>(menuService.list(menu));
         return new ApiResponseVO<>(200, "查询成功！", pageInfo.getList(), (int)pageInfo.getTotal());

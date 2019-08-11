@@ -49,6 +49,13 @@
                     <input type="text" id="realnameAdd" autocomplete="off" placeholder=" 请输入姓名" class="layui-input" />
                 </div>
             </div>
+            <!--<div class="layui-form-item">
+                <label class="layui-form-label">角色名称:</label>
+                <div class="layui-input-block">
+                    <select name="roleTitleAdd" id="roleTitleAdd" lay-filter="roleTitleAdd" lay-verify="required">
+                    </select>
+                </div>
+            </div>-->
             <div class="layui-form-item">
                 <label class="layui-form-label">状态:</label>
                 <div class="layui-input-block">
@@ -92,6 +99,19 @@
             </div>
         </form>
     </div>
+    <!--分配角色-->
+    <div style="display: none" id="assignRolePage" lay-filter="test22">
+        <form class="layui-form" action="####" style="margin-right: 5%; margin-top: 10px;height: 500px">
+            <div class="layui-form-item">
+                <label class="layui-form-label">角色名称:</label>
+                <div class="layui-input-block">
+                    <select name="roleTitleAdd" id="roleTitleAdd" lay-filter="roleTitleAdd" lay-verify="required">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
     <!--用户列表-->
     <div class="layui-row layui-col-space10">
         <div class="layui-col-xs12 layui-col-sm10 layui-col-md12">
@@ -106,6 +126,7 @@
     <!-- 表格操作按钮集 -->
     <script type="text/html" id="barOption">
         <a class="layui-btn layui-btn-mini layui-btn-normal" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-mini layui-btn-normal" lay-event="assignRole">分配角色</a>
         <a class="layui-btn layui-btn-mini layui-btn-danger" lay-event="del">删除</a>
         <a class="layui-btn layui-btn-mini layui-btn-danger" lay-event="updatePassword">修改密码</a>
     </script>
