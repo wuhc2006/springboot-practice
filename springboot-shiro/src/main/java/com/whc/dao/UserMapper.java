@@ -5,11 +5,8 @@ import com.whc.domain.entity.User;
 import java.util.List;
 
 /**
- * @ClassName UserMapper
- * @Description TODO
- * @Author Administrator
- * @Date 2018/12/23 10:22
- * @Version 1.0
+ * @author Administrator
+ * @date 2018/12/23 10:22
  */
 public interface UserMapper {
     User selectByPrimaryKey(Long id);

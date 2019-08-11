@@ -51,10 +51,12 @@ public class UserCacheController {
         }
         // 从数据库获取
         User user = userService.findUserById(id);
-        LOGGER.info("从数据库中获取了用户>>>>>>>>>>>>>>");
-        // 插入缓存
-        operations.set(key, user, 10, TimeUnit.MINUTES);
-        LOGGER.info("插入用户缓存" + user.toString());
+        if(user != null){
+            LOGGER.info("从数据库中获取了用户>>>>>>>>>>>>>>");
+            // 插入缓存
+            operations.set(key, user, 10, TimeUnit.MINUTES);
+            LOGGER.info("插入用户缓存" + user.toString());
+        }
         return user;
     }
 

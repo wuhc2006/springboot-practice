@@ -9,6 +9,8 @@ import java.io.Serializable;
 
 /**
  * Created by dengyaming on 08/06/2017.
+ * @author whc
+ * @date 2019
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @ApiModel(value = "ApiResponseVO", description = "接口返回数据统一结构")
