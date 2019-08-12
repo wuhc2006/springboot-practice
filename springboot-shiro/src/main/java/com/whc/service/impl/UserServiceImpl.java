@@ -68,6 +68,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public int updatePassword(User user) {
+        return userMapper.updatePassword(user);
+    }
+
+    @Override
     public User findByName(String username) {
         return userMapper.findByName(username);
     }

@@ -17,4 +17,6 @@ public interface UserMapper {
     User findByName(String username);
 
     List<User> list(User user);
+
+    int updatePassword(User user);
 }

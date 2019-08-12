@@ -11,6 +11,7 @@ public interface UserService {
     int insertOne(User user);
     int deleteById(Long id);
     int update(User user);
+    int updatePassword(User user);
     User findByName(String username);
 
     List<User> list(User user);
