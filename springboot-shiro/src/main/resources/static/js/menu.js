@@ -72,13 +72,6 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
             ],
             id: 'dataCheck',
             done: function (res, curr, count) {
-                //如果是异步请求数据方式，res即为你接口返回的信息。
-                //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
-                console.log(res);
-                //得到当前页码
-                console.log(curr);
-                //得到数据总量
-                console.log(count);
             }
         });
     }
@@ -88,13 +81,6 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
     //查询按钮事件
     $('#query').click(function (e) {
         queryDynamic();
-    });
-
-    // 获取选中行
-    table.on('checkbox(dataCheck)', function (obj) {
-        console.log(obj.checked); //当前是否选中状态
-        console.log(obj.data); //选中行的相关数据
-        console.log(obj.type); //如果触发的是全选，则为：all，如果触发的是单选，则为：one
     });
 
     // you code ...
@@ -149,7 +135,7 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
                     success: function (data) {
                         debugger;
                         console.log(data);
-                        if (data.code == 200) {
+                        if (data.code === 200) {
                             layer.msg('添加成功!', {
                                 icon: 6
                             });
@@ -183,20 +169,16 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
         })
     }
 
-    //监听工具条
-    //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
-    table.on('tool(dataTable)', function (obj) {
-        var data = obj.data //获得当前行数据
-            ,
-            layEvent = obj.event; //获得 lay-event 对应的值
-        //修改
-        if (layEvent === 'edit') {
+    let menu = {
+        data:{
 
+        },
+        edit:function (data) {
             layer.open({
                 type: 1,
                 skin: 'layui-layer-lan',
                 title: '修改菜单',
-                area: ['800px', '400px'],
+                area: ['800px', '600px'],
                 offset: '100px' //只定义top坐标，水平保持居中
                 ,
                 shade: ['0.3', '#000'],
@@ -204,6 +186,7 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
                 content: $('#addMenuPage'),
                 btn: ['确认', '取消'],
                 success: function () {
+                debugger
                     //设置当前的值
                     $('#menuNameAdd').val(data.name);
                     $('#pathAdd').val(data.path);
@@ -221,36 +204,30 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
                             for (var i = 0; i < menu.length; i++) {
                                 var option = $("<option>").val(menu[i].menuId).text(menu[i].name);
                                 $("#parentNameAdd").append(option);
+                                layui.form.render('select');
                             }
-
-                            layui.form.render('select');
                         }
                     })
                     //设置选中的父菜单
                     if (data.parentId != null) {
                         $("#parentNameAdd").val(data.parentId);
                     }
+                    layui.form.render('select');
                 },
                 yes: function (index, layero) {
-                    //获取修改后的值
-                    var name = $('#menuNameAdd').val();
-                    //获取修改后的parentId
-                    var parentId = parseInt($('#parentNameAdd').val());
-                    var parentName = $("#parentNameAdd").find("option:selected").text();
-                    var path = $('#pathAdd').val();
                     $.ajax({
                         type: "POST",
                         dataType: 'json',
-                        url: accountBackPath + '/menu/updateMenu',
+                        url: accountBackPath + '/menu/update',
                         data: {
-                            'id': data.menuId,
-                            "pId": parentId,
-                            "name": name,
-                            "parentName": parentName,
-                            "path": path
+                            'menuId': data.menuId,
+                            "parentId": parseInt($('#parentNameAdd').val()),
+                            "name": $('#menuNameAdd').val(),
+                            "parentName": $("#parentNameAdd").find("option:selected").text(),
+                            "path": $('#pathAdd').val()
                         },
                         success: function (data) {
-                            if (data.code == 200) {
+                            if (data.code === 200) {
                                 layer.msg('修改成功!', {
                                     icon: 6
                                 });
@@ -261,8 +238,8 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
                     layer.closeAll();
                 }
             });
-        } else if (layEvent == 'del') {
-            //打开一个询问框
+        },
+        del:function (data) {
             layer.confirm('确定要删除?删除后数据不可恢复！', {
                 icon: 3,
                 title: '提示'
@@ -270,23 +247,29 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
                 $.ajax({
                     type: "POST",
                     dataType: 'json',
-                    url: accountBackPath + '/menu/deleteMenu',
-                    data: {
-                        'id': data.menuId
-                    },
+                    url: accountBackPath + '/menu/delete' + data.menuId,
                     success: function (data) {
-                        if (data.code == 200) {
-                            layer.msg('删除成功!!!', {
-                                icon: 6
-                            });
+                        if (data.code === 200) {
+                            layer.msg('删除成功!!!', {icon: 6});
                             queryDynamic();
                         }
                     },
                 });
                 layer.close(index);
             });
-        } else if (layEvent == '') {
+        },
+    }
 
+    //监听工具条
+    //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+    table.on('tool(dataTable)', function (obj) {
+        var data = obj.data, //获得当前行数据
+            layEvent = obj.event; //获得 lay-event 对应的值
+        menu.data = data;
+        if (layEvent === 'edit') {
+            menu.edit(data);
+        } else if (layEvent === 'del') {
+            menu.del(data);
         }
     });
 });

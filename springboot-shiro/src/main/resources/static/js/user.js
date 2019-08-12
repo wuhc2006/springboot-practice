@@ -144,6 +144,7 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
         clearData();
         //显示密码框
         $("#passwordPane").show();
+        $('#usernameAdd').removeAttr("disabled"); //账户名不可以修改
         //打开新增菜单对话框
         layer.open({
             type: 1,
@@ -219,7 +220,7 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
         var data = obj.data, //获得当前行数据
             layEvent = obj.event; //获得 lay-event 对应的值
         //设置当前显示的内容
-        $('#usernameAdd').val(data.username).attr("disabled", "disabled"); //账户名不可以修改
+        $('#usernameAdd').val(data.username).attr("aabled", "disabled"); //账户名不可以修改
         $('#userStatusAdd').val(data.userStatus);
         $('#passwordAdd').val(data.password);
         $('#realnameAdd').val(data.realname);
@@ -301,7 +302,6 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
         },
         // 编辑
         edit: function (data) {
-            debugger
             layer.open({
                 type: 1,
                 skin: 'layui-layer-lan',
@@ -344,6 +344,7 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
         },
         // 修改密码
         updatePassword: function (data) {
+            $("#passwordPane").show();
             layer.open({
                 type: 1,
                 skin: 'layui-layer-lan',

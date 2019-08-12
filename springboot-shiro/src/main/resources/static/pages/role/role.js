@@ -31,10 +31,10 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
                     {type: 'numbers', title: '序号', width: 60, align: 'center'},
                     {field: 'name', title: '角色代号', width: 200, align: 'center'},
                     {field: 'title', title: '角色名称', width: 200, align: 'center'},
-                    {field: 'type', title: '角色类型', width: 200, align: 'center'},
+                   /* {field: 'type', title: '角色类型', width: 200, align: 'center'},*/
                     {field: 'status', title: '状态', width: 200, align: 'center'},
                     {field: 'addTime', title: '创建时间', width: 300, align: 'center'},
-                    {fixed: 'right', title: '操作', width: 450, align: 'center', toolbar: '#barOption'} //这里的toolbar值是模板元素的选择器
+                    {fixed: 'right', title: '操作', align: 'center', toolbar: '#barOption'} //这里的toolbar值是模板元素的选择器
                 ]
             ],
             id: 'dataCheck',

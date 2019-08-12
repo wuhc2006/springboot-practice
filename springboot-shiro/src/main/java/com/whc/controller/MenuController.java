@@ -8,6 +8,8 @@ import com.whc.vo.ApiResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * 菜单控制器
  *
@@ -44,7 +46,7 @@ public class MenuController {
     }
 
     @PostMapping("/update")
-    public ApiResponseVO<Object> updateMenu(@RequestParam Menu menu) {
+    public ApiResponseVO<Object> updateMenu(@NotNull Menu menu) {
         menuService.updateByPrimaryKeySelective(menu);
         return new ApiResponseVO<>(200, "更新成功！", null);
     }
