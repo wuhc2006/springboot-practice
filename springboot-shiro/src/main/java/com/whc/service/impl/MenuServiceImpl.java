@@ -1,10 +1,12 @@
 package com.whc.service.impl;
 
 import com.whc.dao.MenuMapper;
+import com.whc.dao.RoleMenuMapper;
 import com.whc.domain.entity.Menu;
 import com.whc.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,11 +19,29 @@ public class MenuServiceImpl implements MenuService {
 
     @Autowired
     private MenuMapper menuMapper;
+    @Autowired
+    private RoleMenuMapper roleMenuMapper;
 
+    @Transactional
     @Override
     public int deleteByPrimaryKey(Long menuId) {
+        roleMenuMapper.deleteByMenuId(menuId);
         return menuMapper.deleteByPrimaryKey(menuId);
     }
+
+    /**
+     * 判断是否存在子菜单
+     * @param menuId
+     * @return
+     */
+    @Override
+    public boolean hasChildMenu(Long menuId){
+        Menu condition = new Menu();
+        condition.setParentId(menuId);
+        List<Menu> childMenus = menuMapper.list(condition);
+        return childMenus != null && !childMenus.isEmpty();
+    }
+
 
     @Override
     public int insert(Menu record) {

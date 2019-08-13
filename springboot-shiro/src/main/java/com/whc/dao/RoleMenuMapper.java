@@ -21,4 +21,10 @@ public interface RoleMenuMapper {
     List<Menu> selectMenuByRoleId(Long roleId);
 
     void deleteMenuByRoleId(Long roleId);
+
+    /**
+     * 通过菜单id删除关联表
+     * @param menuId
+     */
+    void deleteByMenuId(Long menuId);
 }

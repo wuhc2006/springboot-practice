@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.whc.domain.entity.Menu;
 import com.whc.service.MenuService;
 import com.whc.vo.ApiResponseVO;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,7 +53,11 @@ public class MenuController {
     }
 
     @PostMapping("/delete/{id}")
+    @RequiresRoles("admin")
     public ApiResponseVO<Object> delete(@PathVariable Long id) {
+        if (menuService.hasChildMenu(id)){
+            return ApiResponseVO.fail(500, "该菜单存在子菜单，请先删除子菜单！");
+        }
         menuService.deleteByPrimaryKey(id);
         return new ApiResponseVO<>(200, "删除成功！", null);
     }

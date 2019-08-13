@@ -247,11 +247,18 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
                 $.ajax({
                     type: "POST",
                     dataType: 'json',
-                    url: accountBackPath + '/menu/delete' + data.menuId,
+                    url: accountBackPath + '/menu/delete/' + data.menuId,
                     success: function (data) {
                         if (data.code === 200) {
                             layer.msg('删除成功!!!', {icon: 6});
                             queryDynamic();
+                        } else{
+                            layer.msg(data.msg, {
+                                icon: 5,
+                                time: 2000
+                            }, function (index) {
+                                layer.close(index);
+                            });
                         }
                     },
                 });

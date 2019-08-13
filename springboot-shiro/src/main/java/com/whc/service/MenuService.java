@@ -25,5 +25,7 @@ public interface MenuService {
 
     List<Menu> list(Menu menu);
 
+    boolean hasChildMenu(Long menuId);
+
     List<Menu> selectByUserId(Long userId);
 }
