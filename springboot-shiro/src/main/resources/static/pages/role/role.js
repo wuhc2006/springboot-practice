@@ -87,7 +87,7 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
                 enable: true
             }
         }
-    }
+    };
 
     /**
      * 初始化菜单
@@ -145,7 +145,8 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
     }
 
     //查询按钮事件
-    $('#load').click(function (e) {
+    $('#query').click(function (e) {
+        debugger
         load();
     });
 

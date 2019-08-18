@@ -12,17 +12,12 @@
 	        // 表格渲染
 	        var menuName = $.trim($("#menuNameInput").val());
 	        var tableIns = table.render({
-	            elem: '#dataTable' //指定原始表格元素选择器（推荐id选择器）
-	                ,
+	            elem: '#dataTable', //指定原始表格元素选择器（推荐id选择器）
 	            response: {
-	                statusName: 'code' //数据状态的字段名称，默认：code
-	                    ,
-	                statusCode: 200 //成功的状态码，默认：0
-	                    ,
-	                msgName: 'msg' //状态信息的字段名称，默认：msg
-	                    ,
-	                countName: 'total' //数据总数的字段名称，默认：count
-	                    ,
+	                statusName: 'code', //数据状态的字段名称，默认：code
+	                statusCode: 200, //成功的状态码，默认：0
+	                msgName: 'msg', //状态信息的字段名称，默认：msg
+	                countName: 'total', //数据总数的字段名称，默认：count
 	                dataName: 'data' //数据列表的字段名称，默认：data
 	            },
 	            method: 'get',
@@ -132,13 +127,6 @@
 	        queryDynamic();
 	    });
 
-	    // 获取选中行
-	    table.on('checkbox(dataCheck)', function (obj) {
-	        console.log(obj.checked); //当前是否选中状态
-	        console.log(obj.data); //选中行的相关数据
-	        console.log(obj.type); //如果触发的是全选，则为：all，如果触发的是单选，则为：one
-	    });
-
 	    // you code ...
 	    //新增
 	    $('#add').click(function (e) {
@@ -167,7 +155,7 @@
 	            success: function (index, layero) {
 	                $.ajax({
 	                    type: 'get',
-	                    url: accountBackPath + '/menu/list',
+	                    url: accountBackPath + '/shop/list',
 	                    data: {
 	                        page: 1,
 	                        pageSize: 100,
