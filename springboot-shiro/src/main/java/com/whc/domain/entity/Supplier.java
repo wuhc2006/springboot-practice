@@ -14,11 +14,11 @@ public class Supplier {
 
     private String address;
 
-    private BigDecimal sendFee;
+    private BigDecimal deliveryFee;
 
     private BigDecimal deliveryAmount;
 
-    private String deliveryType;
+    private String deliveryService;
 
     private String deliveryScale;
 
@@ -68,12 +68,12 @@ public class Supplier {
         this.address = address == null ? null : address.trim();
     }
 
-    public BigDecimal getSendFee() {
-        return sendFee;
+    public BigDecimal getDeliveryFee() {
+        return deliveryFee;
     }
 
-    public void setSendFee(BigDecimal sendFee) {
-        this.sendFee = sendFee;
+    public void setDeliveryFee(BigDecimal deliveryFee) {
+        this.deliveryFee = deliveryFee;
     }
 
     public BigDecimal getDeliveryAmount() {
@@ -84,12 +84,12 @@ public class Supplier {
         this.deliveryAmount = deliveryAmount;
     }
 
-    public String getDeliveryType() {
-        return deliveryType;
+    public String getDeliveryService() {
+        return deliveryService;
     }
 
-    public void setDeliveryType(String deliveryType) {
-        this.deliveryType = deliveryType == null ? null : deliveryType.trim();
+    public void setDeliveryService(String deliveryService) {
+        this.deliveryService = deliveryService == null ? null : deliveryService.trim();
     }
 
     public String getDeliveryScale() {

@@ -83,7 +83,6 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
         queryDynamic();
     });
 
-    // you code ...
     //新增
     $('#add').click(function (e) {
         //先清空
@@ -186,7 +185,6 @@ layui.use(['tree', 'table', 'vip_table', 'layer'], function () {
                 content: $('#addMenuPage'),
                 btn: ['确认', '取消'],
                 success: function () {
-                debugger
                     //设置当前的值
                     $('#menuNameAdd').val(data.name);
                     $('#pathAdd').val(data.path);

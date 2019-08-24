@@ -7,16 +7,16 @@
     <result column="contact_person" property="contactPerson" jdbcType="VARCHAR" />
     <result column="phone" property="phone" jdbcType="VARCHAR" />
     <result column="address" property="address" jdbcType="VARCHAR" />
-    <result column="send_fee" property="sendFee" jdbcType="DECIMAL" />
+    <result column="delivery_fee" property="deliveryFee" jdbcType="DECIMAL" />
     <result column="delivery_amount" property="deliveryAmount" jdbcType="DECIMAL" />
-    <result column="delivery_type" property="deliveryType" jdbcType="VARCHAR" />
+    <result column="delivery_service" property="deliveryService" jdbcType="VARCHAR" />
     <result column="delivery_scale" property="deliveryScale" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="VARCHAR" />
     <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, contact_person, phone, address, send_fee, delivery_amount, delivery_type, 
+    id, name, contact_person, phone, address, delivery_fee, delivery_amount, delivery_service, 
     delivery_scale, status, add_time, update_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
@@ -25,30 +25,32 @@
     from t_supplier
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <select id="list" resultType="com.whc.domain.entity.Supplier">
+  <select id="list" parameterType="com.whc.domain.entity.Supplier" resultMap="BaseResultMap">
     select
-    *
+    <include refid="Base_Column_List" />
     from t_supplier
-    <where>
-      1=1
-      <if test="name != null and name!=''">
-        and name like "%"#{name,jdbcType=VARCHAR}"%"
-      </if>
-    </where>
+    where
+    1 = 1
+    <include refid="whereStatement"></include>
   </select>
+  <sql id="whereStatement">
+    <if test="name != null and name !=''" >
+      and name = #{name,jdbcType=VARCHAR}
+    </if>
+  </sql>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from t_supplier
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.whc.domain.entity.Supplier" >
     insert into t_supplier (id, name, contact_person, 
-      phone, address, send_fee, 
-      delivery_amount, delivery_type, delivery_scale, 
+      phone, address, delivery_fee, 
+      delivery_amount, delivery_service, delivery_scale, 
       status, add_time, update_time
       )
     values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{contactPerson,jdbcType=VARCHAR}, 
-      #{phone,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{sendFee,jdbcType=DECIMAL}, 
-      #{deliveryAmount,jdbcType=DECIMAL}, #{deliveryType,jdbcType=VARCHAR}, #{deliveryScale,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{deliveryFee,jdbcType=DECIMAL}, 
+      #{deliveryAmount,jdbcType=DECIMAL}, #{deliveryService,jdbcType=VARCHAR}, #{deliveryScale,jdbcType=VARCHAR}, 
       #{status,jdbcType=VARCHAR}, #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
       )
   </insert>
@@ -70,14 +72,14 @@
       <if test="address != null" >
         address,
       </if>
-      <if test="sendFee != null" >
-        send_fee,
+      <if test="deliveryFee != null" >
+        delivery_fee,
       </if>
       <if test="deliveryAmount != null" >
         delivery_amount,
       </if>
-      <if test="deliveryType != null" >
-        delivery_type,
+      <if test="deliveryService != null" >
+        delivery_service,
       </if>
       <if test="deliveryScale != null" >
         delivery_scale,
@@ -108,14 +110,14 @@
       <if test="address != null" >
         #{address,jdbcType=VARCHAR},
       </if>
-      <if test="sendFee != null" >
-        #{sendFee,jdbcType=DECIMAL},
+      <if test="deliveryFee != null" >
+        #{deliveryFee,jdbcType=DECIMAL},
       </if>
       <if test="deliveryAmount != null" >
         #{deliveryAmount,jdbcType=DECIMAL},
       </if>
-      <if test="deliveryType != null" >
-        #{deliveryType,jdbcType=VARCHAR},
+      <if test="deliveryService != null" >
+        #{deliveryService,jdbcType=VARCHAR},
       </if>
       <if test="deliveryScale != null" >
         #{deliveryScale,jdbcType=VARCHAR},
@@ -146,14 +148,14 @@
       <if test="address != null" >
         address = #{address,jdbcType=VARCHAR},
       </if>
-      <if test="sendFee != null" >
-        send_fee = #{sendFee,jdbcType=DECIMAL},
+      <if test="deliveryFee != null" >
+        delivery_fee = #{deliveryFee,jdbcType=DECIMAL},
       </if>
       <if test="deliveryAmount != null" >
         delivery_amount = #{deliveryAmount,jdbcType=DECIMAL},
       </if>
-      <if test="deliveryType != null" >
-        delivery_type = #{deliveryType,jdbcType=VARCHAR},
+      <if test="deliveryService != null" >
+        delivery_service = #{deliveryService,jdbcType=VARCHAR},
       </if>
       <if test="deliveryScale != null" >
         delivery_scale = #{deliveryScale,jdbcType=VARCHAR},
@@ -176,9 +178,9 @@
       contact_person = #{contactPerson,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR},
-      send_fee = #{sendFee,jdbcType=DECIMAL},
+      delivery_fee = #{deliveryFee,jdbcType=DECIMAL},
       delivery_amount = #{deliveryAmount,jdbcType=DECIMAL},
-      delivery_type = #{deliveryType,jdbcType=VARCHAR},
+      delivery_service = #{deliveryService,jdbcType=VARCHAR},
       delivery_scale = #{deliveryScale,jdbcType=VARCHAR},
       status = #{status,jdbcType=VARCHAR},
       add_time = #{addTime,jdbcType=TIMESTAMP},

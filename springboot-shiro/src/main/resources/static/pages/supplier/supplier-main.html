@@ -24,19 +24,8 @@
                 </span>
                 <span class="layui-form-label" style="width: auto;">供应商名称：</span>
                 <div class="layui-input-inline" style="width: 200px;">
-                    <input type="text" id="menuNameInput" autocomplete="off" placeholder=" 请输入供应商名称" class="layui-input" />
+                    <input type="text" id="query_name" autocomplete="off" placeholder=" 请输入供应商名称" class="layui-input" />
                 </div>
-				<span class="layui-form-label">状态：</span>
-				<div class="layui-input-inline">
-					<select name="status" id="status" layfilter="status" lay-verify="required">
-							<option value="">请选择</option>
-							<option value="0">不确定</option>
-							<option value="1">审核中</option>
-							<option value="2">正常服务</option>
-							<option value="3">服务暂停</option>
-							<option value="4">服务终止</option>
-					</select>
-				</div>
                 <button type="button" data-method="queryHandler" class="layui-btn" id="query">查询</button>
                 <button type="reset" id="reset" class="layui-btn layui-btn-primary">重置</button>
             </div>
@@ -50,29 +39,69 @@
         </div>
     </div>
 
-    <!--新增菜单-->
-    <div style="display: none" id="addMenuPage" lay-filter="addMenuPage">
+    <!--新增供应商-->
+    <div style="display: none" id="addSupplierPage" lay-filter="addSupplierPage">
         <form class="layui-form" action="####" style="margin-right: 5%; margin-top: 10px;height: 500px" id="itemAddForm">
-            <div class="layui-form-item">
-                <label class="layui-form-label">名称:</label>
-                <div class="layui-input-block">
-                    <input type="text" id="menuNameAdd" name="menuNameAdd" autocomplete="off" class="layui-input" />
+            <div class="layui-form-item ">
+                <label class="layui-form-label ">供应商名称:</label>
+                <div class="layui-input-block ">
+                    <input type="text" id="name" autocomplete="off" class="layui-input" />
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">父级名称:</label>
+                <label class="layui-form-label">联系人:</label>
                 <div class="layui-input-block">
-                    <select name="parentNameAdd" id="parentNameAdd" lay-verify="required">
-                        <option value="0"></option>
+                    <input type="text" id="contactPerson" autocomplete="off" class="layui-input" />
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">联系方式:</label>
+                <div class="layui-input-block">
+                    <input type="text " id="phone" autocomplete="off" class="layui-input" />
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">供应商地址:</label>
+                <div class="layui-input-block">
+                    <input type="text" id="address" autocomplete="off" class="layui-input" />
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">配送费:</label>
+                <div class="layui-input-block">
+                    <input type="text" id="deliveryFee" autocomplete="off" class="layui-input" />
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">起送价:</label>
+                <div class="layui-input-block">
+                    <input type="text" id="deliveryAmount" autocomplete="off" class="layui-input" />
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">配送服务:</label>
+                <div class="layui-input-block">
+                    <input type="text" id="deliveryService" autocomplete="off" class="layui-input" />
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">配送范围:</label>
+                <div class="layui-input-block">
+                    <input type="text" id="deliveryScale" autocomplete="off" class="layui-input" />
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">营业状态:</label>
+                <div class="layui-input-block">
+                    <select name="status" id="status" lay-filter="status" lay-verify="required ">
+                        <option value="0">不确定</option>
+                        <option value="1">审核中</option>
+                        <option value="2">正常服务</option>
+                        <option value="3">服务暂停</option>
+                        <option value="4">服务终止</option>
                     </select>
                 </div>
             </div>
-			<div class="layui-form-item">
-				<label class="layui-form-label">地址:</label>
-				<div class="layui-input-block">
-					<input type="text" id="pathAdd" name="pathAdd" autocomplete="off" class="layui-input" value="pages/"/>
-				</div>
-			</div>
         </form>
     </div>
     <div id="withdrawContainer" style="display:none">
@@ -81,13 +110,11 @@
 
     <script type="text/javascript" src="../../frame/layui/layui.js"></script>
     <script type="text/javascript" src="../../js/index.js"></script>
-    <!--引入树插件-->
-    <!-- <script type="text/javascript" src="../frame/static/ztree/jquery.ztree.all.min.js"></script> -->
-    <script type="text/javascript" src="../../js/supplier1.js"></script>
+    <script type="text/javascript" src="../../js/supplier.js"></script>
     <!-- 表格操作按钮集 -->
     <script type="text/html" id="barOption">
         <a class="layui-btn layui-btn-mini layui-btn-normal" lay-event="edit">编辑</a>
-        <a class="layui-btn layui-btn-mini layui-btn-normal" lay-event="del">删除</a>
+        <a class="layui-btn layui-btn-mini layui-btn-danger" lay-event="del">删除</a>
     </script>
 </body>
 
