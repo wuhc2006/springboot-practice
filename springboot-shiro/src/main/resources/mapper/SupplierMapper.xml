@@ -35,7 +35,7 @@
   </select>
   <sql id="whereStatement">
     <if test="name != null and name !=''" >
-      and name = #{name,jdbcType=VARCHAR}
+      and name like CONCAT(#{name,jdbcType=VARCHAR},'%')
     </if>
   </sql>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
