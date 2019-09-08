@@ -18,11 +18,8 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * @ClassName GoodsController
- * @Description TODO
- * @Author Administrator
- * @Date 2019/1/12 13:26
- * @Version 1.0
+ * @author Administrator
+ * @date 2019/1/12 13:26
  */
 @RestController
 @RequestMapping("/goods")

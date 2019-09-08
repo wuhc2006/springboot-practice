@@ -28,11 +28,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @ClassName BookController
- * @Description TODO
- * @Author Administrator
- * @Date 2019/1/12 18:14
- * @Version 1.0
+ * @author Administrator
+ * @date 2019/1/12 18:14
  */
 @RestController
 public class BookController {
@@ -50,14 +47,14 @@ public class BookController {
      * @param id
      * @return
      */
-    @GetMapping("/get/book/novel")
-    public ResponseEntity get(@RequestParam(name = "id", defaultValue = "") String id){
+    @GetMapping(value = "/get/book/novel/{id}")
+    public ResponseEntity get(@PathVariable String id){
         GetResponse response = this.client.prepareGet("book", "novel", id).get();
 
         if (!response.isExists()){
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity(response.getSource(), HttpStatus.OK);
+        return new ResponseEntity<>(response.getSource(), HttpStatus.OK);
     }
 
     /**
@@ -88,7 +85,7 @@ public class BookController {
             IndexResponse response = this.client.prepareIndex("book", "novel")
                     .setSource(content)
                     .get();
-            return new ResponseEntity(response.getId(), HttpStatus.OK);
+            return new ResponseEntity<>(response.getId(), HttpStatus.OK);
         }catch (IOException e){
             e.printStackTrace();
             return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -100,10 +97,10 @@ public class BookController {
      * @param id
      * @return
      */
-    @DeleteMapping("delete/book/novel")
-    public ResponseEntity delete(@RequestParam(name = "id") String id){
+    @DeleteMapping("delete/book/novel/{id}")
+    public ResponseEntity delete(@PathVariable String id){
         DeleteResponse deleteResponse = this.client.prepareDelete("book", "novel", id).get();
-        return new ResponseEntity(deleteResponse.getResult().toString(), HttpStatus.OK);
+        return new ResponseEntity<>(deleteResponse.getResult().toString(), HttpStatus.OK);
     }
 
     /**
@@ -150,7 +147,7 @@ public class BookController {
 
         try {
             UpdateResponse updateResponse = this.client.update(request).get();
-            return new ResponseEntity(updateResponse.getResult().toString(), HttpStatus.OK);
+            return new ResponseEntity<>(updateResponse.getResult().toString(), HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -192,11 +189,11 @@ public class BookController {
                 .setFrom(0)
                 .setSize(10);
         SearchResponse response = searchRequestBuilder.get();
-        List<Map<String, Object>> result = new ArrayList();
+        List<Map<String, Object>> result = new ArrayList<>();
 
         for (SearchHit hit :response.getHits()){
             result.add(hit.getSourceAsMap());
         }
-        return new ResponseEntity(result, HttpStatus.OK);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

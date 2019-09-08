@@ -5,11 +5,8 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
 
 /**
- * @ClassName Goods
- * @Description TODO
- * @Author Administrator
- * @Date 2019/1/12 13:20
- * @Version 1.0
+ * @author Administrator
+ * @date 2019/1/12 13:20
  */
 
 /**
@@ -17,6 +14,7 @@ import java.io.Serializable;
  */
 @Document(indexName = "goodsinfo", type = "goods")
 public class Goods implements Serializable {
+    private static final long serialVersionUID = -1707629398202203242L;
     private Long id;
     private String name;
     private String description;
