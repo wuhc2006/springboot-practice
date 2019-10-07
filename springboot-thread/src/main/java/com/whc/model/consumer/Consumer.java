@@ -1,4 +1,4 @@
-package com.whc.model;
+package com.whc.model.consumer;
 
 import java.util.concurrent.BlockingQueue;
 
