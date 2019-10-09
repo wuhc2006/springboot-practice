@@ -5,6 +5,7 @@ import org.apache.shiro.ShiroException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.servlet.http.HttpServletRequest;
@@ -50,8 +51,9 @@ public class ExceptionController {
      */
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
     public ApiResponseVO<Object> globalException(HttpServletRequest request, Throwable ex) {
-        throw new RuntimeException(ex);
+        return ApiResponseVO.fail(500, ex.getMessage());
     }
 
     private HttpStatus getStatus(HttpServletRequest request) {
