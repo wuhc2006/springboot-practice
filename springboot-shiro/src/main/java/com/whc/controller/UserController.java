@@ -1,5 +1,6 @@
 package com.whc.controller;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.whc.domain.entity.User;
@@ -26,6 +27,13 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @GetMapping("/listAll")
+    public ApiResponseVO<Object> listAll(int page, int pageSize) {
+        PageHelper.startPage(page, pageSize);
+        PageInfo<User> pageInfo = new PageInfo<>(userService.listAll());
+        return ApiResponseVO.success("查找成功", pageInfo.getList(), (int) pageInfo.getTotal());
+    }
 
     @GetMapping("/list")
     public ApiResponseVO<Object> list(int page, int pageSize, User user) {
